@@ -1,0 +1,22 @@
+{
+	"compilerOptions": {
+		"target": "ESNext",
+		"module": "ESNext",
+		"moduleResolution": "bundler",
+		"lib": ["DOM", "ESNext"],
+		"allowImportingTsExtensions": true,
+		"allowJs": true,
+		"allowUnreachableCode": true,
+		"esModuleInterop": true,
+		"forceConsistentCasingInFileNames": true,
+		"isolatedModules": true,
+		"noEmit": true,
+		"noImplicitAny": true,
+		// "noImplicitReturns": true,
+		"resolveJsonModule": true,
+		"skipLibCheck": true,
+		"strict": true
+	}
+	// "include": ["**/*.d.ts", "**/*.ts", "prettier.config.js"],
+	// "exclude": ["node_modules", "lib"]
+}
