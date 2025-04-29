@@ -1,5 +1,5 @@
 // @ts-check
 
-import { withSharedConfig } from './packages/config/src/prettier/index.js'
+import { withSharedConfig } from '@gicho/config/prettier'
 
 export default withSharedConfig('w100-tab')
