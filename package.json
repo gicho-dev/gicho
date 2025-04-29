@@ -1,0 +1,41 @@
+{
+	"name": "gicho-monorepo",
+	"private": true,
+	"packageManager": "pnpm@10.10.0",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/haruhq/gicho"
+	},
+	"type": "module",
+	"engines": {
+		"node": ">=22",
+		"pnpm": ">=10"
+	},
+	"scripts": {
+		"clean": "rimraf lib/*",
+		"lint": "eslint .",
+		"gen:eslint-rules-obj": "tsx scripts/gen-eslint-rules-obj.ts",
+		"gen:eslint-types": "tsx scripts/gen-eslint-types.ts",
+		"reset": "pnpm clean && pnpm install",
+		"types": "turbo run types",
+		"types:p": "turbo run types --filter=\"./packages/*\"",
+		"all": "pnpm -F \"./{packages}/**\"",
+		"p": "pnpm -F \"./packages/**\"",
+		"cfg": "pnpm -F ./packages/config",
+		"core": "pnpm -F ./packages/core"
+	},
+	"devDependencies": {
+		"@types/node": "catalog:",
+		"@typescript-eslint/utils": "catalog:",
+		"ansis": "catalog:",
+		"eslint": "catalog:",
+		"jiti": "catalog:",
+		"json-schema-to-typescript-lite": "catalog:",
+		"prettier": "catalog:",
+		"svelte": "catalog:",
+		"tsup": "catalog:",
+		"tsx": "catalog:",
+		"turbo": "catalog:",
+		"typescript": "catalog:"
+	}
+}

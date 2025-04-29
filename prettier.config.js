@@ -1,12 +1,5 @@
 // @ts-check
 
-/** @type {import('prettier').Config} */
-const config = {
-	semi: false,
-	singleQuote: true,
-	trailingComma: 'all',
-	printWidth: 100,
-	useTabs: true,
-}
+import { withSharedConfig } from './packages/config/src/prettier/index.js'
 
-export default config
+export default withSharedConfig('w100-tab')
