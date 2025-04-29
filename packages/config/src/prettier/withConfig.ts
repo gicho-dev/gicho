@@ -11,20 +11,20 @@ import { configs } from './configs'
  * - semi: false
  * - singleQuote: true
  *
- * @param options - Additional options to merge into the base config.
+ * @param customConfig - Custom configuration to override or extend the base config.
  * @returns The merged Prettier configuration.
  */
-export function withBaseConfig(options: Config): Config {
-	return { ...configs.base, ...options }
+export function withBaseConfig(customConfig: Config = {}): Config {
+	return { ...configs.base, ...customConfig }
 }
 
 /**
- * Return a Prettier configuration merged with a shared config.
+ * Return a Prettier configuration merged with a specific shared config.
  *
- * @param configName - The name of the shared config to merge from.
- * @param options - Additional options to merge into the config.
+ * @param configName - The name of the shared config to merge.
+ * @param customConfig - Custom configuration to override or extend the shared config.
  * @returns The merged Prettier configuration.
  */
-export function withSharedConfig(configName: ConfigName, options: Config): Config {
-	return { ...configs[configName], ...options }
+export function withSharedConfig(configName: ConfigName, customConfig: Config = {}): Config {
+	return { ...configs[configName], ...customConfig }
 }
