@@ -51,6 +51,7 @@ yarn-error.log*
 .cache
 .DS_Store
 .local
+.tsbuildinfo
 .turbo
 *.db
 *.pem
