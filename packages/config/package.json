@@ -21,16 +21,24 @@
 	"type": "module",
 	"exports": {
 		"./eslint": {
+			"source": "./src/eslint/index.ts",
 			"types": "./dist/eslint.d.ts",
 			"default": "./dist/eslint.js"
 		},
 		"./prettier": {
+			"source": "./src/prettier/index.ts",
 			"types": "./dist/prettier.d.ts",
 			"default": "./dist/prettier.js"
 		},
 		"./tsconfig.base.json": "./tsconfig.base.json",
 		"./tsconfig.react.json": "./tsconfig.react.json"
 	},
+	"files": [
+		"dist",
+		"src",
+		"tsconfig.base.json",
+		"tsconfig.react.json"
+	],
 	"scripts": {
 		"build": "tsup",
 		"lint": "eslint .",
