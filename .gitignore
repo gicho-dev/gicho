@@ -55,6 +55,7 @@ yarn-error.log*
 .turbo
 *.db
 *.pem
+*.tgz
 Thumbs.db
 vite.config.js.timestamp-*
 vite.config.ts.timestamp-*
