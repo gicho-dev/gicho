@@ -37,6 +37,7 @@
 		"tsup": "catalog:",
 		"tsx": "catalog:",
 		"turbo": "catalog:",
-		"typescript": "catalog:"
+		"typescript": "catalog:",
+		"vitest": "catalog:"
 	}
 }

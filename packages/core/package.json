@@ -43,6 +43,9 @@
 	},
 	"scripts": {
 		"build": "tsup",
+		"coverage": "vitest --coverage",
+		"test": "vitest",
+		"test:w": "vitest --watch",
 		"types": "tsc --noEmit"
 	},
 	"dependencies": {},

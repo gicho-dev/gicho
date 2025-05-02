@@ -23,10 +23,11 @@ catalog:
   prettier: ^3.5.3
   svelte: ^5.28.2
   tsup: ^8.4.0
-  tsx: ^4.19.3
+  tsx: ^4.19.4
   turbo: ^2.5.2
   typescript: ^5.8.3
   'typescript-eslint': ^8.31.1
+  vitest: ^3.1.2
 
 catalogs:
   peer:
