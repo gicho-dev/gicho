@@ -24,7 +24,7 @@ export async function config(
 	options: ConfigOptions = {},
 	...customConfigs: LinterConfig[]
 ): Promise<LinterConfig[]> {
-	const { isLibrary = false, onFinalize = (v) => v } = options
+	const { onFinalize = (v) => v } = options
 
 	const opt = {
 		disables: normalizeOptions(options.disables, true),
@@ -46,7 +46,7 @@ export async function config(
 	const context: ConfigGroupFnContext = {
 		enablePrettier,
 		externalFormatter,
-		rootOptions: { ...options, ...opt, isLibrary },
+		rootOptions: { ...options, ...opt },
 	}
 
 	const configs: ConfigGroupFnReturn[] = [

@@ -16,14 +16,7 @@ export interface LinterConfig extends Omit<Linter.Config<Linter.RulesRecord & Ru
 	plugins?: Record<string, any>
 }
 
-export interface ConfigOptions extends BaseOptions, ConfigOptionsConfigs {
-	/**
-	 * Whether this is a library project
-	 *
-	 * @default false
-	 */
-	isLibrary?: boolean
-}
+export interface ConfigOptions extends BaseOptions, ConfigOptionsConfigs {}
 
 export interface ConfigOptionsConfigs {
 	/**

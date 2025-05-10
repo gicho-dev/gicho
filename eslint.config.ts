@@ -20,4 +20,13 @@ export default config({
 			// 'perfectionist/sort-jsx-props': 'error',
 		},
 	},
+
+	typescript: {
+		rules: {
+			'@typescript-eslint/explicit-function-return-type': [
+				'error',
+				{ allowExpressions: true, allowHigherOrderFunctions: true, allowIIFEs: true },
+			],
+		},
+	},
 })

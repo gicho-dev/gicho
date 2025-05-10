@@ -9,7 +9,7 @@ import { pluginTs } from '../core/plugins'
  * @see https://typescript-eslint.io/rules/
  */
 export const typescript: ConfigGroupFn<'typescript'> = async (options = {}, context = {}) => {
-	const { svelte: enableSvelte, isLibrary } = context?.rootOptions ?? {}
+	const { svelte: enableSvelte } = context?.rootOptions ?? {}
 
 	const {
 		files = [GLOBS.TS, GLOBS.TSX, enableSvelte ? GLOBS.SVELTE : undefined].filter(
@@ -152,15 +152,6 @@ export const typescript: ConfigGroupFn<'typescript'> = async (options = {}, cont
 				'@typescript-eslint/triple-slash-reference': 'off',
 				// Disallow two overloads that could be unified into one with a union or an optional/rest parameter.
 				'@typescript-eslint/unified-signatures': 'off',
-
-				...(isLibrary
-					? {
-							'@typescript-eslint/explicit-function-return-type': [
-								'error',
-								{ allowExpressions: true, allowHigherOrderFunctions: true, allowIIFEs: true },
-							],
-						}
-					: undefined),
 
 				// Custom rules
 				...options.rules,
