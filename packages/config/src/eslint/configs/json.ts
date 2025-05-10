@@ -75,6 +75,7 @@ function getSortPackageJsonItem(options: JsonSortPackageJsonOptions = {}): Linte
 			'type',
 
 			'exports',
+			'imports',
 			'main',
 			'module',
 			'types',
