@@ -26,10 +26,13 @@
 	},
 	"devDependencies": {
 		"@gicho/config": "workspace:*",
+		"@hono/node-server": "catalog:",
 		"@types/node": "catalog:",
 		"@typescript-eslint/utils": "catalog:",
+		"@vitest/coverage-v8": "catalog:",
 		"ansis": "catalog:",
 		"eslint": "catalog:",
+		"hono": "catalog:",
 		"jiti": "catalog:",
 		"json-schema-to-typescript-lite": "catalog:",
 		"prettier": "catalog:",
