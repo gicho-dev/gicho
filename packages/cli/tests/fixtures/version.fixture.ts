@@ -1,0 +1,170 @@
+import type { IncreaseSemverOptions, SemverIncType } from 'src/version'
+
+export const semverIncreaseFixtures: Record<
+	SemverIncType,
+	([string, string | undefined] | [string, string | undefined, string | IncreaseSemverOptions])[]
+> = {
+	major: [
+		['1.2.3', '2.0.0'],
+		['1.2.3-0', '2.0.0'],
+		['1.2.3-alpha', '2.0.0'],
+		['1.2.3-alpha.2', '2.0.0'],
+		['1.2.3-alpha.2+build.meta.2', '2.0.0'],
+		['1.2.3-alpha.2+build.meta.2', '2.0.0+build.meta.2', { build: 'build.meta.2' }],
+		['1.0.0', '2.0.0'],
+		['1.0.0-alpha', '1.0.0'],
+		['2.0.0-alpha.2', '2.0.0'],
+		['1.0.0-alpha.2+build.meta.2', '1.0.0'],
+		['1.0.0-alpha.2+build.meta.2', '1.0.0+build.4', { build: 'build.4' }],
+	],
+	minor: [
+		['1.2.3', '1.3.0'],
+		['1.2.3-0', '1.3.0'],
+		['1.2.3-alpha', '1.3.0'],
+		['1.2.3-alpha.2', '1.3.0'],
+		['1.2.3-alpha.2+build.meta.2', '1.3.0'],
+		['1.2.3-alpha.2+build.meta.2', '1.3.0+build.meta.2', { build: 'build.meta.2' }],
+		['1.5.0', '1.6.0'],
+		['1.5.0-alpha', '1.5.0'],
+		['2.5.0-alpha.2', '2.5.0'],
+		['1.5.0-alpha.2+build.meta.2', '1.5.0'],
+		['1.5.0-alpha.2+build.meta.2', '1.5.0+build.4', { build: 'build.4' }],
+	],
+	patch: [
+		['1.2.3', '1.2.4'],
+		['1.2.3-0', '1.2.3'],
+		['1.2.3-alpha', '1.2.3'],
+		['1.2.3-alpha.2', '1.2.3'],
+		['1.2.3-alpha.2+build.meta.2', '1.2.3'],
+		['1.2.3-alpha.2+build.meta.2', '1.2.3+build.meta.2', { build: 'build.meta.2' }],
+		['0.0.0', '0.0.1'],
+		['1.5.0', '1.5.1'],
+		['1.5.0-alpha', '1.5.0'],
+		['2.5.0-alpha.2', '2.5.0'],
+		['1.5.0-alpha.2+build.meta.2', '1.5.0'],
+		['1.5.0-alpha.2+build.meta.2', '1.5.0+build.4', { build: 'build.4' }],
+	],
+	release: [
+		['1.0.0-alpha', '1.0.0'],
+		['1.2.0-alpha.2', '1.2.0'],
+		['1.2.3-alpha', '1.2.3'],
+		['1.2.3-alpha.2', '1.2.3'],
+		['1.2.3-alpha.2+build.meta.2', '1.2.3'],
+		['1.2.3-alpha.2+build.meta.2', '1.2.3+build.meta.2', { build: 'build.meta.2' }],
+
+		['1.2.3', undefined],
+	],
+
+	premajor: [
+		['1.0.0', '2.0.0-0'],
+		['1.0.0-0', '2.0.0-0'],
+		['1.2.3', '2.0.0-0'],
+		['1.2.3-0', '2.0.0-0'],
+		['1.2.3-123', '2.0.0-0'],
+		['1.2.3-alpha', '2.0.0-0'],
+		['1.2.3-alpha.123', '2.0.0-0'],
+
+		['1.0.0', '2.0.0-alpha.0', 'alpha'],
+		['1.0.0-0', '2.0.0-alpha.0', 'alpha'],
+		['1.2.3', '2.0.0-alpha.0', 'alpha'],
+		['1.2.3-0', '2.0.0-alpha.0', 'alpha'],
+		['1.2.3-123', '2.0.0-alpha.0', 'alpha'],
+		['1.2.3-alpha', '2.0.0-alpha.0', 'alpha'],
+		['1.2.3-alpha.123', '2.0.0-alpha.0', 'alpha'],
+
+		['1.2.3-alpha.2+build.meta.2', '2.0.0-beta.some.0', 'beta.some'],
+		['1.2.3-alpha.some.2', '2.0.0-alpha.0', 'alpha'],
+		['1.2.3-alpha.some', '2.0.0-beta.0', 'beta'],
+		[
+			'1.2.3-alpha.2+build.meta.2',
+			'2.0.0-beta.0+build.meta.4',
+			{ build: 'build.meta.4', preId: 'beta' },
+		],
+	],
+	preminor: [
+		['1.2.0', '1.3.0-0'],
+		['1.2.3-0', '1.3.0-0'],
+		['1.2.3-123', '1.3.0-0'],
+		['1.2.3-alpha', '1.3.0-0'],
+		['1.2.3-alpha.123', '1.3.0-0'],
+
+		['1.2.0', '1.3.0-alpha.0', 'alpha'],
+		['1.2.3-0', '1.3.0-alpha.0', 'alpha'],
+		['1.2.3-123', '1.3.0-alpha.0', 'alpha'],
+		['1.2.3-alpha', '1.3.0-alpha.0', 'alpha'],
+		['1.2.3-alpha.123', '1.3.0-alpha.0', 'alpha'],
+
+		['1.2.3-alpha.2+build.meta.2', '1.3.0-beta.some.0', 'beta.some'],
+		['1.2.3-alpha.some.2', '1.3.0-alpha.0', 'alpha'],
+		['1.2.3-alpha.some', '1.3.0-beta.0', 'beta'],
+		[
+			'1.2.3-alpha.2+build.meta.2',
+			'1.3.0-beta.0+build.meta.4',
+			{ build: 'build.meta.4', preId: 'beta' },
+		],
+	],
+	prepatch: [
+		['1.2.0', '1.2.1-0'],
+		['1.2.3-0', '1.2.4-0'],
+		['1.2.3-123', '1.2.4-0'],
+		['1.2.3-alpha', '1.2.4-0'],
+		['1.2.3-alpha.123', '1.2.4-0'],
+
+		['1.2.0', '1.2.1-alpha.0', 'alpha'],
+		['1.2.3-0', '1.2.4-alpha.0', 'alpha'],
+		['1.2.3-123', '1.2.4-alpha.0', 'alpha'],
+		['1.2.3-alpha', '1.2.4-alpha.0', 'alpha'],
+		['1.2.3-alpha.123', '1.2.4-alpha.0', 'alpha'],
+
+		['1.2.3-alpha.2+build.meta.2', '1.2.4-beta.some.0', 'beta.some'],
+		['1.2.3-alpha.some.2', '1.2.4-alpha.0', 'alpha'],
+		['1.2.3-alpha.some', '1.2.4-beta.0', 'beta'],
+		[
+			'1.2.3-alpha.2+build.meta.2',
+			'1.2.4-beta.0+build.meta.4',
+			{ build: 'build.meta.4', preId: 'beta' },
+		],
+	],
+	prerelease: [
+		['1.2.3', '1.2.4-0'],
+		['1.2.3-0', '1.2.3-1'],
+		['1.2.3-alpha.0', '1.2.3-alpha.1'],
+		['1.2.3-alpha.123', '1.2.3-alpha.124'],
+		['1.2.3-alpha.0.beta.123', '1.2.3-alpha.0.beta.124'],
+
+		['1.2.3', '1.2.4-alpha.0', 'alpha'],
+		['1.2.3-0', '1.2.3-alpha.0', 'alpha'],
+		['1.2.3-alpha', '1.2.3-alpha.0', 'alpha'],
+		['1.2.3-alpha.0', '1.2.3-alpha.1', 'alpha'],
+		['1.2.3-alpha.0', '1.2.3-beta.0', 'beta'],
+		['1.2.3-alpha.0.beta', '1.2.3-beta.0', 'beta'],
+		['1.2.3-alpha.beta.0', '1.2.3-alpha.0', 'alpha'],
+
+		['1.2.3', '1.2.4-alpha.test.123.0', 'alpha.test.123'],
+		['1.2.3-alpha.test.123', '1.2.3-alpha.test.123.0', 'alpha.test.123'],
+		['1.2.3-alpha.test.123.0', '1.2.3-alpha.test.123.1', 'alpha.test.123'],
+		['1.2.3-alpha.test.0', '1.2.3-alpha.test.1', 'alpha.test'],
+		['1.2.3-alpha.0', '1.2.3-alpha.1', 'alpha'],
+
+		['1.2.3-0', '1.2.3-1.0', '1'],
+		['1.2.3-1.0', '1.2.3-1.1', '1'],
+
+		['1.2.3', '1.2.4-alpha', { preId: 'alpha', preIdOnly: true }],
+		['1.2.3-1', '1.2.3-alpha', { preId: 'alpha', preIdOnly: true }],
+		['1.2.3-alpha', '1.2.3-beta', { preId: 'beta', preIdOnly: true }],
+
+		// different from `node-semver` cases
+		['1.2.3-alpha.2.beta', '1.2.3-alpha.2.beta.0'],
+		['1.2.3-alpha.0.beta', '1.2.3-alpha.1', 'alpha'],
+		['1.2.3-alpha.10.1.beta', '1.2.3-alpha.11', 'alpha'],
+		['1.2.3-alpha.10.1.beta.2', '1.2.3-alpha.11', 'alpha'],
+
+		// error cases
+		['1.2.3', undefined, '.invalid'],
+		['1.2.3', undefined, 'invalid.'],
+		['1.2.3', undefined, 'invalid/id'],
+		['1.2.3', undefined, 'invalid+id'],
+		['1.2.3', undefined, { preIdOnly: true }],
+		['1.2.3-alpha', undefined, { preId: 'alpha', preIdOnly: true }],
+	],
+}
