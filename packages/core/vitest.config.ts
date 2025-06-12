@@ -3,7 +3,10 @@ import { defineConfig } from 'vitest/config'
 export default defineConfig({
 	test: {
 		coverage: {
-			reporter: ['text', 'clover', 'json'],
+			include: ['src/**/*.ts'], // 기본적으로 포함
+			exclude: ['src/types/**'],
+			reporter: ['text', 'html', 'json'],
 		},
+		printConsoleTrace: true,
 	},
 })
