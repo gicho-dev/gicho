@@ -25,6 +25,7 @@ catalog:
   json-schema-to-typescript-lite: ^14.1.0
   prettier: ^3.5.3
   svelte: ^5.28.2
+  tinyglobby: ^0.2.14
   tsup: ^8.4.0
   tsx: ^4.19.4
   turbo: ^2.5.3

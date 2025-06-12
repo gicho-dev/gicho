@@ -16,16 +16,20 @@
 		"lint": "eslint .",
 		"gen:eslint-rules-obj": "tsx scripts/gen-eslint-rules-obj.ts",
 		"gen:eslint-types": "tsx scripts/gen-eslint-types.ts",
+		"t1": "tsx scripts/test1.ts",
 		"reset": "pnpm clean && pnpm install",
 		"types": "turbo run types",
 		"types:p": "turbo run types --filter=\"./packages/*\"",
 		"all": "pnpm -F \"./{packages}/**\"",
 		"p": "pnpm -F \"./packages/**\"",
 		"cfg": "pnpm -F ./packages/config",
-		"core": "pnpm -F ./packages/core"
+		"core": "pnpm -F ./packages/core",
+		"node": "pnpm -F ./packages/node-utils"
 	},
 	"devDependencies": {
-		"@gicho/config": "workspace:*",
+		"@changesets/cli": "^2.29.3",
+		"@gicho/cli": "workspace:^",
+		"@gicho/config": "workspace:^",
 		"@hono/node-server": "catalog:",
 		"@types/node": "catalog:",
 		"@typescript-eslint/utils": "catalog:",

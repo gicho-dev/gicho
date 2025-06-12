@@ -1,0 +1,55 @@
+{
+	"name": "@gicho/cli",
+	"version": "0.0.1-alpha.0",
+	"description": "Essential CLI tools for building apps or libraries.",
+	"keywords": [
+		"base",
+		"basis",
+		"core",
+		"changelog",
+		"cli",
+		"nodejs",
+		"utilities",
+		"utils",
+		"release"
+	],
+	"license": "MIT",
+	"author": "Lucas Choi",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/haruhq/gicho"
+	},
+	"homepage": "https://github.com/haruhq/gicho",
+	"sideEffects": false,
+	"type": "module",
+	"exports": {
+		".": {
+			"source": "./src/index.ts",
+			"types": "./dist/index.d.ts",
+			"default": "./dist/index.js"
+		}
+	},
+	"main": "dist/index.js",
+	"types": "dist/index.d.ts",
+	"bin": {
+		"gicho": "./dist/index.js"
+	},
+	"engines": {
+		"node": ">=22"
+	},
+	"scripts": {
+		"build": "tsup",
+		"coverage": "vitest --coverage",
+		"test:b": "vitest bench",
+		"test": "vitest",
+		"test:w": "vitest --watch",
+		"types": "tsc --noEmit"
+	},
+	"dependencies": {
+		"ansis": "catalog:",
+		"gicho": "workspace:^",
+		"tinyglobby": "catalog:"
+	},
+	"devDependencies": {},
+	"peerDependencies": {}
+}

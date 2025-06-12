@@ -5,6 +5,10 @@
 			"path": ".",
 		},
 		{
+			"name": "CLI",
+			"path": "./packages/cli",
+		},
+		{
 			"name": "CONFIG",
 			"path": "./packages/config",
 		},
