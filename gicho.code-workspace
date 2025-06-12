@@ -18,7 +18,7 @@
 		},
 	],
 	"settings": {
-		"conventionalCommits.scopes": ["core", "cli", "config"],
+		"conventionalCommits.scopes": ["core", "cli", "config", "deps"],
 		"editor.codeActionsOnSave": {
 			"source.fixAll": "explicit",
 		},
