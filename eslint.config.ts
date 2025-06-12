@@ -14,13 +14,6 @@ export default config({
 		sortTsconfigJson: true,
 	},
 
-	perfectionist: {
-		rules: {
-			'perfectionist/sort-interfaces': 'error',
-			// 'perfectionist/sort-jsx-props': 'error',
-		},
-	},
-
 	typescript: {
 		rules: {
 			'@typescript-eslint/explicit-function-return-type': [
