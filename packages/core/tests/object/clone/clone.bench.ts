@@ -1,7 +1,7 @@
 import { bench, describe } from 'vitest'
 
 import { createClone } from '../../../src/object/clone'
-import { fixtures } from '../../fixtures/clone.fixture'
+import { fixtures } from './clone.fixture'
 import { samples } from './clone.samples'
 
 describe('clone', () => {

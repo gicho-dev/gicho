@@ -1,6 +1,6 @@
 import { describe, expect, test } from 'vitest'
 
-import { createMerge } from '../src/object/merge'
+import { createMerge } from '../../src/object/merge'
 
 // based on https://github.com/TehShrike/deepmerge/tree/3c39fb376158fa3cfc75250cfc4414064a90f582/test
 

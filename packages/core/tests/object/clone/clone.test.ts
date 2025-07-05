@@ -1,7 +1,7 @@
 import { describe, expect, test } from 'vitest'
 
-import { createClone } from '../src/object/clone'
-import { fixtures } from './fixtures/clone.fixture'
+import { createClone } from '../../../src/object/clone'
+import { fixtures } from './clone.fixture'
 
 describe('clone', () => {
 	const clone = createClone()
