@@ -6,7 +6,6 @@
 		"config",
 		"dev",
 		"eslint",
-		"haru",
 		"prettier",
 		"tsconfig"
 	],
@@ -14,9 +13,9 @@
 	"author": "Lucas Choi",
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/haruhq/gicho"
+		"url": "https://github.com/gichojs/gicho"
 	},
-	"homepage": "https://github.com/haruhq/gicho",
+	"homepage": "https://github.com/gichojs/gicho",
 	"sideEffects": false,
 	"type": "module",
 	"exports": {

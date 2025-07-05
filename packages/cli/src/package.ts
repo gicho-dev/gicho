@@ -1,4 +1,4 @@
-import type { Arrayable } from 'gicho'
+import type { Arrayable } from '@gicho/core/types'
 
 import type { FindFileOptions } from './fs'
 

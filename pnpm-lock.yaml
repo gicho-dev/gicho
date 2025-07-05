@@ -70,7 +70,7 @@ catalogs:
       specifier: ^8.5.0
       version: 8.5.0
     tsx:
-      specifier: ^4.20.1
+      specifier: ^4.19.4
       version: 4.20.2
     turbo:
       specifier: ^2.5.4
@@ -129,6 +129,9 @@ importers:
       ansis:
         specifier: 'catalog:'
         version: 4.1.0
+      consola:
+        specifier: ^3.4.2
+        version: 3.4.2
       eslint:
         specifier: 'catalog:'
         version: 9.28.0(jiti@2.4.2)
@@ -165,12 +168,12 @@ importers:
 
   packages/cli:
     dependencies:
+      '@gicho/core':
+        specifier: workspace:^
+        version: link:../core
       ansis:
         specifier: 'catalog:'
         version: 4.1.0
-      gicho:
-        specifier: workspace:^
-        version: link:../core
       tinyglobby:
         specifier: 'catalog:'
         version: 0.2.14
@@ -1638,9 +1641,6 @@ packages:
 
   function-bind@1.1.2:
     resolution: {integrity: sha512-7XHNxH7qX9xG5mIwxkhumTox/MIRNcOgDrxWsMt2pAr23WHp6MrRlN7FBSFpCpr+oVO0F744iUgR82nJMfG2SA==}
-
-  get-tsconfig@4.10.0:
-    resolution: {integrity: sha512-kGzZ3LWWQcGIAmg6iWvXn0ei6WDtV26wzHRMwDSzmAbcXrTEXxHy6IehI6/4eT6VRKyMP1eF1VqwrVUmE/LR7A==}
 
   get-tsconfig@4.10.1:
     resolution: {integrity: sha512-auHyJ4AgMz7vgS8Hp3N6HXSmlMdUyhSUrfBF16w153rxtLIEOE+HGqaBppczZvnHLqQJfiHotCYpNhl0lUROFQ==}
@@ -4059,10 +4059,6 @@ snapshots:
   function-bind@1.1.2:
     optional: true
 
-  get-tsconfig@4.10.0:
-    dependencies:
-      resolve-pkg-maps: 1.0.0
-
   get-tsconfig@4.10.1:
     dependencies:
       resolve-pkg-maps: 1.0.0
@@ -4737,7 +4733,7 @@ snapshots:
   tsx@4.20.2:
     dependencies:
       esbuild: 0.25.2
-      get-tsconfig: 4.10.0
+      get-tsconfig: 4.10.1
     optionalDependencies:
       fsevents: 2.3.3
 

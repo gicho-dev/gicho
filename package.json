@@ -4,7 +4,7 @@
 	"packageManager": "pnpm@10.10.0",
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/haruhq/gicho"
+		"url": "https://github.com/gichojs/gicho"
 	},
 	"type": "module",
 	"engines": {
@@ -15,8 +15,8 @@
 		"clean": "rimraf lib/*",
 		"lint": "eslint .",
 		"gen:eslint-rules-obj": "tsx scripts/gen-eslint-rules-obj.ts",
-		"gen:eslint-types": "tsx scripts/gen-eslint-types.ts",
-		"t1": "tsx scripts/test1.ts",
+		"gen:eslint-types": "jiti scripts/gen-eslint-types.ts",
+		"t1": "jiti scripts/test1.ts",
 		"reset": "pnpm clean && pnpm install",
 		"types": "turbo run types",
 		"types:p": "turbo run types --filter=\"./packages/*\"",
@@ -35,6 +35,7 @@
 		"@typescript-eslint/utils": "catalog:",
 		"@vitest/coverage-v8": "catalog:",
 		"ansis": "catalog:",
+		"consola": "^3.4.2",
 		"eslint": "catalog:",
 		"hono": "catalog:",
 		"jiti": "catalog:",

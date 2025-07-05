@@ -1,5 +1,5 @@
 {
-	"name": "gicho",
+	"name": "@gicho/core",
 	"version": "0.0.1-alpha.0",
 	"description": "A collection of base utilities for happy coding with TypeScript.",
 	"keywords": [
@@ -7,7 +7,6 @@
 		"basis",
 		"core",
 		"foundation",
-		"haru",
 		"happy-coding",
 		"modular",
 		"toolkit",
@@ -19,9 +18,9 @@
 	"author": "Lucas Choi",
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/haruhq/gicho"
+		"url": "https://github.com/gichojs/gicho"
 	},
-	"homepage": "https://github.com/haruhq/gicho",
+	"homepage": "https://github.com/gichojs/gicho",
 	"sideEffects": false,
 	"type": "module",
 	"exports": {
@@ -29,6 +28,25 @@
 			"source": "./src/index.ts",
 			"types": "./dist/index.d.ts",
 			"default": "./dist/index.js"
+		},
+		"./fetch": {
+			"source": "./src/fetch/index.ts",
+			"types": "./dist/fetch.d.ts",
+			"default": "./dist/fetch.js"
+		},
+		"./is": {
+			"source": "./src/is/index.ts",
+			"types": "./dist/is.d.ts",
+			"default": "./dist/is.js"
+		},
+		"./object": {
+			"source": "./src/object/index.ts",
+			"types": "./dist/object.d.ts",
+			"default": "./dist/object.js"
+		},
+		"./types": {
+			"source": "./src/types/index.ts",
+			"types": "./dist/types.d.ts"
 		}
 	},
 	"main": "dist/index.js",
@@ -40,6 +58,7 @@
 		"build": "tsup",
 		"coverage": "vitest --coverage",
 		"test": "vitest",
+		"test:b": "vitest bench",
 		"test:w": "vitest --watch",
 		"types": "tsc --noEmit"
 	},
