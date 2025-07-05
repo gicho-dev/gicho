@@ -1,4 +1,4 @@
-import type { Awaitable } from 'gicho'
+import type { Awaitable } from '@gicho/core/types'
 
 import type { CommandCenter } from './center'
 import type { CommandArgument, CommandOption, CommandOptionConfig } from './types'

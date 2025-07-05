@@ -1,4 +1,4 @@
-import type { Arrayable, Awaitable } from 'gicho'
+import type { Arrayable, Awaitable } from '@gicho/core/types'
 
 export interface Command {
 	name: string

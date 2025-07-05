@@ -1,6 +1,6 @@
-import type { Awaitable } from 'gicho'
+import type { Awaitable } from '@gicho/core/types'
 
-import type { LoggerOutput } from '../logger'
+import type { LoggerOutput } from '../console'
 import type { CommandHelpSection, CommandOption, CommandOptionConfig, ParsedArgv } from './types'
 
 import EventEmitter from 'node:events'

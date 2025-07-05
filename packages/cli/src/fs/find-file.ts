@@ -2,7 +2,7 @@
  *   Inspired by `pkg-types`
  * ------------------------------------- */
 
-import type { Arrayable } from 'gicho'
+import type { Arrayable } from '@gicho/core/types'
 
 import { statSync } from 'node:fs'
 
