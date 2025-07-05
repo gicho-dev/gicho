@@ -507,7 +507,6 @@ describe('merge-extra', () => {
 		}
 
 		const mergedObject = merge(target, source)
-		// 현재 merge 함수는 상속된 속성을 제거하지 않고 source의 값을 사용함
 		expect((mergedObject as any).parentKey).toBe('foo') // source의 값이 우선됨
 		expect((mergedObject as any).plainKey).toBe('bar') // enumerable own properties of target should be merged
 		expect((mergedObject as any).newKey).toBe('baz') // properties not yet on target should be merged
@@ -549,5 +548,54 @@ describe('merge-extra', () => {
 		}
 
 		expect(expected).toEqual(merge(target, source))
+	})
+
+	/* ----------------------------------------
+	 *   Symbol keys
+	 * ------------------------------------- */
+
+	describe('symbol keys', () => {
+		test('copy symbol keys in target that do not exist on the target', () => {
+			const mySymbol = Symbol('test')
+			const src = { [mySymbol]: 'value1' }
+			const target = {}
+
+			const res = merge(target, src)
+
+			expect(res[mySymbol]).toBe('value1')
+			expect(Object.getOwnPropertySymbols(res)).toEqual(Object.getOwnPropertySymbols(src))
+		})
+
+		test('copy symbol keys in target that do exist on the target', () => {
+			const mySymbol = Symbol('test')
+			const src = { [mySymbol]: 'value1' }
+			const target = { [mySymbol]: 'wat' }
+
+			const res = merge(target, src)
+
+			expect(res[mySymbol]).toBe('value1')
+		})
+
+		test('does not copy enumerable symbol keys in source', () => {
+			const mySymbol = Symbol('test')
+			const src = {}
+			const target = { [mySymbol]: 'wat' }
+
+			Object.defineProperty(src, mySymbol, {
+				value: 'value1',
+				writable: false,
+				enumerable: false,
+			})
+
+			const res = merge(target, src)
+
+			expect(res[mySymbol]).toBe('wat')
+		})
+	})
+
+	test('test 1', () => {
+		const a = Object.getPrototypeOf({})
+
+		console.log(a, typeof a, a === null, a === Object, a === Object.create(null))
 	})
 })

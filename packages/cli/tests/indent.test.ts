@@ -1,10 +1,10 @@
-import { describe, expect, it } from 'vitest'
+import { describe, expect, test } from 'vitest'
 
 import { detectIndent } from '../src/utils/indent'
 import { fixtures } from './fixtures/indent.fixture'
 
 describe('detectIndent()', () => {
-	it('should detect the indent of a string', () => {
+	test('should detect the indent of a string', () => {
 		expect(detectIndent(fixtures.space)).toEqual({ amount: 2, indent: '  ', type: 'space' })
 		expect(detectIndent(fixtures.space4)).toEqual({ amount: 4, indent: '    ', type: 'space' })
 		expect(detectIndent(fixtures.tab)).toEqual({ amount: 1, indent: '\t', type: 'tab' })

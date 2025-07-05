@@ -1,12 +1,12 @@
 import type { ParsedArgv } from '../src/command'
 
-import { describe, expect, it } from 'vitest'
+import { describe, expect, test } from 'vitest'
 
 import { CommandCenter } from '../src/command'
 import { __DEF, __ROOT } from '../src/command/command'
 
 describe('command', () => {
-	it('new CommandCenter', () => {
+	test('new CommandCenter', () => {
 		const cm = new CommandCenter('test-cli', '1.0.0', 'Test CLI Program')
 
 		cm.command('').option('-t, --time', 'Time description')

@@ -1,12 +1,12 @@
 import type { SearchParamsArray, SearchParamsObject } from '../src/url'
 
-import { describe, expect, it, suite } from 'vitest'
+import { describe, expect, test } from 'vitest'
 
 import { copyURLSearchParams, toURLSearchParams } from '../src/url'
 
 describe('url', () => {
-	suite('copyURLSearchParams()', () => {
-		it('copy URLSearchParams', async () => {
+	describe('copyURLSearchParams()', () => {
+		test('copy URLSearchParams', async () => {
 			const source = new URLSearchParams('a=1&b=2&c=3&a=11')
 			const target = new URLSearchParams('a=100')
 
@@ -14,7 +14,7 @@ describe('url', () => {
 			expect(target.toString()).toEqual('a=1&b=2&c=3&a=11')
 		})
 
-		it('copy URLSearchParams with clearTarget false', async () => {
+		test('copy URLSearchParams with clearTarget false', async () => {
 			const source = new URLSearchParams('a=1&b=2&c=3&a=11')
 			const target = new URLSearchParams('a=100&b=200')
 
@@ -23,8 +23,8 @@ describe('url', () => {
 		})
 	})
 
-	suite('toURLSearchParams()', () => {
-		it('string to URLSearchParams', async () => {
+	describe('toURLSearchParams()', () => {
+		test('string to URLSearchParams', async () => {
 			const search = 'a=1&b=2'
 
 			const result1 = toURLSearchParams(search).toString()
@@ -33,7 +33,7 @@ describe('url', () => {
 			expect(result2).toEqual(search)
 		})
 
-		it('array to URLSearchParams', async () => {
+		test('array to URLSearchParams', async () => {
 			const arr: SearchParamsArray = [
 				['a', 'value'],
 				['b', true],
@@ -50,7 +50,7 @@ describe('url', () => {
 			expect(result).toEqual('a=value&b=true&c=false&e=123&e=321&f2=hello&f2=77&f2=hi&a=str')
 		})
 
-		it('object to URLSearchParams', async () => {
+		test('object to URLSearchParams', async () => {
 			let obj: SearchParamsObject = {
 				a: 'value',
 				b: true,
@@ -66,7 +66,7 @@ describe('url', () => {
 			expect(result).toEqual('a=str&b=true&c=false&e=123&f2=hello&f2=77&f2=hi')
 		})
 
-		it('URLSearchParams to URLSearchParams', async () => {
+		test('URLSearchParams to URLSearchParams', async () => {
 			const params = new URLSearchParams('a=1&b=2&c=3')
 
 			const result = toURLSearchParams(params)

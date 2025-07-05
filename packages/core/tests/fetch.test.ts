@@ -2,7 +2,7 @@ import type { Server } from 'http'
 
 import { serve } from '@hono/node-server'
 import { Hono } from 'hono'
-import { afterAll, beforeAll, beforeEach, describe, expect, it, suite, vi } from 'vitest'
+import { afterAll, beforeAll, beforeEach, describe, expect, test, vi } from 'vitest'
 
 import { createFetchClient } from '../src/fetch'
 
@@ -38,8 +38,8 @@ describe('fetch', () => {
 		fetch.mockClear()
 	})
 
-	suite('createFetchClient()', () => {
-		it('create fetch client', async () => {
+	describe('createFetchClient()', () => {
+		test('create fetch client', async () => {
 			const c = createFetchClient()
 
 			expect(await c.fetch.text($url('ok'))).toBe('OK')
