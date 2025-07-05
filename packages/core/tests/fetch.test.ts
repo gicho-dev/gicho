@@ -4,7 +4,7 @@ import { serve } from '@hono/node-server'
 import { Hono } from 'hono'
 import { afterAll, beforeAll, beforeEach, describe, expect, it, suite, vi } from 'vitest'
 
-import { createFetchClient } from '../fetch'
+import { createFetchClient } from '../src/fetch'
 
 describe('fetch', () => {
 	let server: Server

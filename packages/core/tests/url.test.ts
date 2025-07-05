@@ -1,8 +1,8 @@
-import type { SearchParamsArray, SearchParamsObject } from '../url'
+import type { SearchParamsArray, SearchParamsObject } from '../src/url'
 
 import { describe, expect, it, suite } from 'vitest'
 
-import { copyURLSearchParams, toURLSearchParams } from '../url'
+import { copyURLSearchParams, toURLSearchParams } from '../src/url'
 
 describe('url', () => {
 	suite('copyURLSearchParams()', () => {
