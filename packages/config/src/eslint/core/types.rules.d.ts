@@ -190,10 +190,20 @@ export interface RuleOptions extends Linter.RulesRecord {
    */
   '@eslint-react/hooks-extra/prefer-use-state-lazy-initialization'?: Linter.RuleEntry<[]>
   /**
+   * Enforces that the 'key' attribute is placed before the spread attribute in JSX elements.
+   * @see https://eslint-react.xyz/docs/rules/jsx-key-before-spread
+   */
+  '@eslint-react/jsx-key-before-spread'?: Linter.RuleEntry<[]>
+  /**
    * Disallow duplicate props in JSX elements.
    * @see https://eslint-react.xyz/docs/rules/jsx-no-duplicate-props
    */
   '@eslint-react/jsx-no-duplicate-props'?: Linter.RuleEntry<[]>
+  /**
+   * Disallows 'IIFE' in JSX elements.
+   * @see https://eslint-react.xyz/docs/rules/jsx-no-iife
+   */
+  '@eslint-react/jsx-no-iife'?: Linter.RuleEntry<[]>
   /**
    * Disallow undefined variables in JSX.
    * @see https://eslint-react.xyz/docs/rules/jsx-no-undef
@@ -1384,6 +1394,11 @@ export interface RuleOptions extends Linter.RulesRecord {
    */
   '@typescript-eslint/no-unnecessary-type-constraint'?: Linter.RuleEntry<[]>
   /**
+   * Disallow conversion idioms when they do not change the type or value of the expression
+   * @see https://typescript-eslint.io/rules/no-unnecessary-type-conversion
+   */
+  '@typescript-eslint/no-unnecessary-type-conversion'?: Linter.RuleEntry<[]>
+  /**
    * Disallow type parameters that aren't used multiple times
    * @see https://typescript-eslint.io/rules/no-unnecessary-type-parameters
    */
@@ -1644,6 +1659,7 @@ export interface RuleOptions extends Linter.RulesRecord {
   /**
    * Require type annotations in certain places
    * @see https://typescript-eslint.io/rules/typedef
+   * @deprecated
    */
   '@typescript-eslint/typedef'?: Linter.RuleEntry<TypescriptEslintTypedef>
   /**
@@ -1663,233 +1679,233 @@ export interface RuleOptions extends Linter.RulesRecord {
   '@typescript-eslint/use-unknown-in-catch-callback-variable'?: Linter.RuleEntry<[]>
   /**
    * Enforce or ban the use of inline type-only markers for named imports.
-   * @see https://github.com/un-ts/eslint-plugin-import-x/blob/v4.10.6/docs/rules/consistent-type-specifier-style.md
+   * @see https://github.com/un-ts/eslint-plugin-import-x/blob/v4.15.2/docs/rules/consistent-type-specifier-style.md
    */
   'import-x/consistent-type-specifier-style'?: Linter.RuleEntry<ImportXConsistentTypeSpecifierStyle>
   /**
    * Ensure a default export is present, given a default import.
-   * @see https://github.com/un-ts/eslint-plugin-import-x/blob/v4.10.6/docs/rules/default.md
+   * @see https://github.com/un-ts/eslint-plugin-import-x/blob/v4.15.2/docs/rules/default.md
    */
   'import-x/default'?: Linter.RuleEntry<[]>
   /**
    * Enforce a leading comment with the webpackChunkName for dynamic imports.
-   * @see https://github.com/un-ts/eslint-plugin-import-x/blob/v4.10.6/docs/rules/dynamic-import-chunkname.md
+   * @see https://github.com/un-ts/eslint-plugin-import-x/blob/v4.15.2/docs/rules/dynamic-import-chunkname.md
    */
   'import-x/dynamic-import-chunkname'?: Linter.RuleEntry<ImportXDynamicImportChunkname>
   /**
    * Forbid any invalid exports, i.e. re-export of the same name.
-   * @see https://github.com/un-ts/eslint-plugin-import-x/blob/v4.10.6/docs/rules/export.md
+   * @see https://github.com/un-ts/eslint-plugin-import-x/blob/v4.15.2/docs/rules/export.md
    */
   'import-x/export'?: Linter.RuleEntry<[]>
   /**
    * Ensure all exports appear after other statements.
-   * @see https://github.com/un-ts/eslint-plugin-import-x/blob/v4.10.6/docs/rules/exports-last.md
+   * @see https://github.com/un-ts/eslint-plugin-import-x/blob/v4.15.2/docs/rules/exports-last.md
    */
   'import-x/exports-last'?: Linter.RuleEntry<[]>
   /**
    * Ensure consistent use of file extension within the import path.
-   * @see https://github.com/un-ts/eslint-plugin-import-x/blob/v4.10.6/docs/rules/extensions.md
+   * @see https://github.com/un-ts/eslint-plugin-import-x/blob/v4.15.2/docs/rules/extensions.md
    */
   'import-x/extensions'?: Linter.RuleEntry<ImportXExtensions>
   /**
    * Ensure all imports appear before other statements.
-   * @see https://github.com/un-ts/eslint-plugin-import-x/blob/v4.10.6/docs/rules/first.md
+   * @see https://github.com/un-ts/eslint-plugin-import-x/blob/v4.15.2/docs/rules/first.md
    */
   'import-x/first'?: Linter.RuleEntry<ImportXFirst>
   /**
    * Prefer named exports to be grouped together in a single export declaration.
-   * @see https://github.com/un-ts/eslint-plugin-import-x/blob/v4.10.6/docs/rules/group-exports.md
+   * @see https://github.com/un-ts/eslint-plugin-import-x/blob/v4.15.2/docs/rules/group-exports.md
    */
   'import-x/group-exports'?: Linter.RuleEntry<[]>
   /**
    * Replaced by `import-x/first`.
-   * @see https://github.com/un-ts/eslint-plugin-import-x/blob/v4.10.6/docs/rules/imports-first.md
+   * @see https://github.com/un-ts/eslint-plugin-import-x/blob/v4.15.2/docs/rules/imports-first.md
    * @deprecated
    */
   'import-x/imports-first'?: Linter.RuleEntry<ImportXImportsFirst>
   /**
    * Enforce the maximum number of dependencies a module can have.
-   * @see https://github.com/un-ts/eslint-plugin-import-x/blob/v4.10.6/docs/rules/max-dependencies.md
+   * @see https://github.com/un-ts/eslint-plugin-import-x/blob/v4.15.2/docs/rules/max-dependencies.md
    */
   'import-x/max-dependencies'?: Linter.RuleEntry<ImportXMaxDependencies>
   /**
    * Ensure named imports correspond to a named export in the remote file.
-   * @see https://github.com/un-ts/eslint-plugin-import-x/blob/v4.10.6/docs/rules/named.md
+   * @see https://github.com/un-ts/eslint-plugin-import-x/blob/v4.15.2/docs/rules/named.md
    */
   'import-x/named'?: Linter.RuleEntry<ImportXNamed>
   /**
    * Ensure imported namespaces contain dereferenced properties as they are dereferenced.
-   * @see https://github.com/un-ts/eslint-plugin-import-x/blob/v4.10.6/docs/rules/namespace.md
+   * @see https://github.com/un-ts/eslint-plugin-import-x/blob/v4.15.2/docs/rules/namespace.md
    */
   'import-x/namespace'?: Linter.RuleEntry<ImportXNamespace>
   /**
    * Enforce a newline after import statements.
-   * @see https://github.com/un-ts/eslint-plugin-import-x/blob/v4.10.6/docs/rules/newline-after-import.md
+   * @see https://github.com/un-ts/eslint-plugin-import-x/blob/v4.15.2/docs/rules/newline-after-import.md
    */
   'import-x/newline-after-import'?: Linter.RuleEntry<ImportXNewlineAfterImport>
   /**
    * Forbid import of modules using absolute paths.
-   * @see https://github.com/un-ts/eslint-plugin-import-x/blob/v4.10.6/docs/rules/no-absolute-path.md
+   * @see https://github.com/un-ts/eslint-plugin-import-x/blob/v4.15.2/docs/rules/no-absolute-path.md
    */
   'import-x/no-absolute-path'?: Linter.RuleEntry<ImportXNoAbsolutePath>
   /**
    * Forbid AMD `require` and `define` calls.
-   * @see https://github.com/un-ts/eslint-plugin-import-x/blob/v4.10.6/docs/rules/no-amd.md
+   * @see https://github.com/un-ts/eslint-plugin-import-x/blob/v4.15.2/docs/rules/no-amd.md
    */
   'import-x/no-amd'?: Linter.RuleEntry<[]>
   /**
    * Forbid anonymous values as default exports.
-   * @see https://github.com/un-ts/eslint-plugin-import-x/blob/v4.10.6/docs/rules/no-anonymous-default-export.md
+   * @see https://github.com/un-ts/eslint-plugin-import-x/blob/v4.15.2/docs/rules/no-anonymous-default-export.md
    */
   'import-x/no-anonymous-default-export'?: Linter.RuleEntry<ImportXNoAnonymousDefaultExport>
   /**
    * Forbid CommonJS `require` calls and `module.exports` or `exports.*`.
-   * @see https://github.com/un-ts/eslint-plugin-import-x/blob/v4.10.6/docs/rules/no-commonjs.md
+   * @see https://github.com/un-ts/eslint-plugin-import-x/blob/v4.15.2/docs/rules/no-commonjs.md
    */
   'import-x/no-commonjs'?: Linter.RuleEntry<ImportXNoCommonjs>
   /**
    * Forbid a module from importing a module with a dependency path back to itself.
-   * @see https://github.com/un-ts/eslint-plugin-import-x/blob/v4.10.6/docs/rules/no-cycle.md
+   * @see https://github.com/un-ts/eslint-plugin-import-x/blob/v4.15.2/docs/rules/no-cycle.md
    */
   'import-x/no-cycle'?: Linter.RuleEntry<ImportXNoCycle>
   /**
    * Forbid default exports.
-   * @see https://github.com/un-ts/eslint-plugin-import-x/blob/v4.10.6/docs/rules/no-default-export.md
+   * @see https://github.com/un-ts/eslint-plugin-import-x/blob/v4.15.2/docs/rules/no-default-export.md
    */
   'import-x/no-default-export'?: Linter.RuleEntry<[]>
   /**
    * Forbid imported names marked with `@deprecated` documentation tag.
-   * @see https://github.com/un-ts/eslint-plugin-import-x/blob/v4.10.6/docs/rules/no-deprecated.md
+   * @see https://github.com/un-ts/eslint-plugin-import-x/blob/v4.15.2/docs/rules/no-deprecated.md
    */
   'import-x/no-deprecated'?: Linter.RuleEntry<[]>
   /**
    * Forbid repeated import of the same module in multiple places.
-   * @see https://github.com/un-ts/eslint-plugin-import-x/blob/v4.10.6/docs/rules/no-duplicates.md
+   * @see https://github.com/un-ts/eslint-plugin-import-x/blob/v4.15.2/docs/rules/no-duplicates.md
    */
   'import-x/no-duplicates'?: Linter.RuleEntry<ImportXNoDuplicates>
   /**
    * Forbid `require()` calls with expressions.
-   * @see https://github.com/un-ts/eslint-plugin-import-x/blob/v4.10.6/docs/rules/no-dynamic-require.md
+   * @see https://github.com/un-ts/eslint-plugin-import-x/blob/v4.15.2/docs/rules/no-dynamic-require.md
    */
   'import-x/no-dynamic-require'?: Linter.RuleEntry<ImportXNoDynamicRequire>
   /**
    * Forbid empty named import blocks.
-   * @see https://github.com/un-ts/eslint-plugin-import-x/blob/v4.10.6/docs/rules/no-empty-named-blocks.md
+   * @see https://github.com/un-ts/eslint-plugin-import-x/blob/v4.15.2/docs/rules/no-empty-named-blocks.md
    */
   'import-x/no-empty-named-blocks'?: Linter.RuleEntry<[]>
   /**
    * Forbid the use of extraneous packages.
-   * @see https://github.com/un-ts/eslint-plugin-import-x/blob/v4.10.6/docs/rules/no-extraneous-dependencies.md
+   * @see https://github.com/un-ts/eslint-plugin-import-x/blob/v4.15.2/docs/rules/no-extraneous-dependencies.md
    */
   'import-x/no-extraneous-dependencies'?: Linter.RuleEntry<ImportXNoExtraneousDependencies>
   /**
    * Forbid import statements with CommonJS module.exports.
-   * @see https://github.com/un-ts/eslint-plugin-import-x/blob/v4.10.6/docs/rules/no-import-module-exports.md
+   * @see https://github.com/un-ts/eslint-plugin-import-x/blob/v4.15.2/docs/rules/no-import-module-exports.md
    */
   'import-x/no-import-module-exports'?: Linter.RuleEntry<ImportXNoImportModuleExports>
   /**
    * Forbid importing the submodules of other modules.
-   * @see https://github.com/un-ts/eslint-plugin-import-x/blob/v4.10.6/docs/rules/no-internal-modules.md
+   * @see https://github.com/un-ts/eslint-plugin-import-x/blob/v4.15.2/docs/rules/no-internal-modules.md
    */
   'import-x/no-internal-modules'?: Linter.RuleEntry<ImportXNoInternalModules>
   /**
    * Forbid the use of mutable exports with `var` or `let`.
-   * @see https://github.com/un-ts/eslint-plugin-import-x/blob/v4.10.6/docs/rules/no-mutable-exports.md
+   * @see https://github.com/un-ts/eslint-plugin-import-x/blob/v4.15.2/docs/rules/no-mutable-exports.md
    */
   'import-x/no-mutable-exports'?: Linter.RuleEntry<[]>
   /**
    * Forbid use of exported name as identifier of default export.
-   * @see https://github.com/un-ts/eslint-plugin-import-x/blob/v4.10.6/docs/rules/no-named-as-default.md
+   * @see https://github.com/un-ts/eslint-plugin-import-x/blob/v4.15.2/docs/rules/no-named-as-default.md
    */
   'import-x/no-named-as-default'?: Linter.RuleEntry<[]>
   /**
    * Forbid use of exported name as property of default export.
-   * @see https://github.com/un-ts/eslint-plugin-import-x/blob/v4.10.6/docs/rules/no-named-as-default-member.md
+   * @see https://github.com/un-ts/eslint-plugin-import-x/blob/v4.15.2/docs/rules/no-named-as-default-member.md
    */
   'import-x/no-named-as-default-member'?: Linter.RuleEntry<[]>
   /**
    * Forbid named default exports.
-   * @see https://github.com/un-ts/eslint-plugin-import-x/blob/v4.10.6/docs/rules/no-named-default.md
+   * @see https://github.com/un-ts/eslint-plugin-import-x/blob/v4.15.2/docs/rules/no-named-default.md
    */
   'import-x/no-named-default'?: Linter.RuleEntry<[]>
   /**
    * Forbid named exports.
-   * @see https://github.com/un-ts/eslint-plugin-import-x/blob/v4.10.6/docs/rules/no-named-export.md
+   * @see https://github.com/un-ts/eslint-plugin-import-x/blob/v4.15.2/docs/rules/no-named-export.md
    */
   'import-x/no-named-export'?: Linter.RuleEntry<[]>
   /**
    * Forbid namespace (a.k.a. "wildcard" `*`) imports.
-   * @see https://github.com/un-ts/eslint-plugin-import-x/blob/v4.10.6/docs/rules/no-namespace.md
+   * @see https://github.com/un-ts/eslint-plugin-import-x/blob/v4.15.2/docs/rules/no-namespace.md
    */
   'import-x/no-namespace'?: Linter.RuleEntry<ImportXNoNamespace>
   /**
    * Forbid Node.js builtin modules.
-   * @see https://github.com/un-ts/eslint-plugin-import-x/blob/v4.10.6/docs/rules/no-nodejs-modules.md
+   * @see https://github.com/un-ts/eslint-plugin-import-x/blob/v4.15.2/docs/rules/no-nodejs-modules.md
    */
   'import-x/no-nodejs-modules'?: Linter.RuleEntry<ImportXNoNodejsModules>
   /**
    * Forbid importing packages through relative paths.
-   * @see https://github.com/un-ts/eslint-plugin-import-x/blob/v4.10.6/docs/rules/no-relative-packages.md
+   * @see https://github.com/un-ts/eslint-plugin-import-x/blob/v4.15.2/docs/rules/no-relative-packages.md
    */
   'import-x/no-relative-packages'?: Linter.RuleEntry<ImportXNoRelativePackages>
   /**
    * Forbid importing modules from parent directories.
-   * @see https://github.com/un-ts/eslint-plugin-import-x/blob/v4.10.6/docs/rules/no-relative-parent-imports.md
+   * @see https://github.com/un-ts/eslint-plugin-import-x/blob/v4.15.2/docs/rules/no-relative-parent-imports.md
    */
   'import-x/no-relative-parent-imports'?: Linter.RuleEntry<ImportXNoRelativeParentImports>
   /**
    * Forbid importing a default export by a different name.
-   * @see https://github.com/un-ts/eslint-plugin-import-x/blob/v4.10.6/docs/rules/no-rename-default.md
+   * @see https://github.com/un-ts/eslint-plugin-import-x/blob/v4.15.2/docs/rules/no-rename-default.md
    */
   'import-x/no-rename-default'?: Linter.RuleEntry<ImportXNoRenameDefault>
   /**
    * Enforce which files can be imported in a given folder.
-   * @see https://github.com/un-ts/eslint-plugin-import-x/blob/v4.10.6/docs/rules/no-restricted-paths.md
+   * @see https://github.com/un-ts/eslint-plugin-import-x/blob/v4.15.2/docs/rules/no-restricted-paths.md
    */
   'import-x/no-restricted-paths'?: Linter.RuleEntry<ImportXNoRestrictedPaths>
   /**
    * Forbid a module from importing itself.
-   * @see https://github.com/un-ts/eslint-plugin-import-x/blob/v4.10.6/docs/rules/no-self-import.md
+   * @see https://github.com/un-ts/eslint-plugin-import-x/blob/v4.15.2/docs/rules/no-self-import.md
    */
   'import-x/no-self-import'?: Linter.RuleEntry<[]>
   /**
    * Forbid unassigned imports.
-   * @see https://github.com/un-ts/eslint-plugin-import-x/blob/v4.10.6/docs/rules/no-unassigned-import.md
+   * @see https://github.com/un-ts/eslint-plugin-import-x/blob/v4.15.2/docs/rules/no-unassigned-import.md
    */
   'import-x/no-unassigned-import'?: Linter.RuleEntry<ImportXNoUnassignedImport>
   /**
    * Ensure imports point to a file/module that can be resolved.
-   * @see https://github.com/un-ts/eslint-plugin-import-x/blob/v4.10.6/docs/rules/no-unresolved.md
+   * @see https://github.com/un-ts/eslint-plugin-import-x/blob/v4.15.2/docs/rules/no-unresolved.md
    */
   'import-x/no-unresolved'?: Linter.RuleEntry<ImportXNoUnresolved>
   /**
    * Forbid modules without exports, or exports without matching import in another module.
-   * @see https://github.com/un-ts/eslint-plugin-import-x/blob/v4.10.6/docs/rules/no-unused-modules.md
+   * @see https://github.com/un-ts/eslint-plugin-import-x/blob/v4.15.2/docs/rules/no-unused-modules.md
    */
   'import-x/no-unused-modules'?: Linter.RuleEntry<ImportXNoUnusedModules>
   /**
    * Forbid unnecessary path segments in import and require statements.
-   * @see https://github.com/un-ts/eslint-plugin-import-x/blob/v4.10.6/docs/rules/no-useless-path-segments.md
+   * @see https://github.com/un-ts/eslint-plugin-import-x/blob/v4.15.2/docs/rules/no-useless-path-segments.md
    */
   'import-x/no-useless-path-segments'?: Linter.RuleEntry<ImportXNoUselessPathSegments>
   /**
    * Forbid webpack loader syntax in imports.
-   * @see https://github.com/un-ts/eslint-plugin-import-x/blob/v4.10.6/docs/rules/no-webpack-loader-syntax.md
+   * @see https://github.com/un-ts/eslint-plugin-import-x/blob/v4.15.2/docs/rules/no-webpack-loader-syntax.md
    */
   'import-x/no-webpack-loader-syntax'?: Linter.RuleEntry<[]>
   /**
    * Enforce a convention in module import order.
-   * @see https://github.com/un-ts/eslint-plugin-import-x/blob/v4.10.6/docs/rules/order.md
+   * @see https://github.com/un-ts/eslint-plugin-import-x/blob/v4.15.2/docs/rules/order.md
    */
   'import-x/order'?: Linter.RuleEntry<ImportXOrder>
   /**
    * Prefer a default export if module exports a single name or multiple names.
-   * @see https://github.com/un-ts/eslint-plugin-import-x/blob/v4.10.6/docs/rules/prefer-default-export.md
+   * @see https://github.com/un-ts/eslint-plugin-import-x/blob/v4.15.2/docs/rules/prefer-default-export.md
    */
   'import-x/prefer-default-export'?: Linter.RuleEntry<ImportXPreferDefaultExport>
   /**
    * Forbid potentially ambiguous parse goal (`script` vs. `module`).
-   * @see https://github.com/un-ts/eslint-plugin-import-x/blob/v4.10.6/docs/rules/unambiguous.md
+   * @see https://github.com/un-ts/eslint-plugin-import-x/blob/v4.15.2/docs/rules/unambiguous.md
    */
   'import-x/unambiguous'?: Linter.RuleEntry<[]>
   /**
@@ -2346,7 +2362,7 @@ export interface RuleOptions extends Linter.RulesRecord {
    * disallow unnecessary escape usage
    * @see https://ota-meshi.github.io/eslint-plugin-jsonc/rules/no-useless-escape.html
    */
-  'jsonc/no-useless-escape'?: Linter.RuleEntry<[]>
+  'jsonc/no-useless-escape'?: Linter.RuleEntry<JsoncNoUselessEscape>
   /**
    * enforce consistent line breaks inside braces
    * @see https://ota-meshi.github.io/eslint-plugin-jsonc/rules/object-curly-newline.html
@@ -2594,6 +2610,11 @@ export interface RuleOptions extends Linter.RulesRecord {
    */
   'svelte/mustache-spacing'?: Linter.RuleEntry<SvelteMustacheSpacing>
   /**
+   * Warns against the use of `addEventListener`
+   * @see https://sveltejs.github.io/eslint-plugin-svelte/rules/no-add-event-listener/
+   */
+  'svelte/no-add-event-listener'?: Linter.RuleEntry<[]>
+  /**
    * disallow the use of `{@debug}`
    * @see https://sveltejs.github.io/eslint-plugin-svelte/rules/no-at-debug-tags/
    */
@@ -2741,6 +2762,11 @@ export interface RuleOptions extends Linter.RulesRecord {
    */
   'svelte/no-target-blank'?: Linter.RuleEntry<SvelteNoTargetBlank>
   /**
+   * disallow using top-level browser global variables
+   * @see https://sveltejs.github.io/eslint-plugin-svelte/rules/no-top-level-browser-globals/
+   */
+  'svelte/no-top-level-browser-globals'?: Linter.RuleEntry<[]>
+  /**
    * disallow trailing whitespace at the end of lines
    * @see https://sveltejs.github.io/eslint-plugin-svelte/rules/no-trailing-spaces/
    */
@@ -2801,6 +2827,11 @@ export interface RuleOptions extends Linter.RulesRecord {
    */
   'svelte/prefer-style-directive'?: Linter.RuleEntry<[]>
   /**
+   * Prefer using writable $derived instead of $state and $effect
+   * @see https://sveltejs.github.io/eslint-plugin-svelte/rules/prefer-writable-derived/
+   */
+  'svelte/prefer-writable-derived'?: Linter.RuleEntry<[]>
+  /**
    * require keyed `{#each}` block
    * @see https://sveltejs.github.io/eslint-plugin-svelte/rules/require-each-key/
    */
@@ -2810,6 +2841,11 @@ export interface RuleOptions extends Linter.RulesRecord {
    * @see https://sveltejs.github.io/eslint-plugin-svelte/rules/require-event-dispatcher-types/
    */
   'svelte/require-event-dispatcher-types'?: Linter.RuleEntry<[]>
+  /**
+   * require component event names to start with "on"
+   * @see https://sveltejs.github.io/eslint-plugin-svelte/rules/require-event-prefix/
+   */
+  'svelte/require-event-prefix'?: Linter.RuleEntry<SvelteRequireEventPrefix>
   /**
    * require style attributes that can be optimized
    * @see https://sveltejs.github.io/eslint-plugin-svelte/rules/require-optimized-style-attribute/
@@ -3283,6 +3319,7 @@ export type StylisticJsxSortProps = []|[{
   ignoreCase?: boolean
   noSortAlphabetically?: boolean
   reservedFirst?: (unknown[] | boolean)
+  reservedLast?: unknown[]
   locale?: string
 }]
 
@@ -3356,18 +3393,6 @@ export type StylisticKeywordSpacing = []|[{
   after?: boolean
   overrides?: {
     abstract?: {
-      before?: boolean
-      after?: boolean
-    }
-    as?: {
-      before?: boolean
-      after?: boolean
-    }
-    async?: {
-      before?: boolean
-      after?: boolean
-    }
-    await?: {
       before?: boolean
       after?: boolean
     }
@@ -3463,15 +3488,7 @@ export type StylisticKeywordSpacing = []|[{
       before?: boolean
       after?: boolean
     }
-    from?: {
-      before?: boolean
-      after?: boolean
-    }
     function?: {
-      before?: boolean
-      after?: boolean
-    }
-    get?: {
       before?: boolean
       after?: boolean
     }
@@ -3507,10 +3524,6 @@ export type StylisticKeywordSpacing = []|[{
       before?: boolean
       after?: boolean
     }
-    let?: {
-      before?: boolean
-      after?: boolean
-    }
     long?: {
       before?: boolean
       after?: boolean
@@ -3524,10 +3537,6 @@ export type StylisticKeywordSpacing = []|[{
       after?: boolean
     }
     null?: {
-      before?: boolean
-      after?: boolean
-    }
-    of?: {
       before?: boolean
       after?: boolean
     }
@@ -3548,14 +3557,6 @@ export type StylisticKeywordSpacing = []|[{
       after?: boolean
     }
     return?: {
-      before?: boolean
-      after?: boolean
-    }
-    satisfies?: {
-      before?: boolean
-      after?: boolean
-    }
-    set?: {
       before?: boolean
       after?: boolean
     }
@@ -3624,6 +3625,42 @@ export type StylisticKeywordSpacing = []|[{
       after?: boolean
     }
     with?: {
+      before?: boolean
+      after?: boolean
+    }
+    as?: {
+      before?: boolean
+      after?: boolean
+    }
+    async?: {
+      before?: boolean
+      after?: boolean
+    }
+    await?: {
+      before?: boolean
+      after?: boolean
+    }
+    from?: {
+      before?: boolean
+      after?: boolean
+    }
+    get?: {
+      before?: boolean
+      after?: boolean
+    }
+    let?: {
+      before?: boolean
+      after?: boolean
+    }
+    of?: {
+      before?: boolean
+      after?: boolean
+    }
+    satisfies?: {
+      before?: boolean
+      after?: boolean
+    }
+    set?: {
       before?: boolean
       after?: boolean
     }
@@ -5130,6 +5167,7 @@ export type TypescriptEslintNoUnusedExpressions = []|[{
   allowTernary?: boolean
   allowTaggedTemplates?: boolean
   enforceForJSX?: boolean
+  ignoreDirectives?: boolean
 }]
 
 export type TypescriptEslintNoUnusedVars = []|[(("all" | "local") | {
@@ -5229,6 +5267,10 @@ export type TypescriptEslintOnlyThrowError = []|[{
     name: (string | [string, ...(string)[]])
     package: string
   })[]
+  /**
+   * Whether to allow rethrowing caught values that are not `Error` objects.
+   */
+  allowRethrowing?: boolean
   /**
    * Whether to always allow throwing values typed as `any`.
    */
@@ -5705,6 +5747,14 @@ export type ImportXExtensions = ([]|[("always" | "ignorePackages" | "never")] | 
   }
   ignorePackages?: boolean
   checkTypeImports?: boolean
+  pathGroupOverrides?: {
+    pattern: string
+    patternOptions?: {
+      [k: string]: unknown | undefined
+    }
+    action: ("enforce" | "ignore")
+  }[]
+  fix?: boolean
   [k: string]: unknown | undefined
 }] | []|[{
   pattern?: {
@@ -5712,6 +5762,14 @@ export type ImportXExtensions = ([]|[("always" | "ignorePackages" | "never")] | 
   }
   ignorePackages?: boolean
   checkTypeImports?: boolean
+  pathGroupOverrides?: {
+    pattern: string
+    patternOptions?: {
+      [k: string]: unknown | undefined
+    }
+    action: ("enforce" | "ignore")
+  }[]
+  fix?: boolean
   [k: string]: unknown | undefined
 }] | []|[("always" | "ignorePackages" | "never")]|[("always" | "ignorePackages" | "never"), {
   [k: string]: ("always" | "ignorePackages" | "never")
@@ -6003,10 +6061,10 @@ export type JsdocCheckLineAlignment = []|[("always" | "never" | "any")]|[("alway
     postTag?: number
     postType?: number
   }
+  disableWrapIndent?: boolean
   preserveMainDescriptionPostDelimiter?: boolean
   tags?: string[]
   wrapIndent?: string
-  disableWrapIndent?: boolean
 }]
 
 export type JsdocCheckParamNames = []|[{
@@ -6561,6 +6619,10 @@ export type JsoncNoIrregularWhitespace = []|[{
   skipJSXText?: boolean
 }]
 
+export type JsoncNoUselessEscape = []|[{
+  allowRegexCharacters?: string[]
+}]
+
 export type JsoncObjectCurlyNewline = []|[((("always" | "never") | {
   multiline?: boolean
   minProperties?: number
@@ -6699,17 +6761,16 @@ export type PerfectionistSortArrayIncludes = {
    */
   fallbackSort?: {
     /**
-     * Determines whether the sorted items should be in ascending or descending order.
+     * Specifies whether to sort items in ascending or descending order.
      */
     order?: ("asc" | "desc")
     /**
      * Specifies the sorting method.
      */
     type?: ("alphabetical" | "natural" | "line-length" | "custom" | "unsorted")
-    [k: string]: unknown | undefined
   }
   /**
-   * Controls how special characters should be handled before sorting.
+   * Specifies whether to trim, remove, or keep special characters before sorting.
    */
   specialCharacters?: ("remove" | "trim" | "keep")
   /**
@@ -6717,7 +6778,7 @@ export type PerfectionistSortArrayIncludes = {
    */
   ignoreCase?: boolean
   /**
-   * Alphabet to use for the `custom` sort type.
+   * Used only when the `type` option is set to `'custom'`. Specifies the custom alphabet for sorting.
    */
   alphabet?: string
   /**
@@ -6725,7 +6786,7 @@ export type PerfectionistSortArrayIncludes = {
    */
   locales?: (string | string[])
   /**
-   * Determines whether the sorted items should be in ascending or descending order.
+   * Specifies whether to sort items in ascending or descending order.
    */
   order?: ("asc" | "desc")
   /**
@@ -6737,11 +6798,11 @@ export type PerfectionistSortArrayIncludes = {
    */
   groupKind?: ("mixed" | "literals-first" | "spreads-first")
   /**
-   * Specifies custom groups.
+   * Defines custom groups to match specific members.
    */
   customGroups?: ({
     /**
-     * Specifies how new lines should be handled between members of the custom group.
+     * Specifies how to handle new lines between members of the custom group.
      */
     newlinesInside?: ("always" | "never")
     /**
@@ -6749,21 +6810,20 @@ export type PerfectionistSortArrayIncludes = {
      */
     fallbackSort?: {
       /**
-       * Determines whether the sorted items should be in ascending or descending order.
+       * Specifies whether to sort items in ascending or descending order.
        */
       order?: ("asc" | "desc")
       /**
        * Specifies the sorting method.
        */
       type?: ("alphabetical" | "natural" | "line-length" | "custom" | "unsorted")
-      [k: string]: unknown | undefined
     }
     /**
      * Custom group name.
      */
-    groupName?: string
+    groupName: string
     /**
-     * Determines whether the sorted items should be in ascending or descending order.
+     * Specifies whether to sort items in ascending or descending order.
      */
     order?: ("asc" | "desc")
     /**
@@ -6779,16 +6839,28 @@ export type PerfectionistSortArrayIncludes = {
        * Regular expression.
        */
       elementNamePattern?: (({
-        pattern?: string
+        /**
+         * Regular expression pattern.
+         */
+        pattern: string
+        /**
+         * Regular expression flags.
+         */
         flags?: string
       } | string)[] | ({
-        pattern?: string
+        /**
+         * Regular expression pattern.
+         */
+        pattern: string
+        /**
+         * Regular expression flags.
+         */
         flags?: string
       } | string))
     }[]
   } | {
     /**
-     * Specifies how new lines should be handled between members of the custom group.
+     * Specifies how to handle new lines between members of the custom group.
      */
     newlinesInside?: ("always" | "never")
     /**
@@ -6796,21 +6868,20 @@ export type PerfectionistSortArrayIncludes = {
      */
     fallbackSort?: {
       /**
-       * Determines whether the sorted items should be in ascending or descending order.
+       * Specifies whether to sort items in ascending or descending order.
        */
       order?: ("asc" | "desc")
       /**
        * Specifies the sorting method.
        */
       type?: ("alphabetical" | "natural" | "line-length" | "custom" | "unsorted")
-      [k: string]: unknown | undefined
     }
     /**
      * Custom group name.
      */
-    groupName?: string
+    groupName: string
     /**
-     * Determines whether the sorted items should be in ascending or descending order.
+     * Specifies whether to sort items in ascending or descending order.
      */
     order?: ("asc" | "desc")
     /**
@@ -6825,66 +6896,139 @@ export type PerfectionistSortArrayIncludes = {
      * Regular expression.
      */
     elementNamePattern?: (({
-      pattern?: string
+      /**
+       * Regular expression pattern.
+       */
+      pattern: string
+      /**
+       * Regular expression flags.
+       */
       flags?: string
     } | string)[] | ({
-      pattern?: string
+      /**
+       * Regular expression pattern.
+       */
+      pattern: string
+      /**
+       * Regular expression flags.
+       */
       flags?: string
     } | string))
   })[]
+  /**
+   * Specifies filters to match a particular options configuration for a given element to sort.
+   */
   useConfigurationIf?: {
     /**
      * Regular expression.
      */
     allNamesMatchPattern?: (({
-      pattern?: string
+      /**
+       * Regular expression pattern.
+       */
+      pattern: string
+      /**
+       * Regular expression flags.
+       */
       flags?: string
     } | string)[] | ({
-      pattern?: string
+      /**
+       * Regular expression pattern.
+       */
+      pattern: string
+      /**
+       * Regular expression flags.
+       */
       flags?: string
     } | string))
   }
   /**
-   * Allows to use comments to separate members into logical groups.
+   * Enables the use of comments to separate the nodes into logical groups.
    */
   partitionByComment?: (boolean | (({
-    pattern?: string
+    /**
+     * Regular expression pattern.
+     */
+    pattern: string
+    /**
+     * Regular expression flags.
+     */
     flags?: string
   } | string)[] | ({
-    pattern?: string
+    /**
+     * Regular expression pattern.
+     */
+    pattern: string
+    /**
+     * Regular expression flags.
+     */
     flags?: string
   } | string)) | {
+    /**
+     * Enables specific block comments to separate the nodes.
+     */
     block?: (boolean | (({
-      pattern?: string
+      /**
+       * Regular expression pattern.
+       */
+      pattern: string
+      /**
+       * Regular expression flags.
+       */
       flags?: string
     } | string)[] | ({
-      pattern?: string
+      /**
+       * Regular expression pattern.
+       */
+      pattern: string
+      /**
+       * Regular expression flags.
+       */
       flags?: string
     } | string)))
+    /**
+     * Enables specific line comments to separate the nodes.
+     */
     line?: (boolean | (({
-      pattern?: string
+      /**
+       * Regular expression pattern.
+       */
+      pattern: string
+      /**
+       * Regular expression flags.
+       */
       flags?: string
     } | string)[] | ({
-      pattern?: string
+      /**
+       * Regular expression pattern.
+       */
+      pattern: string
+      /**
+       * Regular expression flags.
+       */
       flags?: string
     } | string)))
   })
   /**
-   * Allows to use newlines to separate the nodes into logical groups.
+   * Enables the use of newlines to separate the nodes into logical groups.
    */
   partitionByNewLine?: boolean
   /**
-   * Specifies how new lines should be handled between groups.
+   * Specifies how to handle new lines between groups.
    */
   newlinesBetween?: ("ignore" | "always" | "never")
   /**
-   * Specifies the order of the groups.
+   * Specifies a list of groups for sorting.
    */
   groups?: (string | string[] | {
     /**
-     * Specifies how new lines should be handled between groups.
+     * Specifies how to handle new lines between groups.
      */
     newlinesBetween?: ("ignore" | "always" | "never")
+    /**
+     * Specifies a comment to enforce above the group.
+     */
+    commentAbove?: string
   })[]
 }[]
 
@@ -6894,17 +7038,16 @@ export type PerfectionistSortClasses = []|[{
    */
   fallbackSort?: {
     /**
-     * Determines whether the sorted items should be in ascending or descending order.
+     * Specifies whether to sort items in ascending or descending order.
      */
     order?: ("asc" | "desc")
     /**
      * Specifies the sorting method.
      */
     type?: ("alphabetical" | "natural" | "line-length" | "custom" | "unsorted")
-    [k: string]: unknown | undefined
   }
   /**
-   * Controls how special characters should be handled before sorting.
+   * Specifies whether to trim, remove, or keep special characters before sorting.
    */
   specialCharacters?: ("remove" | "trim" | "keep")
   /**
@@ -6912,7 +7055,7 @@ export type PerfectionistSortClasses = []|[{
    */
   ignoreCase?: boolean
   /**
-   * Alphabet to use for the `custom` sort type.
+   * Used only when the `type` option is set to `'custom'`. Specifies the custom alphabet for sorting.
    */
   alphabet?: string
   /**
@@ -6920,7 +7063,7 @@ export type PerfectionistSortClasses = []|[{
    */
   locales?: (string | string[])
   /**
-   * Determines whether the sorted items should be in ascending or descending order.
+   * Specifies whether to sort items in ascending or descending order.
    */
   order?: ("asc" | "desc")
   /**
@@ -6928,11 +7071,11 @@ export type PerfectionistSortClasses = []|[{
    */
   type?: ("alphabetical" | "natural" | "line-length" | "custom" | "unsorted")
   /**
-   * Specifies custom groups.
+   * Defines custom groups to match specific members.
    */
   customGroups?: ({
     /**
-     * Specifies how new lines should be handled between members of the custom group.
+     * Specifies how to handle new lines between members of the custom group.
      */
     newlinesInside?: ("always" | "never")
     /**
@@ -6940,21 +7083,20 @@ export type PerfectionistSortClasses = []|[{
      */
     fallbackSort?: {
       /**
-       * Determines whether the sorted items should be in ascending or descending order.
+       * Specifies whether to sort items in ascending or descending order.
        */
       order?: ("asc" | "desc")
       /**
        * Specifies the sorting method.
        */
       type?: ("alphabetical" | "natural" | "line-length" | "custom" | "unsorted")
-      [k: string]: unknown | undefined
     }
     /**
      * Custom group name.
      */
-    groupName?: string
+    groupName: string
     /**
-     * Determines whether the sorted items should be in ascending or descending order.
+     * Specifies whether to sort items in ascending or descending order.
      */
     order?: ("asc" | "desc")
     /**
@@ -6974,36 +7116,72 @@ export type PerfectionistSortClasses = []|[{
        * Regular expression.
        */
       decoratorNamePattern?: (({
-        pattern?: string
+        /**
+         * Regular expression pattern.
+         */
+        pattern: string
+        /**
+         * Regular expression flags.
+         */
         flags?: string
       } | string)[] | ({
-        pattern?: string
+        /**
+         * Regular expression pattern.
+         */
+        pattern: string
+        /**
+         * Regular expression flags.
+         */
         flags?: string
       } | string))
       /**
        * Regular expression.
        */
       elementValuePattern?: (({
-        pattern?: string
+        /**
+         * Regular expression pattern.
+         */
+        pattern: string
+        /**
+         * Regular expression flags.
+         */
         flags?: string
       } | string)[] | ({
-        pattern?: string
+        /**
+         * Regular expression pattern.
+         */
+        pattern: string
+        /**
+         * Regular expression flags.
+         */
         flags?: string
       } | string))
       /**
        * Regular expression.
        */
       elementNamePattern?: (({
-        pattern?: string
+        /**
+         * Regular expression pattern.
+         */
+        pattern: string
+        /**
+         * Regular expression flags.
+         */
         flags?: string
       } | string)[] | ({
-        pattern?: string
+        /**
+         * Regular expression pattern.
+         */
+        pattern: string
+        /**
+         * Regular expression flags.
+         */
         flags?: string
       } | string))
     }[]
   } | {
     /**
-     * Specifies how new lines should be handled between members of the custom group.
+     * Specifies how to handle new lines between members of the custom group.
      */
     newlinesInside?: ("always" | "never")
     /**
@@ -7011,21 +7189,20 @@ export type PerfectionistSortClasses = []|[{
      */
     fallbackSort?: {
       /**
-       * Determines whether the sorted items should be in ascending or descending order.
+       * Specifies whether to sort items in ascending or descending order.
        */
       order?: ("asc" | "desc")
       /**
        * Specifies the sorting method.
        */
       type?: ("alphabetical" | "natural" | "line-length" | "custom" | "unsorted")
-      [k: string]: unknown | undefined
     }
     /**
      * Custom group name.
      */
-    groupName?: string
+    groupName: string
     /**
-     * Determines whether the sorted items should be in ascending or descending order.
+     * Specifies whether to sort items in ascending or descending order.
      */
     order?: ("asc" | "desc")
     /**
@@ -7044,30 +7221,66 @@ export type PerfectionistSortClasses = []|[{
      * Regular expression.
      */
     decoratorNamePattern?: (({
-      pattern?: string
+      /**
+       * Regular expression pattern.
+       */
+      pattern: string
+      /**
+       * Regular expression flags.
+       */
       flags?: string
     } | string)[] | ({
-      pattern?: string
+      /**
+       * Regular expression pattern.
+       */
+      pattern: string
+      /**
+       * Regular expression flags.
+       */
       flags?: string
     } | string))
     /**
      * Regular expression.
      */
     elementValuePattern?: (({
-      pattern?: string
+      /**
+       * Regular expression pattern.
+       */
+      pattern: string
+      /**
+       * Regular expression flags.
+       */
       flags?: string
     } | string)[] | ({
-      pattern?: string
+      /**
+       * Regular expression pattern.
+       */
+      pattern: string
+      /**
+       * Regular expression flags.
+       */
       flags?: string
     } | string))
     /**
      * Regular expression.
      */
     elementNamePattern?: (({
-      pattern?: string
+      /**
+       * Regular expression pattern.
+       */
+      pattern: string
+      /**
+       * Regular expression flags.
+       */
       flags?: string
     } | string)[] | ({
-      pattern?: string
+      /**
+       * Regular expression pattern.
+       */
+      pattern: string
+      /**
+       * Regular expression flags.
+       */
       flags?: string
     } | string))
   })[]
@@ -7075,53 +7288,111 @@ export type PerfectionistSortClasses = []|[{
    * Regular expression.
    */
   ignoreCallbackDependenciesPatterns?: (({
-    pattern?: string
+    /**
+     * Regular expression pattern.
+     */
+    pattern: string
+    /**
+     * Regular expression flags.
+     */
     flags?: string
   } | string)[] | ({
-    pattern?: string
+    /**
+     * Regular expression pattern.
+     */
+    pattern: string
+    /**
+     * Regular expression flags.
+     */
     flags?: string
   } | string))
   /**
-   * Allows to use comments to separate members into logical groups.
+   * Enables the use of comments to separate the nodes into logical groups.
    */
   partitionByComment?: (boolean | (({
-    pattern?: string
+    /**
+     * Regular expression pattern.
+     */
+    pattern: string
+    /**
+     * Regular expression flags.
+     */
     flags?: string
   } | string)[] | ({
-    pattern?: string
+    /**
+     * Regular expression pattern.
+     */
+    pattern: string
+    /**
+     * Regular expression flags.
+     */
     flags?: string
   } | string)) | {
+    /**
+     * Enables specific block comments to separate the nodes.
+     */
     block?: (boolean | (({
-      pattern?: string
+      /**
+       * Regular expression pattern.
+       */
+      pattern: string
+      /**
+       * Regular expression flags.
+       */
       flags?: string
     } | string)[] | ({
-      pattern?: string
+      /**
+       * Regular expression pattern.
+       */
+      pattern: string
+      /**
+       * Regular expression flags.
+       */
       flags?: string
     } | string)))
+    /**
+     * Enables specific line comments to separate the nodes.
+     */
     line?: (boolean | (({
-      pattern?: string
+      /**
+       * Regular expression pattern.
+       */
+      pattern: string
+      /**
+       * Regular expression flags.
+       */
       flags?: string
     } | string)[] | ({
-      pattern?: string
+      /**
+       * Regular expression pattern.
+       */
+      pattern: string
+      /**
+       * Regular expression flags.
+       */
       flags?: string
     } | string)))
   })
   /**
-   * Allows to use newlines to separate the nodes into logical groups.
+   * Enables the use of newlines to separate the nodes into logical groups.
    */
   partitionByNewLine?: boolean
   /**
-   * Specifies how new lines should be handled between groups.
+   * Specifies how to handle new lines between groups.
    */
   newlinesBetween?: ("ignore" | "always" | "never")
   /**
-   * Specifies the order of the groups.
+   * Specifies a list of groups for sorting.
    */
   groups?: (string | string[] | {
     /**
-     * Specifies how new lines should be handled between groups.
+     * Specifies how to handle new lines between groups.
      */
     newlinesBetween?: ("ignore" | "always" | "never")
+    /**
+     * Specifies a comment to enforce above the group.
+     */
+    commentAbove?: string
   })[]
 }]
 
@@ -7131,17 +7402,16 @@ export type PerfectionistSortDecorators = []|[{
    */
   fallbackSort?: {
     /**
-     * Determines whether the sorted items should be in ascending or descending order.
+     * Specifies whether to sort items in ascending or descending order.
      */
     order?: ("asc" | "desc")
     /**
      * Specifies the sorting method.
      */
     type?: ("alphabetical" | "natural" | "line-length" | "custom" | "unsorted")
-    [k: string]: unknown | undefined
   }
   /**
-   * Controls how special characters should be handled before sorting.
+   * Specifies whether to trim, remove, or keep special characters before sorting.
    */
   specialCharacters?: ("remove" | "trim" | "keep")
   /**
@@ -7149,7 +7419,7 @@ export type PerfectionistSortDecorators = []|[{
    */
   ignoreCase?: boolean
   /**
-   * Alphabet to use for the `custom` sort type.
+   * Used only when the `type` option is set to `'custom'`. Specifies the custom alphabet for sorting.
    */
   alphabet?: string
   /**
@@ -7157,7 +7427,7 @@ export type PerfectionistSortDecorators = []|[{
    */
   locales?: (string | string[])
   /**
-   * Determines whether the sorted items should be in ascending or descending order.
+   * Specifies whether to sort items in ascending or descending order.
    */
   order?: ("asc" | "desc")
   /**
@@ -7185,27 +7455,69 @@ export type PerfectionistSortDecorators = []|[{
    */
   sortOnClasses?: boolean
   /**
-   * Allows to use comments to separate members into logical groups.
+   * Enables the use of comments to separate the nodes into logical groups.
    */
   partitionByComment?: (boolean | (({
-    pattern?: string
+    /**
+     * Regular expression pattern.
+     */
+    pattern: string
+    /**
+     * Regular expression flags.
+     */
     flags?: string
   } | string)[] | ({
-    pattern?: string
+    /**
+     * Regular expression pattern.
+     */
+    pattern: string
+    /**
+     * Regular expression flags.
+     */
     flags?: string
   } | string)) | {
+    /**
+     * Enables specific block comments to separate the nodes.
+     */
     block?: (boolean | (({
-      pattern?: string
+      /**
+       * Regular expression pattern.
+       */
+      pattern: string
+      /**
+       * Regular expression flags.
+       */
       flags?: string
     } | string)[] | ({
-      pattern?: string
+      /**
+       * Regular expression pattern.
+       */
+      pattern: string
+      /**
+       * Regular expression flags.
+       */
       flags?: string
     } | string)))
+    /**
+     * Enables specific line comments to separate the nodes.
+     */
     line?: (boolean | (({
-      pattern?: string
+      /**
+       * Regular expression pattern.
+       */
+      pattern: string
+      /**
+       * Regular expression flags.
+       */
       flags?: string
     } | string)[] | ({
-      pattern?: string
+      /**
+       * Regular expression pattern.
+       */
+      pattern: string
+      /**
+       * Regular expression flags.
+       */
       flags?: string
     } | string)))
   })
@@ -7216,13 +7528,17 @@ export type PerfectionistSortDecorators = []|[{
     [k: string]: (string | string[]) | undefined
   }
   /**
-   * Specifies the order of the groups.
+   * Specifies a list of groups for sorting.
    */
   groups?: (string | string[] | {
     /**
-     * Specifies how new lines should be handled between groups.
+     * Specifies how to handle new lines between groups.
      */
     newlinesBetween?: ("ignore" | "always" | "never")
+    /**
+     * Specifies a comment to enforce above the group.
+     */
+    commentAbove?: string
   })[]
 }]
 
@@ -7232,17 +7548,16 @@ export type PerfectionistSortEnums = []|[{
    */
   fallbackSort?: {
     /**
-     * Determines whether the sorted items should be in ascending or descending order.
+     * Specifies whether to sort items in ascending or descending order.
      */
     order?: ("asc" | "desc")
     /**
      * Specifies the sorting method.
      */
     type?: ("alphabetical" | "natural" | "line-length" | "custom" | "unsorted")
-    [k: string]: unknown | undefined
   }
   /**
-   * Controls how special characters should be handled before sorting.
+   * Specifies whether to trim, remove, or keep special characters before sorting.
    */
   specialCharacters?: ("remove" | "trim" | "keep")
   /**
@@ -7250,7 +7565,7 @@ export type PerfectionistSortEnums = []|[{
    */
   ignoreCase?: boolean
   /**
-   * Alphabet to use for the `custom` sort type.
+   * Used only when the `type` option is set to `'custom'`. Specifies the custom alphabet for sorting.
    */
   alphabet?: string
   /**
@@ -7258,22 +7573,18 @@ export type PerfectionistSortEnums = []|[{
    */
   locales?: (string | string[])
   /**
-   * Determines whether the sorted items should be in ascending or descending order.
+   * Specifies whether to sort items in ascending or descending order.
    */
   order?: ("asc" | "desc")
   /**
    * Specifies the sorting method.
    */
   type?: ("alphabetical" | "natural" | "line-length" | "custom" | "unsorted")
-  /**
-   * Will always sort numeric enums by their value regardless of the sort type specified.
-   */
-  forceNumericSort?: boolean
   customGroups?: ({
     [k: string]: (string | string[]) | undefined
   } | ({
     /**
-     * Specifies how new lines should be handled between members of the custom group.
+     * Specifies how to handle new lines between members of the custom group.
      */
     newlinesInside?: ("always" | "never")
     /**
@@ -7281,21 +7592,20 @@ export type PerfectionistSortEnums = []|[{
      */
     fallbackSort?: {
       /**
-       * Determines whether the sorted items should be in ascending or descending order.
+       * Specifies whether to sort items in ascending or descending order.
        */
       order?: ("asc" | "desc")
       /**
        * Specifies the sorting method.
        */
       type?: ("alphabetical" | "natural" | "line-length" | "custom" | "unsorted")
-      [k: string]: unknown | undefined
     }
     /**
      * Custom group name.
      */
-    groupName?: string
+    groupName: string
     /**
-     * Determines whether the sorted items should be in ascending or descending order.
+     * Specifies whether to sort items in ascending or descending order.
      */
     order?: ("asc" | "desc")
     /**
@@ -7307,26 +7617,50 @@ export type PerfectionistSortEnums = []|[{
        * Regular expression.
        */
       elementValuePattern?: (({
-        pattern?: string
+        /**
+         * Regular expression pattern.
+         */
+        pattern: string
+        /**
+         * Regular expression flags.
+         */
         flags?: string
       } | string)[] | ({
-        pattern?: string
+        /**
+         * Regular expression pattern.
+         */
+        pattern: string
+        /**
+         * Regular expression flags.
+         */
         flags?: string
       } | string))
       /**
        * Regular expression.
        */
       elementNamePattern?: (({
-        pattern?: string
+        /**
+         * Regular expression pattern.
+         */
+        pattern: string
+        /**
+         * Regular expression flags.
+         */
         flags?: string
       } | string)[] | ({
-        pattern?: string
+        /**
+         * Regular expression pattern.
+         */
+        pattern: string
+        /**
+         * Regular expression flags.
+         */
         flags?: string
       } | string))
     }[]
   } | {
     /**
-     * Specifies how new lines should be handled between members of the custom group.
+     * Specifies how to handle new lines between members of the custom group.
      */
     newlinesInside?: ("always" | "never")
     /**
@@ -7334,21 +7668,20 @@ export type PerfectionistSortEnums = []|[{
      */
     fallbackSort?: {
       /**
-       * Determines whether the sorted items should be in ascending or descending order.
+       * Specifies whether to sort items in ascending or descending order.
        */
       order?: ("asc" | "desc")
       /**
        * Specifies the sorting method.
        */
       type?: ("alphabetical" | "natural" | "line-length" | "custom" | "unsorted")
-      [k: string]: unknown | undefined
     }
     /**
      * Custom group name.
      */
-    groupName?: string
+    groupName: string
     /**
-     * Determines whether the sorted items should be in ascending or descending order.
+     * Specifies whether to sort items in ascending or descending order.
      */
     order?: ("asc" | "desc")
     /**
@@ -7359,68 +7692,142 @@ export type PerfectionistSortEnums = []|[{
      * Regular expression.
      */
     elementValuePattern?: (({
-      pattern?: string
+      /**
+       * Regular expression pattern.
+       */
+      pattern: string
+      /**
+       * Regular expression flags.
+       */
       flags?: string
     } | string)[] | ({
-      pattern?: string
+      /**
+       * Regular expression pattern.
+       */
+      pattern: string
+      /**
+       * Regular expression flags.
+       */
       flags?: string
     } | string))
     /**
      * Regular expression.
      */
     elementNamePattern?: (({
-      pattern?: string
+      /**
+       * Regular expression pattern.
+       */
+      pattern: string
+      /**
+       * Regular expression flags.
+       */
       flags?: string
     } | string)[] | ({
-      pattern?: string
+      /**
+       * Regular expression pattern.
+       */
+      pattern: string
+      /**
+       * Regular expression flags.
+       */
       flags?: string
     } | string))
   })[])
+  /**
+   * Will always sort numeric enums by their value regardless of the sort type specified.
+   */
+  forceNumericSort?: boolean
   /**
    * Compare enum values instead of names.
    */
   sortByValue?: boolean
   /**
-   * Allows to use comments to separate members into logical groups.
+   * Enables the use of comments to separate the nodes into logical groups.
    */
   partitionByComment?: (boolean | (({
-    pattern?: string
+    /**
+     * Regular expression pattern.
+     */
+    pattern: string
+    /**
+     * Regular expression flags.
+     */
     flags?: string
   } | string)[] | ({
-    pattern?: string
+    /**
+     * Regular expression pattern.
+     */
+    pattern: string
+    /**
+     * Regular expression flags.
+     */
     flags?: string
   } | string)) | {
+    /**
+     * Enables specific block comments to separate the nodes.
+     */
     block?: (boolean | (({
-      pattern?: string
+      /**
+       * Regular expression pattern.
+       */
+      pattern: string
+      /**
+       * Regular expression flags.
+       */
       flags?: string
     } | string)[] | ({
-      pattern?: string
+      /**
+       * Regular expression pattern.
+       */
+      pattern: string
+      /**
+       * Regular expression flags.
+       */
       flags?: string
     } | string)))
+    /**
+     * Enables specific line comments to separate the nodes.
+     */
     line?: (boolean | (({
-      pattern?: string
+      /**
+       * Regular expression pattern.
+       */
+      pattern: string
+      /**
+       * Regular expression flags.
+       */
       flags?: string
     } | string)[] | ({
-      pattern?: string
+      /**
+       * Regular expression pattern.
+       */
+      pattern: string
+      /**
+       * Regular expression flags.
+       */
       flags?: string
     } | string)))
   })
   /**
-   * Allows to use newlines to separate the nodes into logical groups.
+   * Enables the use of newlines to separate the nodes into logical groups.
    */
   partitionByNewLine?: boolean
   /**
-   * Specifies how new lines should be handled between groups.
+   * Specifies how to handle new lines between groups.
    */
   newlinesBetween?: ("ignore" | "always" | "never")
   /**
-   * Specifies the order of the groups.
+   * Specifies a list of groups for sorting.
    */
   groups?: (string | string[] | {
     /**
-     * Specifies how new lines should be handled between groups.
+     * Specifies how to handle new lines between groups.
      */
     newlinesBetween?: ("ignore" | "always" | "never")
+    /**
+     * Specifies a comment to enforce above the group.
+     */
+    commentAbove?: string
   })[]
 }]
 
@@ -7430,17 +7837,16 @@ export type PerfectionistSortExports = {
    */
   fallbackSort?: {
     /**
-     * Determines whether the sorted items should be in ascending or descending order.
+     * Specifies whether to sort items in ascending or descending order.
      */
     order?: ("asc" | "desc")
     /**
      * Specifies the sorting method.
      */
     type?: ("alphabetical" | "natural" | "line-length" | "custom" | "unsorted")
-    [k: string]: unknown | undefined
   }
   /**
-   * Controls how special characters should be handled before sorting.
+   * Specifies whether to trim, remove, or keep special characters before sorting.
    */
   specialCharacters?: ("remove" | "trim" | "keep")
   /**
@@ -7448,7 +7854,7 @@ export type PerfectionistSortExports = {
    */
   ignoreCase?: boolean
   /**
-   * Alphabet to use for the `custom` sort type.
+   * Used only when the `type` option is set to `'custom'`. Specifies the custom alphabet for sorting.
    */
   alphabet?: string
   /**
@@ -7456,7 +7862,7 @@ export type PerfectionistSortExports = {
    */
   locales?: (string | string[])
   /**
-   * Determines whether the sorted items should be in ascending or descending order.
+   * Specifies whether to sort items in ascending or descending order.
    */
   order?: ("asc" | "desc")
   /**
@@ -7468,11 +7874,11 @@ export type PerfectionistSortExports = {
    */
   groupKind?: ("mixed" | "values-first" | "types-first")
   /**
-   * Specifies custom groups.
+   * Defines custom groups to match specific members.
    */
   customGroups?: ({
     /**
-     * Specifies how new lines should be handled between members of the custom group.
+     * Specifies how to handle new lines between members of the custom group.
      */
     newlinesInside?: ("always" | "never")
     /**
@@ -7480,21 +7886,20 @@ export type PerfectionistSortExports = {
      */
     fallbackSort?: {
       /**
-       * Determines whether the sorted items should be in ascending or descending order.
+       * Specifies whether to sort items in ascending or descending order.
        */
       order?: ("asc" | "desc")
       /**
        * Specifies the sorting method.
        */
       type?: ("alphabetical" | "natural" | "line-length" | "custom" | "unsorted")
-      [k: string]: unknown | undefined
     }
     /**
      * Custom group name.
      */
-    groupName?: string
+    groupName: string
     /**
-     * Determines whether the sorted items should be in ascending or descending order.
+     * Specifies whether to sort items in ascending or descending order.
      */
     order?: ("asc" | "desc")
     /**
@@ -7514,16 +7919,28 @@ export type PerfectionistSortExports = {
        * Regular expression.
        */
       elementNamePattern?: (({
-        pattern?: string
+        /**
+         * Regular expression pattern.
+         */
+        pattern: string
+        /**
+         * Regular expression flags.
+         */
         flags?: string
       } | string)[] | ({
-        pattern?: string
+        /**
+         * Regular expression pattern.
+         */
+        pattern: string
+        /**
+         * Regular expression flags.
+         */
         flags?: string
       } | string))
     }[]
   } | {
     /**
-     * Specifies how new lines should be handled between members of the custom group.
+     * Specifies how to handle new lines between members of the custom group.
      */
     newlinesInside?: ("always" | "never")
     /**
@@ -7531,21 +7948,20 @@ export type PerfectionistSortExports = {
      */
     fallbackSort?: {
       /**
-       * Determines whether the sorted items should be in ascending or descending order.
+       * Specifies whether to sort items in ascending or descending order.
        */
       order?: ("asc" | "desc")
       /**
        * Specifies the sorting method.
        */
       type?: ("alphabetical" | "natural" | "line-length" | "custom" | "unsorted")
-      [k: string]: unknown | undefined
     }
     /**
      * Custom group name.
      */
-    groupName?: string
+    groupName: string
     /**
-     * Determines whether the sorted items should be in ascending or descending order.
+     * Specifies whether to sort items in ascending or descending order.
      */
     order?: ("asc" | "desc")
     /**
@@ -7564,54 +7980,112 @@ export type PerfectionistSortExports = {
      * Regular expression.
      */
     elementNamePattern?: (({
-      pattern?: string
+      /**
+       * Regular expression pattern.
+       */
+      pattern: string
+      /**
+       * Regular expression flags.
+       */
       flags?: string
     } | string)[] | ({
-      pattern?: string
+      /**
+       * Regular expression pattern.
+       */
+      pattern: string
+      /**
+       * Regular expression flags.
+       */
       flags?: string
     } | string))
   })[]
   /**
-   * Allows to use comments to separate members into logical groups.
+   * Enables the use of comments to separate the nodes into logical groups.
    */
   partitionByComment?: (boolean | (({
-    pattern?: string
+    /**
+     * Regular expression pattern.
+     */
+    pattern: string
+    /**
+     * Regular expression flags.
+     */
     flags?: string
   } | string)[] | ({
-    pattern?: string
+    /**
+     * Regular expression pattern.
+     */
+    pattern: string
+    /**
+     * Regular expression flags.
+     */
     flags?: string
   } | string)) | {
+    /**
+     * Enables specific block comments to separate the nodes.
+     */
     block?: (boolean | (({
-      pattern?: string
+      /**
+       * Regular expression pattern.
+       */
+      pattern: string
+      /**
+       * Regular expression flags.
+       */
       flags?: string
     } | string)[] | ({
-      pattern?: string
+      /**
+       * Regular expression pattern.
+       */
+      pattern: string
+      /**
+       * Regular expression flags.
+       */
       flags?: string
     } | string)))
+    /**
+     * Enables specific line comments to separate the nodes.
+     */
     line?: (boolean | (({
-      pattern?: string
+      /**
+       * Regular expression pattern.
+       */
+      pattern: string
+      /**
+       * Regular expression flags.
+       */
       flags?: string
     } | string)[] | ({
-      pattern?: string
+      /**
+       * Regular expression pattern.
+       */
+      pattern: string
+      /**
+       * Regular expression flags.
+       */
       flags?: string
     } | string)))
   })
   /**
-   * Allows to use newlines to separate the nodes into logical groups.
+   * Enables the use of newlines to separate the nodes into logical groups.
    */
   partitionByNewLine?: boolean
   /**
-   * Specifies how new lines should be handled between groups.
+   * Specifies how to handle new lines between groups.
    */
   newlinesBetween?: ("ignore" | "always" | "never")
   /**
-   * Specifies the order of the groups.
+   * Specifies a list of groups for sorting.
    */
   groups?: (string | string[] | {
     /**
-     * Specifies how new lines should be handled between groups.
+     * Specifies how to handle new lines between groups.
      */
     newlinesBetween?: ("ignore" | "always" | "never")
+    /**
+     * Specifies a comment to enforce above the group.
+     */
+    commentAbove?: string
   })[]
 }[]
 
@@ -7621,17 +8095,16 @@ export type PerfectionistSortHeritageClauses = []|[{
    */
   fallbackSort?: {
     /**
-     * Determines whether the sorted items should be in ascending or descending order.
+     * Specifies whether to sort items in ascending or descending order.
      */
     order?: ("asc" | "desc")
     /**
      * Specifies the sorting method.
      */
     type?: ("alphabetical" | "natural" | "line-length" | "custom" | "unsorted")
-    [k: string]: unknown | undefined
   }
   /**
-   * Controls how special characters should be handled before sorting.
+   * Specifies whether to trim, remove, or keep special characters before sorting.
    */
   specialCharacters?: ("remove" | "trim" | "keep")
   /**
@@ -7639,7 +8112,7 @@ export type PerfectionistSortHeritageClauses = []|[{
    */
   ignoreCase?: boolean
   /**
-   * Alphabet to use for the `custom` sort type.
+   * Used only when the `type` option is set to `'custom'`. Specifies the custom alphabet for sorting.
    */
   alphabet?: string
   /**
@@ -7647,7 +8120,7 @@ export type PerfectionistSortHeritageClauses = []|[{
    */
   locales?: (string | string[])
   /**
-   * Determines whether the sorted items should be in ascending or descending order.
+   * Specifies whether to sort items in ascending or descending order.
    */
   order?: ("asc" | "desc")
   /**
@@ -7661,43 +8134,36 @@ export type PerfectionistSortHeritageClauses = []|[{
     [k: string]: (string | string[]) | undefined
   }
   /**
-   * Specifies the order of the groups.
+   * Specifies a list of groups for sorting.
    */
   groups?: (string | string[] | {
     /**
-     * Specifies how new lines should be handled between groups.
+     * Specifies how to handle new lines between groups.
      */
     newlinesBetween?: ("ignore" | "always" | "never")
+    /**
+     * Specifies a comment to enforce above the group.
+     */
+    commentAbove?: string
   })[]
 }]
 
-export type _PerfectionistSortImportsMaxLineLengthRequiresLineLengthType = ({
-  [k: string]: unknown | undefined
-} | _PerfectionistSortImports_IsLineLength)
-export type _PerfectionistSortImportsSortImports = _PerfectionistSortImportsMaxLineLengthRequiresLineLengthType[]
-
-export interface _PerfectionistSortImports_IsLineLength {
-  type: "line-length"
-  [k: string]: unknown | undefined
-}
-
-export type PerfectionistSortInterfaces = {
+export type PerfectionistSortImports = {
   /**
    * Fallback sort order.
    */
   fallbackSort?: {
     /**
-     * Determines whether the sorted items should be in ascending or descending order.
+     * Specifies whether to sort items in ascending or descending order.
      */
     order?: ("asc" | "desc")
     /**
      * Specifies the sorting method.
      */
     type?: ("alphabetical" | "natural" | "line-length" | "custom" | "unsorted")
-    [k: string]: unknown | undefined
   }
   /**
-   * Controls how special characters should be handled before sorting.
+   * Specifies whether to trim, remove, or keep special characters before sorting.
    */
   specialCharacters?: ("remove" | "trim" | "keep")
   /**
@@ -7705,7 +8171,7 @@ export type PerfectionistSortInterfaces = {
    */
   ignoreCase?: boolean
   /**
-   * Alphabet to use for the `custom` sort type.
+   * Used only when the `type` option is set to `'custom'`. Specifies the custom alphabet for sorting.
    */
   alphabet?: string
   /**
@@ -7713,7 +8179,364 @@ export type PerfectionistSortInterfaces = {
    */
   locales?: (string | string[])
   /**
-   * Determines whether the sorted items should be in ascending or descending order.
+   * Specifies whether to sort items in ascending or descending order.
+   */
+  order?: ("asc" | "desc")
+  /**
+   * Specifies the sorting method.
+   */
+  type?: ("alphabetical" | "natural" | "line-length" | "custom" | "unsorted")
+  customGroups?: ({
+    /**
+     * Specifies custom groups for value imports.
+     */
+    value?: {
+      [k: string]: (string | string[]) | undefined
+    }
+    /**
+     * Specifies custom groups for type imports.
+     */
+    type?: {
+      [k: string]: (string | string[]) | undefined
+    }
+  } | ({
+    /**
+     * Specifies how to handle new lines between members of the custom group.
+     */
+    newlinesInside?: ("always" | "never")
+    /**
+     * Fallback sort order.
+     */
+    fallbackSort?: {
+      /**
+       * Specifies whether to sort items in ascending or descending order.
+       */
+      order?: ("asc" | "desc")
+      /**
+       * Specifies the sorting method.
+       */
+      type?: ("alphabetical" | "natural" | "line-length" | "custom" | "unsorted")
+    }
+    /**
+     * Custom group name.
+     */
+    groupName: string
+    /**
+     * Specifies whether to sort items in ascending or descending order.
+     */
+    order?: ("asc" | "desc")
+    /**
+     * Specifies the sorting method.
+     */
+    type?: ("alphabetical" | "natural" | "line-length" | "custom" | "unsorted")
+    anyOf?: {
+      /**
+       * Modifier filters.
+       */
+      modifiers?: ("default" | "named" | "require" | "side-effect" | "ts-equals" | "type" | "value" | "wildcard")[]
+      /**
+       * Selector filter.
+       */
+      selector?: ("side-effect-style" | "tsconfig-path" | "side-effect" | "external" | "internal" | "builtin" | "sibling" | "subpath" | "import" | "parent" | "index" | "style" | "type")
+      /**
+       * Regular expression.
+       */
+      elementValuePattern?: (({
+        /**
+         * Regular expression pattern.
+         */
+        pattern: string
+        /**
+         * Regular expression flags.
+         */
+        flags?: string
+      } | string)[] | ({
+        /**
+         * Regular expression pattern.
+         */
+        pattern: string
+        /**
+         * Regular expression flags.
+         */
+        flags?: string
+      } | string))
+      /**
+       * Regular expression.
+       */
+      elementNamePattern?: (({
+        /**
+         * Regular expression pattern.
+         */
+        pattern: string
+        /**
+         * Regular expression flags.
+         */
+        flags?: string
+      } | string)[] | ({
+        /**
+         * Regular expression pattern.
+         */
+        pattern: string
+        /**
+         * Regular expression flags.
+         */
+        flags?: string
+      } | string))
+    }[]
+  } | {
+    /**
+     * Specifies how to handle new lines between members of the custom group.
+     */
+    newlinesInside?: ("always" | "never")
+    /**
+     * Fallback sort order.
+     */
+    fallbackSort?: {
+      /**
+       * Specifies whether to sort items in ascending or descending order.
+       */
+      order?: ("asc" | "desc")
+      /**
+       * Specifies the sorting method.
+       */
+      type?: ("alphabetical" | "natural" | "line-length" | "custom" | "unsorted")
+    }
+    /**
+     * Custom group name.
+     */
+    groupName: string
+    /**
+     * Specifies whether to sort items in ascending or descending order.
+     */
+    order?: ("asc" | "desc")
+    /**
+     * Specifies the sorting method.
+     */
+    type?: ("alphabetical" | "natural" | "line-length" | "custom" | "unsorted")
+    /**
+     * Modifier filters.
+     */
+    modifiers?: ("default" | "named" | "require" | "side-effect" | "ts-equals" | "type" | "value" | "wildcard")[]
+    /**
+     * Selector filter.
+     */
+    selector?: ("side-effect-style" | "tsconfig-path" | "side-effect" | "external" | "internal" | "builtin" | "sibling" | "subpath" | "import" | "parent" | "index" | "style" | "type")
+    /**
+     * Regular expression.
+     */
+    elementValuePattern?: (({
+      /**
+       * Regular expression pattern.
+       */
+      pattern: string
+      /**
+       * Regular expression flags.
+       */
+      flags?: string
+    } | string)[] | ({
+      /**
+       * Regular expression pattern.
+       */
+      pattern: string
+      /**
+       * Regular expression flags.
+       */
+      flags?: string
+    } | string))
+    /**
+     * Regular expression.
+     */
+    elementNamePattern?: (({
+      /**
+       * Regular expression pattern.
+       */
+      pattern: string
+      /**
+       * Regular expression flags.
+       */
+      flags?: string
+    } | string)[] | ({
+      /**
+       * Regular expression pattern.
+       */
+      pattern: string
+      /**
+       * Regular expression flags.
+       */
+      flags?: string
+    } | string))
+  })[])
+  tsconfig?: {
+    /**
+     * Specifies the tsConfig root directory.
+     */
+    rootDir: string
+    /**
+     * Specifies the tsConfig filename.
+     */
+    filename?: string
+  }
+  /**
+   * Specifies the maximum line length.
+   */
+  maxLineLength?: number
+  /**
+   * Controls whether side-effect imports should be sorted.
+   */
+  sortSideEffects?: boolean
+  /**
+   * Specifies the environment.
+   */
+  environment?: ("node" | "bun")
+  /**
+   * Specifies the tsConfig root directory.
+   */
+  tsconfigRootDir?: string
+  /**
+   * Enables the use of comments to separate the nodes into logical groups.
+   */
+  partitionByComment?: (boolean | (({
+    /**
+     * Regular expression pattern.
+     */
+    pattern: string
+    /**
+     * Regular expression flags.
+     */
+    flags?: string
+  } | string)[] | ({
+    /**
+     * Regular expression pattern.
+     */
+    pattern: string
+    /**
+     * Regular expression flags.
+     */
+    flags?: string
+  } | string)) | {
+    /**
+     * Enables specific block comments to separate the nodes.
+     */
+    block?: (boolean | (({
+      /**
+       * Regular expression pattern.
+       */
+      pattern: string
+      /**
+       * Regular expression flags.
+       */
+      flags?: string
+    } | string)[] | ({
+      /**
+       * Regular expression pattern.
+       */
+      pattern: string
+      /**
+       * Regular expression flags.
+       */
+      flags?: string
+    } | string)))
+    /**
+     * Enables specific line comments to separate the nodes.
+     */
+    line?: (boolean | (({
+      /**
+       * Regular expression pattern.
+       */
+      pattern: string
+      /**
+       * Regular expression flags.
+       */
+      flags?: string
+    } | string)[] | ({
+      /**
+       * Regular expression pattern.
+       */
+      pattern: string
+      /**
+       * Regular expression flags.
+       */
+      flags?: string
+    } | string)))
+  })
+  /**
+   * Enables the use of newlines to separate the nodes into logical groups.
+   */
+  partitionByNewLine?: boolean
+  /**
+   * Specifies how to handle new lines between groups.
+   */
+  newlinesBetween?: ("ignore" | "always" | "never")
+  /**
+   * Regular expression.
+   */
+  internalPattern?: (({
+    /**
+     * Regular expression pattern.
+     */
+    pattern: string
+    /**
+     * Regular expression flags.
+     */
+    flags?: string
+  } | string)[] | ({
+    /**
+     * Regular expression pattern.
+     */
+    pattern: string
+    /**
+     * Regular expression flags.
+     */
+    flags?: string
+  } | string))
+  /**
+   * Specifies a list of groups for sorting.
+   */
+  groups?: (string | string[] | {
+    /**
+     * Specifies how to handle new lines between groups.
+     */
+    newlinesBetween?: ("ignore" | "always" | "never")
+    /**
+     * Specifies a comment to enforce above the group.
+     */
+    commentAbove?: string
+  })[]
+}[]
+
+export type PerfectionistSortInterfaces = {
+  /**
+   * Fallback sort order.
+   */
+  fallbackSort?: {
+    /**
+     * Specifies whether to sort items in ascending or descending order.
+     */
+    order?: ("asc" | "desc")
+    /**
+     * Specifies the sorting method.
+     */
+    type?: ("alphabetical" | "natural" | "line-length" | "custom" | "unsorted")
+    sortBy?: ("name" | "value")
+  }
+  /**
+   * Specifies whether to trim, remove, or keep special characters before sorting.
+   */
+  specialCharacters?: ("remove" | "trim" | "keep")
+  /**
+   * Controls whether sorting should be case-sensitive or not.
+   */
+  ignoreCase?: boolean
+  /**
+   * Used only when the `type` option is set to `'custom'`. Specifies the custom alphabet for sorting.
+   */
+  alphabet?: string
+  /**
+   * Specifies the sorting locales.
+   */
+  locales?: (string | string[])
+  /**
+   * Specifies whether to sort items in ascending or descending order.
    */
   order?: ("asc" | "desc")
   /**
@@ -7724,7 +8547,7 @@ export type PerfectionistSortInterfaces = {
     [k: string]: (string | string[]) | undefined
   } | ({
     /**
-     * Specifies how new lines should be handled between members of the custom group.
+     * Specifies how to handle new lines between members of the custom group.
      */
     newlinesInside?: ("always" | "never")
     /**
@@ -7732,7 +8555,7 @@ export type PerfectionistSortInterfaces = {
      */
     fallbackSort?: {
       /**
-       * Determines whether the sorted items should be in ascending or descending order.
+       * Specifies whether to sort items in ascending or descending order.
        */
       order?: ("asc" | "desc")
       /**
@@ -7740,14 +8563,13 @@ export type PerfectionistSortInterfaces = {
        */
       type?: ("alphabetical" | "natural" | "line-length" | "custom" | "unsorted")
       sortBy?: ("name" | "value")
-      [k: string]: unknown | undefined
     }
     /**
      * Custom group name.
      */
-    groupName?: string
+    groupName: string
     /**
-     * Determines whether the sorted items should be in ascending or descending order.
+     * Specifies whether to sort items in ascending or descending order.
      */
     order?: ("asc" | "desc")
     /**
@@ -7767,27 +8589,51 @@ export type PerfectionistSortInterfaces = {
        * Regular expression.
        */
       elementValuePattern?: (({
-        pattern?: string
+        /**
+         * Regular expression pattern.
+         */
+        pattern: string
+        /**
+         * Regular expression flags.
+         */
         flags?: string
       } | string)[] | ({
-        pattern?: string
+        /**
+         * Regular expression pattern.
+         */
+        pattern: string
+        /**
+         * Regular expression flags.
+         */
         flags?: string
       } | string))
       /**
        * Regular expression.
        */
       elementNamePattern?: (({
-        pattern?: string
+        /**
+         * Regular expression pattern.
+         */
+        pattern: string
+        /**
+         * Regular expression flags.
+         */
         flags?: string
       } | string)[] | ({
-        pattern?: string
+        /**
+         * Regular expression pattern.
+         */
+        pattern: string
+        /**
+         * Regular expression flags.
+         */
         flags?: string
       } | string))
       sortBy?: ("name" | "value")
     }[]
   } | {
     /**
-     * Specifies how new lines should be handled between members of the custom group.
+     * Specifies how to handle new lines between members of the custom group.
      */
     newlinesInside?: ("always" | "never")
     /**
@@ -7795,7 +8641,7 @@ export type PerfectionistSortInterfaces = {
      */
     fallbackSort?: {
       /**
-       * Determines whether the sorted items should be in ascending or descending order.
+       * Specifies whether to sort items in ascending or descending order.
        */
       order?: ("asc" | "desc")
       /**
@@ -7803,14 +8649,13 @@ export type PerfectionistSortInterfaces = {
        */
       type?: ("alphabetical" | "natural" | "line-length" | "custom" | "unsorted")
       sortBy?: ("name" | "value")
-      [k: string]: unknown | undefined
     }
     /**
      * Custom group name.
      */
-    groupName?: string
+    groupName: string
     /**
-     * Determines whether the sorted items should be in ascending or descending order.
+     * Specifies whether to sort items in ascending or descending order.
      */
     order?: ("asc" | "desc")
     /**
@@ -7829,20 +8674,44 @@ export type PerfectionistSortInterfaces = {
      * Regular expression.
      */
     elementValuePattern?: (({
-      pattern?: string
+      /**
+       * Regular expression pattern.
+       */
+      pattern: string
+      /**
+       * Regular expression flags.
+       */
       flags?: string
     } | string)[] | ({
-      pattern?: string
+      /**
+       * Regular expression pattern.
+       */
+      pattern: string
+      /**
+       * Regular expression flags.
+       */
       flags?: string
     } | string))
     /**
      * Regular expression.
      */
     elementNamePattern?: (({
-      pattern?: string
+      /**
+       * Regular expression pattern.
+       */
+      pattern: string
+      /**
+       * Regular expression flags.
+       */
       flags?: string
     } | string)[] | ({
-      pattern?: string
+      /**
+       * Regular expression pattern.
+       */
+      pattern: string
+      /**
+       * Regular expression flags.
+       */
       flags?: string
     } | string))
     sortBy?: ("name" | "value")
@@ -7851,100 +8720,184 @@ export type PerfectionistSortInterfaces = {
    * [DEPRECATED] Specifies top-level groups.
    */
   groupKind?: ("mixed" | "required-first" | "optional-first")
+  /**
+   * Specifies filters to match a particular options configuration for a given element to sort.
+   */
   useConfigurationIf?: {
     /**
      * Regular expression.
      */
     allNamesMatchPattern?: (({
-      pattern?: string
+      /**
+       * Regular expression pattern.
+       */
+      pattern: string
+      /**
+       * Regular expression flags.
+       */
       flags?: string
     } | string)[] | ({
-      pattern?: string
+      /**
+       * Regular expression pattern.
+       */
+      pattern: string
+      /**
+       * Regular expression flags.
+       */
       flags?: string
     } | string))
     /**
      * Regular expression.
      */
     declarationMatchesPattern?: (({
-      pattern?: string
+      /**
+       * Regular expression pattern.
+       */
+      pattern: string
+      /**
+       * Regular expression flags.
+       */
       flags?: string
     } | string)[] | ({
-      pattern?: string
+      /**
+       * Regular expression pattern.
+       */
+      pattern: string
+      /**
+       * Regular expression flags.
+       */
       flags?: string
     } | string))
   }
   /**
-   * Allows to use comments to separate members into logical groups.
+   * Enables the use of comments to separate the nodes into logical groups.
    */
   partitionByComment?: (boolean | (({
-    pattern?: string
+    /**
+     * Regular expression pattern.
+     */
+    pattern: string
+    /**
+     * Regular expression flags.
+     */
     flags?: string
   } | string)[] | ({
-    pattern?: string
+    /**
+     * Regular expression pattern.
+     */
+    pattern: string
+    /**
+     * Regular expression flags.
+     */
     flags?: string
   } | string)) | {
+    /**
+     * Enables specific block comments to separate the nodes.
+     */
     block?: (boolean | (({
-      pattern?: string
+      /**
+       * Regular expression pattern.
+       */
+      pattern: string
+      /**
+       * Regular expression flags.
+       */
       flags?: string
     } | string)[] | ({
-      pattern?: string
+      /**
+       * Regular expression pattern.
+       */
+      pattern: string
+      /**
+       * Regular expression flags.
+       */
       flags?: string
     } | string)))
+    /**
+     * Enables specific line comments to separate the nodes.
+     */
     line?: (boolean | (({
-      pattern?: string
+      /**
+       * Regular expression pattern.
+       */
+      pattern: string
+      /**
+       * Regular expression flags.
+       */
       flags?: string
     } | string)[] | ({
-      pattern?: string
+      /**
+       * Regular expression pattern.
+       */
+      pattern: string
+      /**
+       * Regular expression flags.
+       */
       flags?: string
     } | string)))
   })
   /**
-   * Allows to use newlines to separate the nodes into logical groups.
+   * Enables the use of newlines to separate the nodes into logical groups.
    */
   partitionByNewLine?: boolean
   /**
-   * Specifies how new lines should be handled between groups.
+   * Specifies how to handle new lines between groups.
    */
   newlinesBetween?: ("ignore" | "always" | "never")
   /**
    * Regular expression.
    */
   ignorePattern?: (({
-    pattern?: string
+    /**
+     * Regular expression pattern.
+     */
+    pattern: string
+    /**
+     * Regular expression flags.
+     */
     flags?: string
   } | string)[] | ({
-    pattern?: string
+    /**
+     * Regular expression pattern.
+     */
+    pattern: string
+    /**
+     * Regular expression flags.
+     */
     flags?: string
   } | string))
   sortBy?: ("name" | "value")
   /**
-   * Specifies the order of the groups.
+   * Specifies a list of groups for sorting.
    */
   groups?: (string | string[] | {
     /**
-     * Specifies how new lines should be handled between groups.
+     * Specifies how to handle new lines between groups.
      */
     newlinesBetween?: ("ignore" | "always" | "never")
+    /**
+     * Specifies a comment to enforce above the group.
+     */
+    commentAbove?: string
   })[]
 }[]
 
-export type PerfectionistSortIntersectionTypes = []|[{
+export type PerfectionistSortIntersectionTypes = {
   /**
    * Fallback sort order.
    */
   fallbackSort?: {
     /**
-     * Determines whether the sorted items should be in ascending or descending order.
+     * Specifies whether to sort items in ascending or descending order.
      */
     order?: ("asc" | "desc")
     /**
      * Specifies the sorting method.
      */
     type?: ("alphabetical" | "natural" | "line-length" | "custom" | "unsorted")
-    [k: string]: unknown | undefined
   }
   /**
-   * Controls how special characters should be handled before sorting.
+   * Specifies whether to trim, remove, or keep special characters before sorting.
    */
   specialCharacters?: ("remove" | "trim" | "keep")
   /**
@@ -7952,7 +8905,7 @@ export type PerfectionistSortIntersectionTypes = []|[{
    */
   ignoreCase?: boolean
   /**
-   * Alphabet to use for the `custom` sort type.
+   * Used only when the `type` option is set to `'custom'`. Specifies the custom alphabet for sorting.
    */
   alphabet?: string
   /**
@@ -7960,7 +8913,7 @@ export type PerfectionistSortIntersectionTypes = []|[{
    */
   locales?: (string | string[])
   /**
-   * Determines whether the sorted items should be in ascending or descending order.
+   * Specifies whether to sort items in ascending or descending order.
    */
   order?: ("asc" | "desc")
   /**
@@ -7968,48 +8921,212 @@ export type PerfectionistSortIntersectionTypes = []|[{
    */
   type?: ("alphabetical" | "natural" | "line-length" | "custom" | "unsorted")
   /**
-   * Allows to use comments to separate members into logical groups.
+   * Defines custom groups to match specific members.
+   */
+  customGroups?: ({
+    /**
+     * Specifies how to handle new lines between members of the custom group.
+     */
+    newlinesInside?: ("always" | "never")
+    /**
+     * Fallback sort order.
+     */
+    fallbackSort?: {
+      /**
+       * Specifies whether to sort items in ascending or descending order.
+       */
+      order?: ("asc" | "desc")
+      /**
+       * Specifies the sorting method.
+       */
+      type?: ("alphabetical" | "natural" | "line-length" | "custom" | "unsorted")
+    }
+    /**
+     * Custom group name.
+     */
+    groupName: string
+    /**
+     * Specifies whether to sort items in ascending or descending order.
+     */
+    order?: ("asc" | "desc")
+    /**
+     * Specifies the sorting method.
+     */
+    type?: ("alphabetical" | "natural" | "line-length" | "custom" | "unsorted")
+    anyOf?: {
+      /**
+       * Selector filter.
+       */
+      selector?: ("intersection" | "conditional" | "function" | "operator" | "keyword" | "literal" | "nullish" | "import" | "object" | "named" | "tuple" | "union")
+      /**
+       * Regular expression.
+       */
+      elementNamePattern?: (({
+        /**
+         * Regular expression pattern.
+         */
+        pattern: string
+        /**
+         * Regular expression flags.
+         */
+        flags?: string
+      } | string)[] | ({
+        /**
+         * Regular expression pattern.
+         */
+        pattern: string
+        /**
+         * Regular expression flags.
+         */
+        flags?: string
+      } | string))
+    }[]
+  } | {
+    /**
+     * Specifies how to handle new lines between members of the custom group.
+     */
+    newlinesInside?: ("always" | "never")
+    /**
+     * Fallback sort order.
+     */
+    fallbackSort?: {
+      /**
+       * Specifies whether to sort items in ascending or descending order.
+       */
+      order?: ("asc" | "desc")
+      /**
+       * Specifies the sorting method.
+       */
+      type?: ("alphabetical" | "natural" | "line-length" | "custom" | "unsorted")
+    }
+    /**
+     * Custom group name.
+     */
+    groupName: string
+    /**
+     * Specifies whether to sort items in ascending or descending order.
+     */
+    order?: ("asc" | "desc")
+    /**
+     * Specifies the sorting method.
+     */
+    type?: ("alphabetical" | "natural" | "line-length" | "custom" | "unsorted")
+    /**
+     * Selector filter.
+     */
+    selector?: ("intersection" | "conditional" | "function" | "operator" | "keyword" | "literal" | "nullish" | "import" | "object" | "named" | "tuple" | "union")
+    /**
+     * Regular expression.
+     */
+    elementNamePattern?: (({
+      /**
+       * Regular expression pattern.
+       */
+      pattern: string
+      /**
+       * Regular expression flags.
+       */
+      flags?: string
+    } | string)[] | ({
+      /**
+       * Regular expression pattern.
+       */
+      pattern: string
+      /**
+       * Regular expression flags.
+       */
+      flags?: string
+    } | string))
+  })[]
+  /**
+   * Enables the use of comments to separate the nodes into logical groups.
    */
   partitionByComment?: (boolean | (({
-    pattern?: string
+    /**
+     * Regular expression pattern.
+     */
+    pattern: string
+    /**
+     * Regular expression flags.
+     */
     flags?: string
   } | string)[] | ({
-    pattern?: string
+    /**
+     * Regular expression pattern.
+     */
+    pattern: string
+    /**
+     * Regular expression flags.
+     */
     flags?: string
   } | string)) | {
+    /**
+     * Enables specific block comments to separate the nodes.
+     */
     block?: (boolean | (({
-      pattern?: string
+      /**
+       * Regular expression pattern.
+       */
+      pattern: string
+      /**
+       * Regular expression flags.
+       */
       flags?: string
     } | string)[] | ({
-      pattern?: string
+      /**
+       * Regular expression pattern.
+       */
+      pattern: string
+      /**
+       * Regular expression flags.
+       */
       flags?: string
     } | string)))
+    /**
+     * Enables specific line comments to separate the nodes.
+     */
     line?: (boolean | (({
-      pattern?: string
+      /**
+       * Regular expression pattern.
+       */
+      pattern: string
+      /**
+       * Regular expression flags.
+       */
       flags?: string
     } | string)[] | ({
-      pattern?: string
+      /**
+       * Regular expression pattern.
+       */
+      pattern: string
+      /**
+       * Regular expression flags.
+       */
       flags?: string
     } | string)))
   })
   /**
-   * Allows to use newlines to separate the nodes into logical groups.
+   * Enables the use of newlines to separate the nodes into logical groups.
    */
   partitionByNewLine?: boolean
   /**
-   * Specifies how new lines should be handled between groups.
+   * Specifies how to handle new lines between groups.
    */
   newlinesBetween?: ("ignore" | "always" | "never")
   /**
-   * Specifies the order of the groups.
+   * Specifies a list of groups for sorting.
    */
   groups?: (string | string[] | {
     /**
-     * Specifies how new lines should be handled between groups.
+     * Specifies how to handle new lines between groups.
      */
     newlinesBetween?: ("ignore" | "always" | "never")
+    /**
+     * Specifies a comment to enforce above the group.
+     */
+    commentAbove?: string
   })[]
-}]
+}[]
 
 export type PerfectionistSortJsxProps = {
   /**
@@ -8017,17 +9134,16 @@ export type PerfectionistSortJsxProps = {
    */
   fallbackSort?: {
     /**
-     * Determines whether the sorted items should be in ascending or descending order.
+     * Specifies whether to sort items in ascending or descending order.
      */
     order?: ("asc" | "desc")
     /**
      * Specifies the sorting method.
      */
     type?: ("alphabetical" | "natural" | "line-length" | "custom" | "unsorted")
-    [k: string]: unknown | undefined
   }
   /**
-   * Controls how special characters should be handled before sorting.
+   * Specifies whether to trim, remove, or keep special characters before sorting.
    */
   specialCharacters?: ("remove" | "trim" | "keep")
   /**
@@ -8035,7 +9151,7 @@ export type PerfectionistSortJsxProps = {
    */
   ignoreCase?: boolean
   /**
-   * Alphabet to use for the `custom` sort type.
+   * Used only when the `type` option is set to `'custom'`. Specifies the custom alphabet for sorting.
    */
   alphabet?: string
   /**
@@ -8043,7 +9159,7 @@ export type PerfectionistSortJsxProps = {
    */
   locales?: (string | string[])
   /**
-   * Determines whether the sorted items should be in ascending or descending order.
+   * Specifies whether to sort items in ascending or descending order.
    */
   order?: ("asc" | "desc")
   /**
@@ -8054,7 +9170,7 @@ export type PerfectionistSortJsxProps = {
     [k: string]: (string | string[]) | undefined
   } | ({
     /**
-     * Specifies how new lines should be handled between members of the custom group.
+     * Specifies how to handle new lines between members of the custom group.
      */
     newlinesInside?: ("always" | "never")
     /**
@@ -8062,21 +9178,20 @@ export type PerfectionistSortJsxProps = {
      */
     fallbackSort?: {
       /**
-       * Determines whether the sorted items should be in ascending or descending order.
+       * Specifies whether to sort items in ascending or descending order.
        */
       order?: ("asc" | "desc")
       /**
        * Specifies the sorting method.
        */
       type?: ("alphabetical" | "natural" | "line-length" | "custom" | "unsorted")
-      [k: string]: unknown | undefined
     }
     /**
      * Custom group name.
      */
-    groupName?: string
+    groupName: string
     /**
-     * Determines whether the sorted items should be in ascending or descending order.
+     * Specifies whether to sort items in ascending or descending order.
      */
     order?: ("asc" | "desc")
     /**
@@ -8096,26 +9211,50 @@ export type PerfectionistSortJsxProps = {
        * Regular expression.
        */
       elementValuePattern?: (({
-        pattern?: string
+        /**
+         * Regular expression pattern.
+         */
+        pattern: string
+        /**
+         * Regular expression flags.
+         */
         flags?: string
       } | string)[] | ({
-        pattern?: string
+        /**
+         * Regular expression pattern.
+         */
+        pattern: string
+        /**
+         * Regular expression flags.
+         */
         flags?: string
       } | string))
       /**
        * Regular expression.
        */
       elementNamePattern?: (({
-        pattern?: string
+        /**
+         * Regular expression pattern.
+         */
+        pattern: string
+        /**
+         * Regular expression flags.
+         */
         flags?: string
       } | string)[] | ({
-        pattern?: string
+        /**
+         * Regular expression pattern.
+         */
+        pattern: string
+        /**
+         * Regular expression flags.
+         */
         flags?: string
       } | string))
     }[]
   } | {
     /**
-     * Specifies how new lines should be handled between members of the custom group.
+     * Specifies how to handle new lines between members of the custom group.
      */
     newlinesInside?: ("always" | "never")
     /**
@@ -8123,21 +9262,20 @@ export type PerfectionistSortJsxProps = {
      */
     fallbackSort?: {
       /**
-       * Determines whether the sorted items should be in ascending or descending order.
+       * Specifies whether to sort items in ascending or descending order.
        */
       order?: ("asc" | "desc")
       /**
        * Specifies the sorting method.
        */
       type?: ("alphabetical" | "natural" | "line-length" | "custom" | "unsorted")
-      [k: string]: unknown | undefined
     }
     /**
      * Custom group name.
      */
-    groupName?: string
+    groupName: string
     /**
-     * Determines whether the sorted items should be in ascending or descending order.
+     * Specifies whether to sort items in ascending or descending order.
      */
     order?: ("asc" | "desc")
     /**
@@ -8156,71 +9294,138 @@ export type PerfectionistSortJsxProps = {
      * Regular expression.
      */
     elementValuePattern?: (({
-      pattern?: string
+      /**
+       * Regular expression pattern.
+       */
+      pattern: string
+      /**
+       * Regular expression flags.
+       */
       flags?: string
     } | string)[] | ({
-      pattern?: string
+      /**
+       * Regular expression pattern.
+       */
+      pattern: string
+      /**
+       * Regular expression flags.
+       */
       flags?: string
     } | string))
     /**
      * Regular expression.
      */
     elementNamePattern?: (({
-      pattern?: string
+      /**
+       * Regular expression pattern.
+       */
+      pattern: string
+      /**
+       * Regular expression flags.
+       */
       flags?: string
     } | string)[] | ({
-      pattern?: string
+      /**
+       * Regular expression pattern.
+       */
+      pattern: string
+      /**
+       * Regular expression flags.
+       */
       flags?: string
     } | string))
   })[])
+  /**
+   * Specifies filters to match a particular options configuration for a given element to sort.
+   */
   useConfigurationIf?: {
     /**
      * Regular expression.
      */
     allNamesMatchPattern?: (({
-      pattern?: string
+      /**
+       * Regular expression pattern.
+       */
+      pattern: string
+      /**
+       * Regular expression flags.
+       */
       flags?: string
     } | string)[] | ({
-      pattern?: string
+      /**
+       * Regular expression pattern.
+       */
+      pattern: string
+      /**
+       * Regular expression flags.
+       */
       flags?: string
     } | string))
     /**
      * Regular expression.
      */
     tagMatchesPattern?: (({
-      pattern?: string
+      /**
+       * Regular expression pattern.
+       */
+      pattern: string
+      /**
+       * Regular expression flags.
+       */
       flags?: string
     } | string)[] | ({
-      pattern?: string
+      /**
+       * Regular expression pattern.
+       */
+      pattern: string
+      /**
+       * Regular expression flags.
+       */
       flags?: string
     } | string))
   }
   /**
-   * Allows to use newlines to separate the nodes into logical groups.
+   * Enables the use of newlines to separate the nodes into logical groups.
    */
   partitionByNewLine?: boolean
   /**
-   * Specifies how new lines should be handled between groups.
+   * Specifies how to handle new lines between groups.
    */
   newlinesBetween?: ("ignore" | "always" | "never")
   /**
    * Regular expression.
    */
   ignorePattern?: (({
-    pattern?: string
+    /**
+     * Regular expression pattern.
+     */
+    pattern: string
+    /**
+     * Regular expression flags.
+     */
     flags?: string
   } | string)[] | ({
-    pattern?: string
+    /**
+     * Regular expression pattern.
+     */
+    pattern: string
+    /**
+     * Regular expression flags.
+     */
     flags?: string
   } | string))
   /**
-   * Specifies the order of the groups.
+   * Specifies a list of groups for sorting.
    */
   groups?: (string | string[] | {
     /**
-     * Specifies how new lines should be handled between groups.
+     * Specifies how to handle new lines between groups.
      */
     newlinesBetween?: ("ignore" | "always" | "never")
+    /**
+     * Specifies a comment to enforce above the group.
+     */
+    commentAbove?: string
   })[]
 }[]
 
@@ -8230,17 +9435,16 @@ export type PerfectionistSortMaps = {
    */
   fallbackSort?: {
     /**
-     * Determines whether the sorted items should be in ascending or descending order.
+     * Specifies whether to sort items in ascending or descending order.
      */
     order?: ("asc" | "desc")
     /**
      * Specifies the sorting method.
      */
     type?: ("alphabetical" | "natural" | "line-length" | "custom" | "unsorted")
-    [k: string]: unknown | undefined
   }
   /**
-   * Controls how special characters should be handled before sorting.
+   * Specifies whether to trim, remove, or keep special characters before sorting.
    */
   specialCharacters?: ("remove" | "trim" | "keep")
   /**
@@ -8248,7 +9452,7 @@ export type PerfectionistSortMaps = {
    */
   ignoreCase?: boolean
   /**
-   * Alphabet to use for the `custom` sort type.
+   * Used only when the `type` option is set to `'custom'`. Specifies the custom alphabet for sorting.
    */
   alphabet?: string
   /**
@@ -8256,7 +9460,7 @@ export type PerfectionistSortMaps = {
    */
   locales?: (string | string[])
   /**
-   * Determines whether the sorted items should be in ascending or descending order.
+   * Specifies whether to sort items in ascending or descending order.
    */
   order?: ("asc" | "desc")
   /**
@@ -8264,11 +9468,11 @@ export type PerfectionistSortMaps = {
    */
   type?: ("alphabetical" | "natural" | "line-length" | "custom" | "unsorted")
   /**
-   * Specifies custom groups.
+   * Defines custom groups to match specific members.
    */
   customGroups?: ({
     /**
-     * Specifies how new lines should be handled between members of the custom group.
+     * Specifies how to handle new lines between members of the custom group.
      */
     newlinesInside?: ("always" | "never")
     /**
@@ -8276,21 +9480,20 @@ export type PerfectionistSortMaps = {
      */
     fallbackSort?: {
       /**
-       * Determines whether the sorted items should be in ascending or descending order.
+       * Specifies whether to sort items in ascending or descending order.
        */
       order?: ("asc" | "desc")
       /**
        * Specifies the sorting method.
        */
       type?: ("alphabetical" | "natural" | "line-length" | "custom" | "unsorted")
-      [k: string]: unknown | undefined
     }
     /**
      * Custom group name.
      */
-    groupName?: string
+    groupName: string
     /**
-     * Determines whether the sorted items should be in ascending or descending order.
+     * Specifies whether to sort items in ascending or descending order.
      */
     order?: ("asc" | "desc")
     /**
@@ -8302,16 +9505,28 @@ export type PerfectionistSortMaps = {
        * Regular expression.
        */
       elementNamePattern?: (({
-        pattern?: string
+        /**
+         * Regular expression pattern.
+         */
+        pattern: string
+        /**
+         * Regular expression flags.
+         */
         flags?: string
       } | string)[] | ({
-        pattern?: string
+        /**
+         * Regular expression pattern.
+         */
+        pattern: string
+        /**
+         * Regular expression flags.
+         */
         flags?: string
       } | string))
     }[]
   } | {
     /**
-     * Specifies how new lines should be handled between members of the custom group.
+     * Specifies how to handle new lines between members of the custom group.
      */
     newlinesInside?: ("always" | "never")
     /**
@@ -8319,21 +9534,20 @@ export type PerfectionistSortMaps = {
      */
     fallbackSort?: {
       /**
-       * Determines whether the sorted items should be in ascending or descending order.
+       * Specifies whether to sort items in ascending or descending order.
        */
       order?: ("asc" | "desc")
       /**
        * Specifies the sorting method.
        */
       type?: ("alphabetical" | "natural" | "line-length" | "custom" | "unsorted")
-      [k: string]: unknown | undefined
     }
     /**
      * Custom group name.
      */
-    groupName?: string
+    groupName: string
     /**
-     * Determines whether the sorted items should be in ascending or descending order.
+     * Specifies whether to sort items in ascending or descending order.
      */
     order?: ("asc" | "desc")
     /**
@@ -8344,66 +9558,139 @@ export type PerfectionistSortMaps = {
      * Regular expression.
      */
     elementNamePattern?: (({
-      pattern?: string
+      /**
+       * Regular expression pattern.
+       */
+      pattern: string
+      /**
+       * Regular expression flags.
+       */
       flags?: string
     } | string)[] | ({
-      pattern?: string
+      /**
+       * Regular expression pattern.
+       */
+      pattern: string
+      /**
+       * Regular expression flags.
+       */
       flags?: string
     } | string))
   })[]
+  /**
+   * Specifies filters to match a particular options configuration for a given element to sort.
+   */
   useConfigurationIf?: {
     /**
      * Regular expression.
      */
     allNamesMatchPattern?: (({
-      pattern?: string
+      /**
+       * Regular expression pattern.
+       */
+      pattern: string
+      /**
+       * Regular expression flags.
+       */
       flags?: string
     } | string)[] | ({
-      pattern?: string
+      /**
+       * Regular expression pattern.
+       */
+      pattern: string
+      /**
+       * Regular expression flags.
+       */
       flags?: string
     } | string))
   }
   /**
-   * Allows to use comments to separate members into logical groups.
+   * Enables the use of comments to separate the nodes into logical groups.
    */
   partitionByComment?: (boolean | (({
-    pattern?: string
+    /**
+     * Regular expression pattern.
+     */
+    pattern: string
+    /**
+     * Regular expression flags.
+     */
     flags?: string
   } | string)[] | ({
-    pattern?: string
+    /**
+     * Regular expression pattern.
+     */
+    pattern: string
+    /**
+     * Regular expression flags.
+     */
     flags?: string
   } | string)) | {
+    /**
+     * Enables specific block comments to separate the nodes.
+     */
     block?: (boolean | (({
-      pattern?: string
+      /**
+       * Regular expression pattern.
+       */
+      pattern: string
+      /**
+       * Regular expression flags.
+       */
       flags?: string
     } | string)[] | ({
-      pattern?: string
+      /**
+       * Regular expression pattern.
+       */
+      pattern: string
+      /**
+       * Regular expression flags.
+       */
       flags?: string
     } | string)))
+    /**
+     * Enables specific line comments to separate the nodes.
+     */
     line?: (boolean | (({
-      pattern?: string
+      /**
+       * Regular expression pattern.
+       */
+      pattern: string
+      /**
+       * Regular expression flags.
+       */
       flags?: string
     } | string)[] | ({
-      pattern?: string
+      /**
+       * Regular expression pattern.
+       */
+      pattern: string
+      /**
+       * Regular expression flags.
+       */
       flags?: string
     } | string)))
   })
   /**
-   * Allows to use newlines to separate the nodes into logical groups.
+   * Enables the use of newlines to separate the nodes into logical groups.
    */
   partitionByNewLine?: boolean
   /**
-   * Specifies how new lines should be handled between groups.
+   * Specifies how to handle new lines between groups.
    */
   newlinesBetween?: ("ignore" | "always" | "never")
   /**
-   * Specifies the order of the groups.
+   * Specifies a list of groups for sorting.
    */
   groups?: (string | string[] | {
     /**
-     * Specifies how new lines should be handled between groups.
+     * Specifies how to handle new lines between groups.
      */
     newlinesBetween?: ("ignore" | "always" | "never")
+    /**
+     * Specifies a comment to enforce above the group.
+     */
+    commentAbove?: string
   })[]
 }[]
 
@@ -8413,17 +9700,16 @@ export type PerfectionistSortModules = []|[{
    */
   fallbackSort?: {
     /**
-     * Determines whether the sorted items should be in ascending or descending order.
+     * Specifies whether to sort items in ascending or descending order.
      */
     order?: ("asc" | "desc")
     /**
      * Specifies the sorting method.
      */
     type?: ("alphabetical" | "natural" | "line-length" | "custom" | "unsorted")
-    [k: string]: unknown | undefined
   }
   /**
-   * Controls how special characters should be handled before sorting.
+   * Specifies whether to trim, remove, or keep special characters before sorting.
    */
   specialCharacters?: ("remove" | "trim" | "keep")
   /**
@@ -8431,7 +9717,7 @@ export type PerfectionistSortModules = []|[{
    */
   ignoreCase?: boolean
   /**
-   * Alphabet to use for the `custom` sort type.
+   * Used only when the `type` option is set to `'custom'`. Specifies the custom alphabet for sorting.
    */
   alphabet?: string
   /**
@@ -8439,7 +9725,7 @@ export type PerfectionistSortModules = []|[{
    */
   locales?: (string | string[])
   /**
-   * Determines whether the sorted items should be in ascending or descending order.
+   * Specifies whether to sort items in ascending or descending order.
    */
   order?: ("asc" | "desc")
   /**
@@ -8447,11 +9733,11 @@ export type PerfectionistSortModules = []|[{
    */
   type?: ("alphabetical" | "natural" | "line-length" | "custom" | "unsorted")
   /**
-   * Specifies custom groups.
+   * Defines custom groups to match specific members.
    */
   customGroups?: ({
     /**
-     * Specifies how new lines should be handled between members of the custom group.
+     * Specifies how to handle new lines between members of the custom group.
      */
     newlinesInside?: ("always" | "never")
     /**
@@ -8459,21 +9745,20 @@ export type PerfectionistSortModules = []|[{
      */
     fallbackSort?: {
       /**
-       * Determines whether the sorted items should be in ascending or descending order.
+       * Specifies whether to sort items in ascending or descending order.
        */
       order?: ("asc" | "desc")
       /**
        * Specifies the sorting method.
        */
       type?: ("alphabetical" | "natural" | "line-length" | "custom" | "unsorted")
-      [k: string]: unknown | undefined
     }
     /**
      * Custom group name.
      */
-    groupName?: string
+    groupName: string
     /**
-     * Determines whether the sorted items should be in ascending or descending order.
+     * Specifies whether to sort items in ascending or descending order.
      */
     order?: ("asc" | "desc")
     /**
@@ -8493,26 +9778,50 @@ export type PerfectionistSortModules = []|[{
        * Regular expression.
        */
       decoratorNamePattern?: (({
-        pattern?: string
+        /**
+         * Regular expression pattern.
+         */
+        pattern: string
+        /**
+         * Regular expression flags.
+         */
         flags?: string
       } | string)[] | ({
-        pattern?: string
+        /**
+         * Regular expression pattern.
+         */
+        pattern: string
+        /**
+         * Regular expression flags.
+         */
         flags?: string
       } | string))
       /**
        * Regular expression.
        */
       elementNamePattern?: (({
-        pattern?: string
+        /**
+         * Regular expression pattern.
+         */
+        pattern: string
+        /**
+         * Regular expression flags.
+         */
         flags?: string
       } | string)[] | ({
-        pattern?: string
+        /**
+         * Regular expression pattern.
+         */
+        pattern: string
+        /**
+         * Regular expression flags.
+         */
         flags?: string
       } | string))
     }[]
   } | {
     /**
-     * Specifies how new lines should be handled between members of the custom group.
+     * Specifies how to handle new lines between members of the custom group.
      */
     newlinesInside?: ("always" | "never")
     /**
@@ -8520,21 +9829,20 @@ export type PerfectionistSortModules = []|[{
      */
     fallbackSort?: {
       /**
-       * Determines whether the sorted items should be in ascending or descending order.
+       * Specifies whether to sort items in ascending or descending order.
        */
       order?: ("asc" | "desc")
       /**
        * Specifies the sorting method.
        */
       type?: ("alphabetical" | "natural" | "line-length" | "custom" | "unsorted")
-      [k: string]: unknown | undefined
     }
     /**
      * Custom group name.
      */
-    groupName?: string
+    groupName: string
     /**
-     * Determines whether the sorted items should be in ascending or descending order.
+     * Specifies whether to sort items in ascending or descending order.
      */
     order?: ("asc" | "desc")
     /**
@@ -8553,64 +9861,134 @@ export type PerfectionistSortModules = []|[{
      * Regular expression.
      */
     decoratorNamePattern?: (({
-      pattern?: string
+      /**
+       * Regular expression pattern.
+       */
+      pattern: string
+      /**
+       * Regular expression flags.
+       */
       flags?: string
     } | string)[] | ({
-      pattern?: string
+      /**
+       * Regular expression pattern.
+       */
+      pattern: string
+      /**
+       * Regular expression flags.
+       */
       flags?: string
     } | string))
     /**
      * Regular expression.
      */
     elementNamePattern?: (({
-      pattern?: string
+      /**
+       * Regular expression pattern.
+       */
+      pattern: string
+      /**
+       * Regular expression flags.
+       */
       flags?: string
     } | string)[] | ({
-      pattern?: string
+      /**
+       * Regular expression pattern.
+       */
+      pattern: string
+      /**
+       * Regular expression flags.
+       */
       flags?: string
     } | string))
   })[]
   /**
-   * Allows to use comments to separate members into logical groups.
+   * Enables the use of comments to separate the nodes into logical groups.
    */
   partitionByComment?: (boolean | (({
-    pattern?: string
+    /**
+     * Regular expression pattern.
+     */
+    pattern: string
+    /**
+     * Regular expression flags.
+     */
     flags?: string
   } | string)[] | ({
-    pattern?: string
+    /**
+     * Regular expression pattern.
+     */
+    pattern: string
+    /**
+     * Regular expression flags.
+     */
     flags?: string
   } | string)) | {
+    /**
+     * Enables specific block comments to separate the nodes.
+     */
     block?: (boolean | (({
-      pattern?: string
+      /**
+       * Regular expression pattern.
+       */
+      pattern: string
+      /**
+       * Regular expression flags.
+       */
       flags?: string
     } | string)[] | ({
-      pattern?: string
+      /**
+       * Regular expression pattern.
+       */
+      pattern: string
+      /**
+       * Regular expression flags.
+       */
       flags?: string
     } | string)))
+    /**
+     * Enables specific line comments to separate the nodes.
+     */
     line?: (boolean | (({
-      pattern?: string
+      /**
+       * Regular expression pattern.
+       */
+      pattern: string
+      /**
+       * Regular expression flags.
+       */
       flags?: string
     } | string)[] | ({
-      pattern?: string
+      /**
+       * Regular expression pattern.
+       */
+      pattern: string
+      /**
+       * Regular expression flags.
+       */
       flags?: string
     } | string)))
   })
   /**
-   * Allows to use newlines to separate the nodes into logical groups.
+   * Enables the use of newlines to separate the nodes into logical groups.
    */
   partitionByNewLine?: boolean
   /**
-   * Specifies how new lines should be handled between groups.
+   * Specifies how to handle new lines between groups.
    */
   newlinesBetween?: ("ignore" | "always" | "never")
   /**
-   * Specifies the order of the groups.
+   * Specifies a list of groups for sorting.
    */
   groups?: (string | string[] | {
     /**
-     * Specifies how new lines should be handled between groups.
+     * Specifies how to handle new lines between groups.
      */
     newlinesBetween?: ("ignore" | "always" | "never")
+    /**
+     * Specifies a comment to enforce above the group.
+     */
+    commentAbove?: string
   })[]
 }]
 
@@ -8620,17 +9998,16 @@ export type PerfectionistSortNamedExports = {
    */
   fallbackSort?: {
     /**
-     * Determines whether the sorted items should be in ascending or descending order.
+     * Specifies whether to sort items in ascending or descending order.
      */
     order?: ("asc" | "desc")
     /**
      * Specifies the sorting method.
      */
     type?: ("alphabetical" | "natural" | "line-length" | "custom" | "unsorted")
-    [k: string]: unknown | undefined
   }
   /**
-   * Controls how special characters should be handled before sorting.
+   * Specifies whether to trim, remove, or keep special characters before sorting.
    */
   specialCharacters?: ("remove" | "trim" | "keep")
   /**
@@ -8638,7 +10015,7 @@ export type PerfectionistSortNamedExports = {
    */
   ignoreCase?: boolean
   /**
-   * Alphabet to use for the `custom` sort type.
+   * Used only when the `type` option is set to `'custom'`. Specifies the custom alphabet for sorting.
    */
   alphabet?: string
   /**
@@ -8646,7 +10023,7 @@ export type PerfectionistSortNamedExports = {
    */
   locales?: (string | string[])
   /**
-   * Determines whether the sorted items should be in ascending or descending order.
+   * Specifies whether to sort items in ascending or descending order.
    */
   order?: ("asc" | "desc")
   /**
@@ -8662,11 +10039,11 @@ export type PerfectionistSortNamedExports = {
    */
   ignoreAlias?: boolean
   /**
-   * Specifies custom groups.
+   * Defines custom groups to match specific members.
    */
   customGroups?: ({
     /**
-     * Specifies how new lines should be handled between members of the custom group.
+     * Specifies how to handle new lines between members of the custom group.
      */
     newlinesInside?: ("always" | "never")
     /**
@@ -8674,21 +10051,20 @@ export type PerfectionistSortNamedExports = {
      */
     fallbackSort?: {
       /**
-       * Determines whether the sorted items should be in ascending or descending order.
+       * Specifies whether to sort items in ascending or descending order.
        */
       order?: ("asc" | "desc")
       /**
        * Specifies the sorting method.
        */
       type?: ("alphabetical" | "natural" | "line-length" | "custom" | "unsorted")
-      [k: string]: unknown | undefined
     }
     /**
      * Custom group name.
      */
-    groupName?: string
+    groupName: string
     /**
-     * Determines whether the sorted items should be in ascending or descending order.
+     * Specifies whether to sort items in ascending or descending order.
      */
     order?: ("asc" | "desc")
     /**
@@ -8708,16 +10084,28 @@ export type PerfectionistSortNamedExports = {
        * Regular expression.
        */
       elementNamePattern?: (({
-        pattern?: string
+        /**
+         * Regular expression pattern.
+         */
+        pattern: string
+        /**
+         * Regular expression flags.
+         */
         flags?: string
       } | string)[] | ({
-        pattern?: string
+        /**
+         * Regular expression pattern.
+         */
+        pattern: string
+        /**
+         * Regular expression flags.
+         */
         flags?: string
       } | string))
     }[]
   } | {
     /**
-     * Specifies how new lines should be handled between members of the custom group.
+     * Specifies how to handle new lines between members of the custom group.
      */
     newlinesInside?: ("always" | "never")
     /**
@@ -8725,21 +10113,20 @@ export type PerfectionistSortNamedExports = {
      */
     fallbackSort?: {
       /**
-       * Determines whether the sorted items should be in ascending or descending order.
+       * Specifies whether to sort items in ascending or descending order.
        */
       order?: ("asc" | "desc")
       /**
        * Specifies the sorting method.
        */
       type?: ("alphabetical" | "natural" | "line-length" | "custom" | "unsorted")
-      [k: string]: unknown | undefined
     }
     /**
      * Custom group name.
      */
-    groupName?: string
+    groupName: string
     /**
-     * Determines whether the sorted items should be in ascending or descending order.
+     * Specifies whether to sort items in ascending or descending order.
      */
     order?: ("asc" | "desc")
     /**
@@ -8758,54 +10145,112 @@ export type PerfectionistSortNamedExports = {
      * Regular expression.
      */
     elementNamePattern?: (({
-      pattern?: string
+      /**
+       * Regular expression pattern.
+       */
+      pattern: string
+      /**
+       * Regular expression flags.
+       */
       flags?: string
     } | string)[] | ({
-      pattern?: string
+      /**
+       * Regular expression pattern.
+       */
+      pattern: string
+      /**
+       * Regular expression flags.
+       */
       flags?: string
     } | string))
   })[]
   /**
-   * Allows to use comments to separate members into logical groups.
+   * Enables the use of comments to separate the nodes into logical groups.
    */
   partitionByComment?: (boolean | (({
-    pattern?: string
+    /**
+     * Regular expression pattern.
+     */
+    pattern: string
+    /**
+     * Regular expression flags.
+     */
     flags?: string
   } | string)[] | ({
-    pattern?: string
+    /**
+     * Regular expression pattern.
+     */
+    pattern: string
+    /**
+     * Regular expression flags.
+     */
     flags?: string
   } | string)) | {
+    /**
+     * Enables specific block comments to separate the nodes.
+     */
     block?: (boolean | (({
-      pattern?: string
+      /**
+       * Regular expression pattern.
+       */
+      pattern: string
+      /**
+       * Regular expression flags.
+       */
       flags?: string
     } | string)[] | ({
-      pattern?: string
+      /**
+       * Regular expression pattern.
+       */
+      pattern: string
+      /**
+       * Regular expression flags.
+       */
       flags?: string
     } | string)))
+    /**
+     * Enables specific line comments to separate the nodes.
+     */
     line?: (boolean | (({
-      pattern?: string
+      /**
+       * Regular expression pattern.
+       */
+      pattern: string
+      /**
+       * Regular expression flags.
+       */
       flags?: string
     } | string)[] | ({
-      pattern?: string
+      /**
+       * Regular expression pattern.
+       */
+      pattern: string
+      /**
+       * Regular expression flags.
+       */
       flags?: string
     } | string)))
   })
   /**
-   * Allows to use newlines to separate the nodes into logical groups.
+   * Enables the use of newlines to separate the nodes into logical groups.
    */
   partitionByNewLine?: boolean
   /**
-   * Specifies how new lines should be handled between groups.
+   * Specifies how to handle new lines between groups.
    */
   newlinesBetween?: ("ignore" | "always" | "never")
   /**
-   * Specifies the order of the groups.
+   * Specifies a list of groups for sorting.
    */
   groups?: (string | string[] | {
     /**
-     * Specifies how new lines should be handled between groups.
+     * Specifies how to handle new lines between groups.
      */
     newlinesBetween?: ("ignore" | "always" | "never")
+    /**
+     * Specifies a comment to enforce above the group.
+     */
+    commentAbove?: string
   })[]
 }[]
 
@@ -8815,17 +10260,16 @@ export type PerfectionistSortNamedImports = {
    */
   fallbackSort?: {
     /**
-     * Determines whether the sorted items should be in ascending or descending order.
+     * Specifies whether to sort items in ascending or descending order.
      */
     order?: ("asc" | "desc")
     /**
      * Specifies the sorting method.
      */
     type?: ("alphabetical" | "natural" | "line-length" | "custom" | "unsorted")
-    [k: string]: unknown | undefined
   }
   /**
-   * Controls how special characters should be handled before sorting.
+   * Specifies whether to trim, remove, or keep special characters before sorting.
    */
   specialCharacters?: ("remove" | "trim" | "keep")
   /**
@@ -8833,7 +10277,7 @@ export type PerfectionistSortNamedImports = {
    */
   ignoreCase?: boolean
   /**
-   * Alphabet to use for the `custom` sort type.
+   * Used only when the `type` option is set to `'custom'`. Specifies the custom alphabet for sorting.
    */
   alphabet?: string
   /**
@@ -8841,7 +10285,7 @@ export type PerfectionistSortNamedImports = {
    */
   locales?: (string | string[])
   /**
-   * Determines whether the sorted items should be in ascending or descending order.
+   * Specifies whether to sort items in ascending or descending order.
    */
   order?: ("asc" | "desc")
   /**
@@ -8857,11 +10301,11 @@ export type PerfectionistSortNamedImports = {
    */
   ignoreAlias?: boolean
   /**
-   * Specifies custom groups.
+   * Defines custom groups to match specific members.
    */
   customGroups?: ({
     /**
-     * Specifies how new lines should be handled between members of the custom group.
+     * Specifies how to handle new lines between members of the custom group.
      */
     newlinesInside?: ("always" | "never")
     /**
@@ -8869,21 +10313,20 @@ export type PerfectionistSortNamedImports = {
      */
     fallbackSort?: {
       /**
-       * Determines whether the sorted items should be in ascending or descending order.
+       * Specifies whether to sort items in ascending or descending order.
        */
       order?: ("asc" | "desc")
       /**
        * Specifies the sorting method.
        */
       type?: ("alphabetical" | "natural" | "line-length" | "custom" | "unsorted")
-      [k: string]: unknown | undefined
     }
     /**
      * Custom group name.
      */
-    groupName?: string
+    groupName: string
     /**
-     * Determines whether the sorted items should be in ascending or descending order.
+     * Specifies whether to sort items in ascending or descending order.
      */
     order?: ("asc" | "desc")
     /**
@@ -8903,16 +10346,28 @@ export type PerfectionistSortNamedImports = {
        * Regular expression.
        */
       elementNamePattern?: (({
-        pattern?: string
+        /**
+         * Regular expression pattern.
+         */
+        pattern: string
+        /**
+         * Regular expression flags.
+         */
         flags?: string
       } | string)[] | ({
-        pattern?: string
+        /**
+         * Regular expression pattern.
+         */
+        pattern: string
+        /**
+         * Regular expression flags.
+         */
         flags?: string
       } | string))
     }[]
   } | {
     /**
-     * Specifies how new lines should be handled between members of the custom group.
+     * Specifies how to handle new lines between members of the custom group.
      */
     newlinesInside?: ("always" | "never")
     /**
@@ -8920,21 +10375,20 @@ export type PerfectionistSortNamedImports = {
      */
     fallbackSort?: {
       /**
-       * Determines whether the sorted items should be in ascending or descending order.
+       * Specifies whether to sort items in ascending or descending order.
        */
       order?: ("asc" | "desc")
       /**
        * Specifies the sorting method.
        */
       type?: ("alphabetical" | "natural" | "line-length" | "custom" | "unsorted")
-      [k: string]: unknown | undefined
     }
     /**
      * Custom group name.
      */
-    groupName?: string
+    groupName: string
     /**
-     * Determines whether the sorted items should be in ascending or descending order.
+     * Specifies whether to sort items in ascending or descending order.
      */
     order?: ("asc" | "desc")
     /**
@@ -8953,54 +10407,112 @@ export type PerfectionistSortNamedImports = {
      * Regular expression.
      */
     elementNamePattern?: (({
-      pattern?: string
+      /**
+       * Regular expression pattern.
+       */
+      pattern: string
+      /**
+       * Regular expression flags.
+       */
       flags?: string
     } | string)[] | ({
-      pattern?: string
+      /**
+       * Regular expression pattern.
+       */
+      pattern: string
+      /**
+       * Regular expression flags.
+       */
       flags?: string
     } | string))
   })[]
   /**
-   * Allows to use comments to separate members into logical groups.
+   * Enables the use of comments to separate the nodes into logical groups.
    */
   partitionByComment?: (boolean | (({
-    pattern?: string
+    /**
+     * Regular expression pattern.
+     */
+    pattern: string
+    /**
+     * Regular expression flags.
+     */
     flags?: string
   } | string)[] | ({
-    pattern?: string
+    /**
+     * Regular expression pattern.
+     */
+    pattern: string
+    /**
+     * Regular expression flags.
+     */
     flags?: string
   } | string)) | {
+    /**
+     * Enables specific block comments to separate the nodes.
+     */
     block?: (boolean | (({
-      pattern?: string
+      /**
+       * Regular expression pattern.
+       */
+      pattern: string
+      /**
+       * Regular expression flags.
+       */
       flags?: string
     } | string)[] | ({
-      pattern?: string
+      /**
+       * Regular expression pattern.
+       */
+      pattern: string
+      /**
+       * Regular expression flags.
+       */
       flags?: string
     } | string)))
+    /**
+     * Enables specific line comments to separate the nodes.
+     */
     line?: (boolean | (({
-      pattern?: string
+      /**
+       * Regular expression pattern.
+       */
+      pattern: string
+      /**
+       * Regular expression flags.
+       */
       flags?: string
     } | string)[] | ({
-      pattern?: string
+      /**
+       * Regular expression pattern.
+       */
+      pattern: string
+      /**
+       * Regular expression flags.
+       */
       flags?: string
     } | string)))
   })
   /**
-   * Allows to use newlines to separate the nodes into logical groups.
+   * Enables the use of newlines to separate the nodes into logical groups.
    */
   partitionByNewLine?: boolean
   /**
-   * Specifies how new lines should be handled between groups.
+   * Specifies how to handle new lines between groups.
    */
   newlinesBetween?: ("ignore" | "always" | "never")
   /**
-   * Specifies the order of the groups.
+   * Specifies a list of groups for sorting.
    */
   groups?: (string | string[] | {
     /**
-     * Specifies how new lines should be handled between groups.
+     * Specifies how to handle new lines between groups.
      */
     newlinesBetween?: ("ignore" | "always" | "never")
+    /**
+     * Specifies a comment to enforce above the group.
+     */
+    commentAbove?: string
   })[]
 }[]
 
@@ -9010,17 +10522,17 @@ export type PerfectionistSortObjectTypes = {
    */
   fallbackSort?: {
     /**
-     * Determines whether the sorted items should be in ascending or descending order.
+     * Specifies whether to sort items in ascending or descending order.
      */
     order?: ("asc" | "desc")
     /**
      * Specifies the sorting method.
      */
     type?: ("alphabetical" | "natural" | "line-length" | "custom" | "unsorted")
-    [k: string]: unknown | undefined
+    sortBy?: ("name" | "value")
   }
   /**
-   * Controls how special characters should be handled before sorting.
+   * Specifies whether to trim, remove, or keep special characters before sorting.
    */
   specialCharacters?: ("remove" | "trim" | "keep")
   /**
@@ -9028,7 +10540,7 @@ export type PerfectionistSortObjectTypes = {
    */
   ignoreCase?: boolean
   /**
-   * Alphabet to use for the `custom` sort type.
+   * Used only when the `type` option is set to `'custom'`. Specifies the custom alphabet for sorting.
    */
   alphabet?: string
   /**
@@ -9036,7 +10548,7 @@ export type PerfectionistSortObjectTypes = {
    */
   locales?: (string | string[])
   /**
-   * Determines whether the sorted items should be in ascending or descending order.
+   * Specifies whether to sort items in ascending or descending order.
    */
   order?: ("asc" | "desc")
   /**
@@ -9047,7 +10559,7 @@ export type PerfectionistSortObjectTypes = {
     [k: string]: (string | string[]) | undefined
   } | ({
     /**
-     * Specifies how new lines should be handled between members of the custom group.
+     * Specifies how to handle new lines between members of the custom group.
      */
     newlinesInside?: ("always" | "never")
     /**
@@ -9055,7 +10567,7 @@ export type PerfectionistSortObjectTypes = {
      */
     fallbackSort?: {
       /**
-       * Determines whether the sorted items should be in ascending or descending order.
+       * Specifies whether to sort items in ascending or descending order.
        */
       order?: ("asc" | "desc")
       /**
@@ -9063,14 +10575,13 @@ export type PerfectionistSortObjectTypes = {
        */
       type?: ("alphabetical" | "natural" | "line-length" | "custom" | "unsorted")
       sortBy?: ("name" | "value")
-      [k: string]: unknown | undefined
     }
     /**
      * Custom group name.
      */
-    groupName?: string
+    groupName: string
     /**
-     * Determines whether the sorted items should be in ascending or descending order.
+     * Specifies whether to sort items in ascending or descending order.
      */
     order?: ("asc" | "desc")
     /**
@@ -9090,27 +10601,51 @@ export type PerfectionistSortObjectTypes = {
        * Regular expression.
        */
       elementValuePattern?: (({
-        pattern?: string
+        /**
+         * Regular expression pattern.
+         */
+        pattern: string
+        /**
+         * Regular expression flags.
+         */
         flags?: string
       } | string)[] | ({
-        pattern?: string
+        /**
+         * Regular expression pattern.
+         */
+        pattern: string
+        /**
+         * Regular expression flags.
+         */
         flags?: string
       } | string))
       /**
        * Regular expression.
        */
       elementNamePattern?: (({
-        pattern?: string
+        /**
+         * Regular expression pattern.
+         */
+        pattern: string
+        /**
+         * Regular expression flags.
+         */
         flags?: string
       } | string)[] | ({
-        pattern?: string
+        /**
+         * Regular expression pattern.
+         */
+        pattern: string
+        /**
+         * Regular expression flags.
+         */
         flags?: string
       } | string))
       sortBy?: ("name" | "value")
     }[]
   } | {
     /**
-     * Specifies how new lines should be handled between members of the custom group.
+     * Specifies how to handle new lines between members of the custom group.
      */
     newlinesInside?: ("always" | "never")
     /**
@@ -9118,7 +10653,7 @@ export type PerfectionistSortObjectTypes = {
      */
     fallbackSort?: {
       /**
-       * Determines whether the sorted items should be in ascending or descending order.
+       * Specifies whether to sort items in ascending or descending order.
        */
       order?: ("asc" | "desc")
       /**
@@ -9126,14 +10661,13 @@ export type PerfectionistSortObjectTypes = {
        */
       type?: ("alphabetical" | "natural" | "line-length" | "custom" | "unsorted")
       sortBy?: ("name" | "value")
-      [k: string]: unknown | undefined
     }
     /**
      * Custom group name.
      */
-    groupName?: string
+    groupName: string
     /**
-     * Determines whether the sorted items should be in ascending or descending order.
+     * Specifies whether to sort items in ascending or descending order.
      */
     order?: ("asc" | "desc")
     /**
@@ -9152,20 +10686,44 @@ export type PerfectionistSortObjectTypes = {
      * Regular expression.
      */
     elementValuePattern?: (({
-      pattern?: string
+      /**
+       * Regular expression pattern.
+       */
+      pattern: string
+      /**
+       * Regular expression flags.
+       */
       flags?: string
     } | string)[] | ({
-      pattern?: string
+      /**
+       * Regular expression pattern.
+       */
+      pattern: string
+      /**
+       * Regular expression flags.
+       */
       flags?: string
     } | string))
     /**
      * Regular expression.
      */
     elementNamePattern?: (({
-      pattern?: string
+      /**
+       * Regular expression pattern.
+       */
+      pattern: string
+      /**
+       * Regular expression flags.
+       */
       flags?: string
     } | string)[] | ({
-      pattern?: string
+      /**
+       * Regular expression pattern.
+       */
+      pattern: string
+      /**
+       * Regular expression flags.
+       */
       flags?: string
     } | string))
     sortBy?: ("name" | "value")
@@ -9174,80 +10732,165 @@ export type PerfectionistSortObjectTypes = {
    * [DEPRECATED] Specifies top-level groups.
    */
   groupKind?: ("mixed" | "required-first" | "optional-first")
+  /**
+   * Specifies filters to match a particular options configuration for a given element to sort.
+   */
   useConfigurationIf?: {
     /**
      * Regular expression.
      */
     allNamesMatchPattern?: (({
-      pattern?: string
+      /**
+       * Regular expression pattern.
+       */
+      pattern: string
+      /**
+       * Regular expression flags.
+       */
       flags?: string
     } | string)[] | ({
-      pattern?: string
+      /**
+       * Regular expression pattern.
+       */
+      pattern: string
+      /**
+       * Regular expression flags.
+       */
       flags?: string
     } | string))
     /**
      * Regular expression.
      */
     declarationMatchesPattern?: (({
-      pattern?: string
+      /**
+       * Regular expression pattern.
+       */
+      pattern: string
+      /**
+       * Regular expression flags.
+       */
       flags?: string
     } | string)[] | ({
-      pattern?: string
+      /**
+       * Regular expression pattern.
+       */
+      pattern: string
+      /**
+       * Regular expression flags.
+       */
       flags?: string
     } | string))
   }
   /**
-   * Allows to use comments to separate members into logical groups.
+   * Enables the use of comments to separate the nodes into logical groups.
    */
   partitionByComment?: (boolean | (({
-    pattern?: string
+    /**
+     * Regular expression pattern.
+     */
+    pattern: string
+    /**
+     * Regular expression flags.
+     */
     flags?: string
   } | string)[] | ({
-    pattern?: string
+    /**
+     * Regular expression pattern.
+     */
+    pattern: string
+    /**
+     * Regular expression flags.
+     */
     flags?: string
   } | string)) | {
+    /**
+     * Enables specific block comments to separate the nodes.
+     */
     block?: (boolean | (({
-      pattern?: string
+      /**
+       * Regular expression pattern.
+       */
+      pattern: string
+      /**
+       * Regular expression flags.
+       */
       flags?: string
     } | string)[] | ({
-      pattern?: string
+      /**
+       * Regular expression pattern.
+       */
+      pattern: string
+      /**
+       * Regular expression flags.
+       */
       flags?: string
     } | string)))
+    /**
+     * Enables specific line comments to separate the nodes.
+     */
     line?: (boolean | (({
-      pattern?: string
+      /**
+       * Regular expression pattern.
+       */
+      pattern: string
+      /**
+       * Regular expression flags.
+       */
       flags?: string
     } | string)[] | ({
-      pattern?: string
+      /**
+       * Regular expression pattern.
+       */
+      pattern: string
+      /**
+       * Regular expression flags.
+       */
       flags?: string
     } | string)))
   })
   /**
-   * Allows to use newlines to separate the nodes into logical groups.
+   * Enables the use of newlines to separate the nodes into logical groups.
    */
   partitionByNewLine?: boolean
   /**
-   * Specifies how new lines should be handled between groups.
+   * Specifies how to handle new lines between groups.
    */
   newlinesBetween?: ("ignore" | "always" | "never")
   /**
    * Regular expression.
    */
   ignorePattern?: (({
-    pattern?: string
+    /**
+     * Regular expression pattern.
+     */
+    pattern: string
+    /**
+     * Regular expression flags.
+     */
     flags?: string
   } | string)[] | ({
-    pattern?: string
+    /**
+     * Regular expression pattern.
+     */
+    pattern: string
+    /**
+     * Regular expression flags.
+     */
     flags?: string
   } | string))
   sortBy?: ("name" | "value")
   /**
-   * Specifies the order of the groups.
+   * Specifies a list of groups for sorting.
    */
   groups?: (string | string[] | {
     /**
-     * Specifies how new lines should be handled between groups.
+     * Specifies how to handle new lines between groups.
      */
     newlinesBetween?: ("ignore" | "always" | "never")
+    /**
+     * Specifies a comment to enforce above the group.
+     */
+    commentAbove?: string
   })[]
 }[]
 
@@ -9257,17 +10900,16 @@ export type PerfectionistSortObjects = {
    */
   fallbackSort?: {
     /**
-     * Determines whether the sorted items should be in ascending or descending order.
+     * Specifies whether to sort items in ascending or descending order.
      */
     order?: ("asc" | "desc")
     /**
      * Specifies the sorting method.
      */
     type?: ("alphabetical" | "natural" | "line-length" | "custom" | "unsorted")
-    [k: string]: unknown | undefined
   }
   /**
-   * Controls how special characters should be handled before sorting.
+   * Specifies whether to trim, remove, or keep special characters before sorting.
    */
   specialCharacters?: ("remove" | "trim" | "keep")
   /**
@@ -9275,7 +10917,7 @@ export type PerfectionistSortObjects = {
    */
   ignoreCase?: boolean
   /**
-   * Alphabet to use for the `custom` sort type.
+   * Used only when the `type` option is set to `'custom'`. Specifies the custom alphabet for sorting.
    */
   alphabet?: string
   /**
@@ -9283,7 +10925,7 @@ export type PerfectionistSortObjects = {
    */
   locales?: (string | string[])
   /**
-   * Determines whether the sorted items should be in ascending or descending order.
+   * Specifies whether to sort items in ascending or descending order.
    */
   order?: ("asc" | "desc")
   /**
@@ -9303,7 +10945,7 @@ export type PerfectionistSortObjects = {
     [k: string]: (string | string[]) | undefined
   } | ({
     /**
-     * Specifies how new lines should be handled between members of the custom group.
+     * Specifies how to handle new lines between members of the custom group.
      */
     newlinesInside?: ("always" | "never")
     /**
@@ -9311,21 +10953,20 @@ export type PerfectionistSortObjects = {
      */
     fallbackSort?: {
       /**
-       * Determines whether the sorted items should be in ascending or descending order.
+       * Specifies whether to sort items in ascending or descending order.
        */
       order?: ("asc" | "desc")
       /**
        * Specifies the sorting method.
        */
       type?: ("alphabetical" | "natural" | "line-length" | "custom" | "unsorted")
-      [k: string]: unknown | undefined
     }
     /**
      * Custom group name.
      */
-    groupName?: string
+    groupName: string
     /**
-     * Determines whether the sorted items should be in ascending or descending order.
+     * Specifies whether to sort items in ascending or descending order.
      */
     order?: ("asc" | "desc")
     /**
@@ -9345,26 +10986,50 @@ export type PerfectionistSortObjects = {
        * Regular expression.
        */
       elementValuePattern?: (({
-        pattern?: string
+        /**
+         * Regular expression pattern.
+         */
+        pattern: string
+        /**
+         * Regular expression flags.
+         */
         flags?: string
       } | string)[] | ({
-        pattern?: string
+        /**
+         * Regular expression pattern.
+         */
+        pattern: string
+        /**
+         * Regular expression flags.
+         */
         flags?: string
       } | string))
       /**
        * Regular expression.
        */
       elementNamePattern?: (({
-        pattern?: string
+        /**
+         * Regular expression pattern.
+         */
+        pattern: string
+        /**
+         * Regular expression flags.
+         */
         flags?: string
       } | string)[] | ({
-        pattern?: string
+        /**
+         * Regular expression pattern.
+         */
+        pattern: string
+        /**
+         * Regular expression flags.
+         */
         flags?: string
       } | string))
     }[]
   } | {
     /**
-     * Specifies how new lines should be handled between members of the custom group.
+     * Specifies how to handle new lines between members of the custom group.
      */
     newlinesInside?: ("always" | "never")
     /**
@@ -9372,21 +11037,20 @@ export type PerfectionistSortObjects = {
      */
     fallbackSort?: {
       /**
-       * Determines whether the sorted items should be in ascending or descending order.
+       * Specifies whether to sort items in ascending or descending order.
        */
       order?: ("asc" | "desc")
       /**
        * Specifies the sorting method.
        */
       type?: ("alphabetical" | "natural" | "line-length" | "custom" | "unsorted")
-      [k: string]: unknown | undefined
     }
     /**
      * Custom group name.
      */
-    groupName?: string
+    groupName: string
     /**
-     * Determines whether the sorted items should be in ascending or descending order.
+     * Specifies whether to sort items in ascending or descending order.
      */
     order?: ("asc" | "desc")
     /**
@@ -9405,42 +11069,93 @@ export type PerfectionistSortObjects = {
      * Regular expression.
      */
     elementValuePattern?: (({
-      pattern?: string
+      /**
+       * Regular expression pattern.
+       */
+      pattern: string
+      /**
+       * Regular expression flags.
+       */
       flags?: string
     } | string)[] | ({
-      pattern?: string
+      /**
+       * Regular expression pattern.
+       */
+      pattern: string
+      /**
+       * Regular expression flags.
+       */
       flags?: string
     } | string))
     /**
      * Regular expression.
      */
     elementNamePattern?: (({
-      pattern?: string
+      /**
+       * Regular expression pattern.
+       */
+      pattern: string
+      /**
+       * Regular expression flags.
+       */
       flags?: string
     } | string)[] | ({
-      pattern?: string
+      /**
+       * Regular expression pattern.
+       */
+      pattern: string
+      /**
+       * Regular expression flags.
+       */
       flags?: string
     } | string))
   })[])
+  /**
+   * Specifies filters to match a particular options configuration for a given element to sort.
+   */
   useConfigurationIf?: {
     /**
      * Regular expression.
      */
     allNamesMatchPattern?: (({
-      pattern?: string
+      /**
+       * Regular expression pattern.
+       */
+      pattern: string
+      /**
+       * Regular expression flags.
+       */
       flags?: string
     } | string)[] | ({
-      pattern?: string
+      /**
+       * Regular expression pattern.
+       */
+      pattern: string
+      /**
+       * Regular expression flags.
+       */
       flags?: string
     } | string))
     /**
      * Regular expression.
      */
     callingFunctionNamePattern?: (({
-      pattern?: string
+      /**
+       * Regular expression pattern.
+       */
+      pattern: string
+      /**
+       * Regular expression flags.
+       */
       flags?: string
     } | string)[] | ({
-      pattern?: string
+      /**
+       * Regular expression pattern.
+       */
+      pattern: string
+      /**
+       * Regular expression flags.
+       */
       flags?: string
     } | string))
   }
@@ -9457,56 +11172,114 @@ export type PerfectionistSortObjects = {
    */
   styledComponents?: boolean
   /**
-   * Allows to use comments to separate members into logical groups.
+   * Enables the use of comments to separate the nodes into logical groups.
    */
   partitionByComment?: (boolean | (({
-    pattern?: string
+    /**
+     * Regular expression pattern.
+     */
+    pattern: string
+    /**
+     * Regular expression flags.
+     */
     flags?: string
   } | string)[] | ({
-    pattern?: string
+    /**
+     * Regular expression pattern.
+     */
+    pattern: string
+    /**
+     * Regular expression flags.
+     */
     flags?: string
   } | string)) | {
+    /**
+     * Enables specific block comments to separate the nodes.
+     */
     block?: (boolean | (({
-      pattern?: string
+      /**
+       * Regular expression pattern.
+       */
+      pattern: string
+      /**
+       * Regular expression flags.
+       */
       flags?: string
     } | string)[] | ({
-      pattern?: string
+      /**
+       * Regular expression pattern.
+       */
+      pattern: string
+      /**
+       * Regular expression flags.
+       */
       flags?: string
     } | string)))
+    /**
+     * Enables specific line comments to separate the nodes.
+     */
     line?: (boolean | (({
-      pattern?: string
+      /**
+       * Regular expression pattern.
+       */
+      pattern: string
+      /**
+       * Regular expression flags.
+       */
       flags?: string
     } | string)[] | ({
-      pattern?: string
+      /**
+       * Regular expression pattern.
+       */
+      pattern: string
+      /**
+       * Regular expression flags.
+       */
       flags?: string
     } | string)))
   })
   /**
-   * Allows to use newlines to separate the nodes into logical groups.
+   * Enables the use of newlines to separate the nodes into logical groups.
    */
   partitionByNewLine?: boolean
   /**
-   * Specifies how new lines should be handled between groups.
+   * Specifies how to handle new lines between groups.
    */
   newlinesBetween?: ("ignore" | "always" | "never")
   /**
    * Regular expression.
    */
   ignorePattern?: (({
-    pattern?: string
+    /**
+     * Regular expression pattern.
+     */
+    pattern: string
+    /**
+     * Regular expression flags.
+     */
     flags?: string
   } | string)[] | ({
-    pattern?: string
+    /**
+     * Regular expression pattern.
+     */
+    pattern: string
+    /**
+     * Regular expression flags.
+     */
     flags?: string
   } | string))
   /**
-   * Specifies the order of the groups.
+   * Specifies a list of groups for sorting.
    */
   groups?: (string | string[] | {
     /**
-     * Specifies how new lines should be handled between groups.
+     * Specifies how to handle new lines between groups.
      */
     newlinesBetween?: ("ignore" | "always" | "never")
+    /**
+     * Specifies a comment to enforce above the group.
+     */
+    commentAbove?: string
   })[]
 }[]
 
@@ -9516,17 +11289,16 @@ export type PerfectionistSortSets = {
    */
   fallbackSort?: {
     /**
-     * Determines whether the sorted items should be in ascending or descending order.
+     * Specifies whether to sort items in ascending or descending order.
      */
     order?: ("asc" | "desc")
     /**
      * Specifies the sorting method.
      */
     type?: ("alphabetical" | "natural" | "line-length" | "custom" | "unsorted")
-    [k: string]: unknown | undefined
   }
   /**
-   * Controls how special characters should be handled before sorting.
+   * Specifies whether to trim, remove, or keep special characters before sorting.
    */
   specialCharacters?: ("remove" | "trim" | "keep")
   /**
@@ -9534,7 +11306,7 @@ export type PerfectionistSortSets = {
    */
   ignoreCase?: boolean
   /**
-   * Alphabet to use for the `custom` sort type.
+   * Used only when the `type` option is set to `'custom'`. Specifies the custom alphabet for sorting.
    */
   alphabet?: string
   /**
@@ -9542,7 +11314,7 @@ export type PerfectionistSortSets = {
    */
   locales?: (string | string[])
   /**
-   * Determines whether the sorted items should be in ascending or descending order.
+   * Specifies whether to sort items in ascending or descending order.
    */
   order?: ("asc" | "desc")
   /**
@@ -9554,11 +11326,11 @@ export type PerfectionistSortSets = {
    */
   groupKind?: ("mixed" | "literals-first" | "spreads-first")
   /**
-   * Specifies custom groups.
+   * Defines custom groups to match specific members.
    */
   customGroups?: ({
     /**
-     * Specifies how new lines should be handled between members of the custom group.
+     * Specifies how to handle new lines between members of the custom group.
      */
     newlinesInside?: ("always" | "never")
     /**
@@ -9566,21 +11338,20 @@ export type PerfectionistSortSets = {
      */
     fallbackSort?: {
       /**
-       * Determines whether the sorted items should be in ascending or descending order.
+       * Specifies whether to sort items in ascending or descending order.
        */
       order?: ("asc" | "desc")
       /**
        * Specifies the sorting method.
        */
       type?: ("alphabetical" | "natural" | "line-length" | "custom" | "unsorted")
-      [k: string]: unknown | undefined
     }
     /**
      * Custom group name.
      */
-    groupName?: string
+    groupName: string
     /**
-     * Determines whether the sorted items should be in ascending or descending order.
+     * Specifies whether to sort items in ascending or descending order.
      */
     order?: ("asc" | "desc")
     /**
@@ -9596,16 +11367,28 @@ export type PerfectionistSortSets = {
        * Regular expression.
        */
       elementNamePattern?: (({
-        pattern?: string
+        /**
+         * Regular expression pattern.
+         */
+        pattern: string
+        /**
+         * Regular expression flags.
+         */
         flags?: string
       } | string)[] | ({
-        pattern?: string
+        /**
+         * Regular expression pattern.
+         */
+        pattern: string
+        /**
+         * Regular expression flags.
+         */
         flags?: string
       } | string))
     }[]
   } | {
     /**
-     * Specifies how new lines should be handled between members of the custom group.
+     * Specifies how to handle new lines between members of the custom group.
      */
     newlinesInside?: ("always" | "never")
     /**
@@ -9613,21 +11396,20 @@ export type PerfectionistSortSets = {
      */
     fallbackSort?: {
       /**
-       * Determines whether the sorted items should be in ascending or descending order.
+       * Specifies whether to sort items in ascending or descending order.
        */
       order?: ("asc" | "desc")
       /**
        * Specifies the sorting method.
        */
       type?: ("alphabetical" | "natural" | "line-length" | "custom" | "unsorted")
-      [k: string]: unknown | undefined
     }
     /**
      * Custom group name.
      */
-    groupName?: string
+    groupName: string
     /**
-     * Determines whether the sorted items should be in ascending or descending order.
+     * Specifies whether to sort items in ascending or descending order.
      */
     order?: ("asc" | "desc")
     /**
@@ -9642,66 +11424,139 @@ export type PerfectionistSortSets = {
      * Regular expression.
      */
     elementNamePattern?: (({
-      pattern?: string
+      /**
+       * Regular expression pattern.
+       */
+      pattern: string
+      /**
+       * Regular expression flags.
+       */
       flags?: string
     } | string)[] | ({
-      pattern?: string
+      /**
+       * Regular expression pattern.
+       */
+      pattern: string
+      /**
+       * Regular expression flags.
+       */
       flags?: string
     } | string))
   })[]
+  /**
+   * Specifies filters to match a particular options configuration for a given element to sort.
+   */
   useConfigurationIf?: {
     /**
      * Regular expression.
      */
     allNamesMatchPattern?: (({
-      pattern?: string
+      /**
+       * Regular expression pattern.
+       */
+      pattern: string
+      /**
+       * Regular expression flags.
+       */
       flags?: string
     } | string)[] | ({
-      pattern?: string
+      /**
+       * Regular expression pattern.
+       */
+      pattern: string
+      /**
+       * Regular expression flags.
+       */
       flags?: string
     } | string))
   }
   /**
-   * Allows to use comments to separate members into logical groups.
+   * Enables the use of comments to separate the nodes into logical groups.
    */
   partitionByComment?: (boolean | (({
-    pattern?: string
+    /**
+     * Regular expression pattern.
+     */
+    pattern: string
+    /**
+     * Regular expression flags.
+     */
     flags?: string
   } | string)[] | ({
-    pattern?: string
+    /**
+     * Regular expression pattern.
+     */
+    pattern: string
+    /**
+     * Regular expression flags.
+     */
     flags?: string
   } | string)) | {
+    /**
+     * Enables specific block comments to separate the nodes.
+     */
     block?: (boolean | (({
-      pattern?: string
+      /**
+       * Regular expression pattern.
+       */
+      pattern: string
+      /**
+       * Regular expression flags.
+       */
       flags?: string
     } | string)[] | ({
-      pattern?: string
+      /**
+       * Regular expression pattern.
+       */
+      pattern: string
+      /**
+       * Regular expression flags.
+       */
       flags?: string
     } | string)))
+    /**
+     * Enables specific line comments to separate the nodes.
+     */
     line?: (boolean | (({
-      pattern?: string
+      /**
+       * Regular expression pattern.
+       */
+      pattern: string
+      /**
+       * Regular expression flags.
+       */
       flags?: string
     } | string)[] | ({
-      pattern?: string
+      /**
+       * Regular expression pattern.
+       */
+      pattern: string
+      /**
+       * Regular expression flags.
+       */
       flags?: string
     } | string)))
   })
   /**
-   * Allows to use newlines to separate the nodes into logical groups.
+   * Enables the use of newlines to separate the nodes into logical groups.
    */
   partitionByNewLine?: boolean
   /**
-   * Specifies how new lines should be handled between groups.
+   * Specifies how to handle new lines between groups.
    */
   newlinesBetween?: ("ignore" | "always" | "never")
   /**
-   * Specifies the order of the groups.
+   * Specifies a list of groups for sorting.
    */
   groups?: (string | string[] | {
     /**
-     * Specifies how new lines should be handled between groups.
+     * Specifies how to handle new lines between groups.
      */
     newlinesBetween?: ("ignore" | "always" | "never")
+    /**
+     * Specifies a comment to enforce above the group.
+     */
+    commentAbove?: string
   })[]
 }[]
 
@@ -9711,17 +11566,16 @@ export type PerfectionistSortSwitchCase = []|[{
    */
   fallbackSort?: {
     /**
-     * Determines whether the sorted items should be in ascending or descending order.
+     * Specifies whether to sort items in ascending or descending order.
      */
     order?: ("asc" | "desc")
     /**
      * Specifies the sorting method.
      */
     type?: ("alphabetical" | "natural" | "line-length" | "custom" | "unsorted")
-    [k: string]: unknown | undefined
   }
   /**
-   * Controls how special characters should be handled before sorting.
+   * Specifies whether to trim, remove, or keep special characters before sorting.
    */
   specialCharacters?: ("remove" | "trim" | "keep")
   /**
@@ -9729,7 +11583,7 @@ export type PerfectionistSortSwitchCase = []|[{
    */
   ignoreCase?: boolean
   /**
-   * Alphabet to use for the `custom` sort type.
+   * Used only when the `type` option is set to `'custom'`. Specifies the custom alphabet for sorting.
    */
   alphabet?: string
   /**
@@ -9737,7 +11591,7 @@ export type PerfectionistSortSwitchCase = []|[{
    */
   locales?: (string | string[])
   /**
-   * Determines whether the sorted items should be in ascending or descending order.
+   * Specifies whether to sort items in ascending or descending order.
    */
   order?: ("asc" | "desc")
   /**
@@ -9746,23 +11600,22 @@ export type PerfectionistSortSwitchCase = []|[{
   type?: ("alphabetical" | "natural" | "line-length" | "custom" | "unsorted")
 }]
 
-export type PerfectionistSortUnionTypes = []|[{
+export type PerfectionistSortUnionTypes = {
   /**
    * Fallback sort order.
    */
   fallbackSort?: {
     /**
-     * Determines whether the sorted items should be in ascending or descending order.
+     * Specifies whether to sort items in ascending or descending order.
      */
     order?: ("asc" | "desc")
     /**
      * Specifies the sorting method.
      */
     type?: ("alphabetical" | "natural" | "line-length" | "custom" | "unsorted")
-    [k: string]: unknown | undefined
   }
   /**
-   * Controls how special characters should be handled before sorting.
+   * Specifies whether to trim, remove, or keep special characters before sorting.
    */
   specialCharacters?: ("remove" | "trim" | "keep")
   /**
@@ -9770,7 +11623,7 @@ export type PerfectionistSortUnionTypes = []|[{
    */
   ignoreCase?: boolean
   /**
-   * Alphabet to use for the `custom` sort type.
+   * Used only when the `type` option is set to `'custom'`. Specifies the custom alphabet for sorting.
    */
   alphabet?: string
   /**
@@ -9778,7 +11631,7 @@ export type PerfectionistSortUnionTypes = []|[{
    */
   locales?: (string | string[])
   /**
-   * Determines whether the sorted items should be in ascending or descending order.
+   * Specifies whether to sort items in ascending or descending order.
    */
   order?: ("asc" | "desc")
   /**
@@ -9786,48 +11639,212 @@ export type PerfectionistSortUnionTypes = []|[{
    */
   type?: ("alphabetical" | "natural" | "line-length" | "custom" | "unsorted")
   /**
-   * Allows to use comments to separate members into logical groups.
+   * Defines custom groups to match specific members.
+   */
+  customGroups?: ({
+    /**
+     * Specifies how to handle new lines between members of the custom group.
+     */
+    newlinesInside?: ("always" | "never")
+    /**
+     * Fallback sort order.
+     */
+    fallbackSort?: {
+      /**
+       * Specifies whether to sort items in ascending or descending order.
+       */
+      order?: ("asc" | "desc")
+      /**
+       * Specifies the sorting method.
+       */
+      type?: ("alphabetical" | "natural" | "line-length" | "custom" | "unsorted")
+    }
+    /**
+     * Custom group name.
+     */
+    groupName: string
+    /**
+     * Specifies whether to sort items in ascending or descending order.
+     */
+    order?: ("asc" | "desc")
+    /**
+     * Specifies the sorting method.
+     */
+    type?: ("alphabetical" | "natural" | "line-length" | "custom" | "unsorted")
+    anyOf?: {
+      /**
+       * Selector filter.
+       */
+      selector?: ("intersection" | "conditional" | "function" | "operator" | "keyword" | "literal" | "nullish" | "import" | "object" | "named" | "tuple" | "union")
+      /**
+       * Regular expression.
+       */
+      elementNamePattern?: (({
+        /**
+         * Regular expression pattern.
+         */
+        pattern: string
+        /**
+         * Regular expression flags.
+         */
+        flags?: string
+      } | string)[] | ({
+        /**
+         * Regular expression pattern.
+         */
+        pattern: string
+        /**
+         * Regular expression flags.
+         */
+        flags?: string
+      } | string))
+    }[]
+  } | {
+    /**
+     * Specifies how to handle new lines between members of the custom group.
+     */
+    newlinesInside?: ("always" | "never")
+    /**
+     * Fallback sort order.
+     */
+    fallbackSort?: {
+      /**
+       * Specifies whether to sort items in ascending or descending order.
+       */
+      order?: ("asc" | "desc")
+      /**
+       * Specifies the sorting method.
+       */
+      type?: ("alphabetical" | "natural" | "line-length" | "custom" | "unsorted")
+    }
+    /**
+     * Custom group name.
+     */
+    groupName: string
+    /**
+     * Specifies whether to sort items in ascending or descending order.
+     */
+    order?: ("asc" | "desc")
+    /**
+     * Specifies the sorting method.
+     */
+    type?: ("alphabetical" | "natural" | "line-length" | "custom" | "unsorted")
+    /**
+     * Selector filter.
+     */
+    selector?: ("intersection" | "conditional" | "function" | "operator" | "keyword" | "literal" | "nullish" | "import" | "object" | "named" | "tuple" | "union")
+    /**
+     * Regular expression.
+     */
+    elementNamePattern?: (({
+      /**
+       * Regular expression pattern.
+       */
+      pattern: string
+      /**
+       * Regular expression flags.
+       */
+      flags?: string
+    } | string)[] | ({
+      /**
+       * Regular expression pattern.
+       */
+      pattern: string
+      /**
+       * Regular expression flags.
+       */
+      flags?: string
+    } | string))
+  })[]
+  /**
+   * Enables the use of comments to separate the nodes into logical groups.
    */
   partitionByComment?: (boolean | (({
-    pattern?: string
+    /**
+     * Regular expression pattern.
+     */
+    pattern: string
+    /**
+     * Regular expression flags.
+     */
     flags?: string
   } | string)[] | ({
-    pattern?: string
+    /**
+     * Regular expression pattern.
+     */
+    pattern: string
+    /**
+     * Regular expression flags.
+     */
     flags?: string
   } | string)) | {
+    /**
+     * Enables specific block comments to separate the nodes.
+     */
     block?: (boolean | (({
-      pattern?: string
+      /**
+       * Regular expression pattern.
+       */
+      pattern: string
+      /**
+       * Regular expression flags.
+       */
       flags?: string
     } | string)[] | ({
-      pattern?: string
+      /**
+       * Regular expression pattern.
+       */
+      pattern: string
+      /**
+       * Regular expression flags.
+       */
       flags?: string
     } | string)))
+    /**
+     * Enables specific line comments to separate the nodes.
+     */
     line?: (boolean | (({
-      pattern?: string
+      /**
+       * Regular expression pattern.
+       */
+      pattern: string
+      /**
+       * Regular expression flags.
+       */
       flags?: string
     } | string)[] | ({
-      pattern?: string
+      /**
+       * Regular expression pattern.
+       */
+      pattern: string
+      /**
+       * Regular expression flags.
+       */
       flags?: string
     } | string)))
   })
   /**
-   * Allows to use newlines to separate the nodes into logical groups.
+   * Enables the use of newlines to separate the nodes into logical groups.
    */
   partitionByNewLine?: boolean
   /**
-   * Specifies how new lines should be handled between groups.
+   * Specifies how to handle new lines between groups.
    */
   newlinesBetween?: ("ignore" | "always" | "never")
   /**
-   * Specifies the order of the groups.
+   * Specifies a list of groups for sorting.
    */
   groups?: (string | string[] | {
     /**
-     * Specifies how new lines should be handled between groups.
+     * Specifies how to handle new lines between groups.
      */
     newlinesBetween?: ("ignore" | "always" | "never")
+    /**
+     * Specifies a comment to enforce above the group.
+     */
+    commentAbove?: string
   })[]
-}]
+}[]
 
 export type PerfectionistSortVariableDeclarations = []|[{
   /**
@@ -9835,17 +11852,16 @@ export type PerfectionistSortVariableDeclarations = []|[{
    */
   fallbackSort?: {
     /**
-     * Determines whether the sorted items should be in ascending or descending order.
+     * Specifies whether to sort items in ascending or descending order.
      */
     order?: ("asc" | "desc")
     /**
      * Specifies the sorting method.
      */
     type?: ("alphabetical" | "natural" | "line-length" | "custom" | "unsorted")
-    [k: string]: unknown | undefined
   }
   /**
-   * Controls how special characters should be handled before sorting.
+   * Specifies whether to trim, remove, or keep special characters before sorting.
    */
   specialCharacters?: ("remove" | "trim" | "keep")
   /**
@@ -9853,7 +11869,7 @@ export type PerfectionistSortVariableDeclarations = []|[{
    */
   ignoreCase?: boolean
   /**
-   * Alphabet to use for the `custom` sort type.
+   * Used only when the `type` option is set to `'custom'`. Specifies the custom alphabet for sorting.
    */
   alphabet?: string
   /**
@@ -9861,7 +11877,7 @@ export type PerfectionistSortVariableDeclarations = []|[{
    */
   locales?: (string | string[])
   /**
-   * Determines whether the sorted items should be in ascending or descending order.
+   * Specifies whether to sort items in ascending or descending order.
    */
   order?: ("asc" | "desc")
   /**
@@ -9869,34 +11885,211 @@ export type PerfectionistSortVariableDeclarations = []|[{
    */
   type?: ("alphabetical" | "natural" | "line-length" | "custom" | "unsorted")
   /**
-   * Allows to use comments to separate members into logical groups.
+   * Defines custom groups to match specific members.
+   */
+  customGroups?: ({
+    /**
+     * Specifies how to handle new lines between members of the custom group.
+     */
+    newlinesInside?: ("always" | "never")
+    /**
+     * Fallback sort order.
+     */
+    fallbackSort?: {
+      /**
+       * Specifies whether to sort items in ascending or descending order.
+       */
+      order?: ("asc" | "desc")
+      /**
+       * Specifies the sorting method.
+       */
+      type?: ("alphabetical" | "natural" | "line-length" | "custom" | "unsorted")
+    }
+    /**
+     * Custom group name.
+     */
+    groupName: string
+    /**
+     * Specifies whether to sort items in ascending or descending order.
+     */
+    order?: ("asc" | "desc")
+    /**
+     * Specifies the sorting method.
+     */
+    type?: ("alphabetical" | "natural" | "line-length" | "custom" | "unsorted")
+    anyOf?: {
+      /**
+       * Selector filter.
+       */
+      selector?: ("initialized" | "uninitialized")
+      /**
+       * Regular expression.
+       */
+      elementNamePattern?: (({
+        /**
+         * Regular expression pattern.
+         */
+        pattern: string
+        /**
+         * Regular expression flags.
+         */
+        flags?: string
+      } | string)[] | ({
+        /**
+         * Regular expression pattern.
+         */
+        pattern: string
+        /**
+         * Regular expression flags.
+         */
+        flags?: string
+      } | string))
+    }[]
+  } | {
+    /**
+     * Specifies how to handle new lines between members of the custom group.
+     */
+    newlinesInside?: ("always" | "never")
+    /**
+     * Fallback sort order.
+     */
+    fallbackSort?: {
+      /**
+       * Specifies whether to sort items in ascending or descending order.
+       */
+      order?: ("asc" | "desc")
+      /**
+       * Specifies the sorting method.
+       */
+      type?: ("alphabetical" | "natural" | "line-length" | "custom" | "unsorted")
+    }
+    /**
+     * Custom group name.
+     */
+    groupName: string
+    /**
+     * Specifies whether to sort items in ascending or descending order.
+     */
+    order?: ("asc" | "desc")
+    /**
+     * Specifies the sorting method.
+     */
+    type?: ("alphabetical" | "natural" | "line-length" | "custom" | "unsorted")
+    /**
+     * Selector filter.
+     */
+    selector?: ("initialized" | "uninitialized")
+    /**
+     * Regular expression.
+     */
+    elementNamePattern?: (({
+      /**
+       * Regular expression pattern.
+       */
+      pattern: string
+      /**
+       * Regular expression flags.
+       */
+      flags?: string
+    } | string)[] | ({
+      /**
+       * Regular expression pattern.
+       */
+      pattern: string
+      /**
+       * Regular expression flags.
+       */
+      flags?: string
+    } | string))
+  })[]
+  /**
+   * Enables the use of comments to separate the nodes into logical groups.
    */
   partitionByComment?: (boolean | (({
-    pattern?: string
+    /**
+     * Regular expression pattern.
+     */
+    pattern: string
+    /**
+     * Regular expression flags.
+     */
     flags?: string
   } | string)[] | ({
-    pattern?: string
+    /**
+     * Regular expression pattern.
+     */
+    pattern: string
+    /**
+     * Regular expression flags.
+     */
     flags?: string
   } | string)) | {
+    /**
+     * Enables specific block comments to separate the nodes.
+     */
     block?: (boolean | (({
-      pattern?: string
+      /**
+       * Regular expression pattern.
+       */
+      pattern: string
+      /**
+       * Regular expression flags.
+       */
       flags?: string
     } | string)[] | ({
-      pattern?: string
+      /**
+       * Regular expression pattern.
+       */
+      pattern: string
+      /**
+       * Regular expression flags.
+       */
       flags?: string
     } | string)))
+    /**
+     * Enables specific line comments to separate the nodes.
+     */
     line?: (boolean | (({
-      pattern?: string
+      /**
+       * Regular expression pattern.
+       */
+      pattern: string
+      /**
+       * Regular expression flags.
+       */
       flags?: string
     } | string)[] | ({
-      pattern?: string
+      /**
+       * Regular expression pattern.
+       */
+      pattern: string
+      /**
+       * Regular expression flags.
+       */
       flags?: string
     } | string)))
   })
   /**
-   * Allows to use newlines to separate the nodes into logical groups.
+   * Enables the use of newlines to separate the nodes into logical groups.
    */
   partitionByNewLine?: boolean
+  /**
+   * Specifies how to handle new lines between groups.
+   */
+  newlinesBetween?: ("ignore" | "always" | "never")
+  /**
+   * Specifies a list of groups for sorting.
+   */
+  groups?: (string | string[] | {
+    /**
+     * Specifies how to handle new lines between groups.
+     */
+    newlinesBetween?: ("ignore" | "always" | "never")
+    /**
+     * Specifies a comment to enforce above the group.
+     */
+    commentAbove?: string
+  })[]
 }]
 
 export type ReactHookExhaustiveDeps = []|[{
@@ -10087,6 +12280,11 @@ export type SveltePreferConst = []|[{
   destructuring?: ("any" | "all")
   ignoreReadBeforeAssign?: boolean
   excludedRunes?: string[]
+  [k: string]: unknown | undefined
+}]
+
+export type SvelteRequireEventPrefix = []|[{
+  checkAsyncFunctions?: boolean
 }]
 
 export type SvelteShorthandAttribute = []|[{
