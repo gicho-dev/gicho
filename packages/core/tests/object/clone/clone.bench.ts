@@ -5,10 +5,12 @@ import { fixtures } from './clone.fixture'
 import { samples } from './clone.samples'
 
 describe('clone', () => {
-	const { klona, rfdcClone, rfdcCloneCircles } = samples
+	const { klona, rfdc } = samples
+
+	const rfdcClone = rfdc()
+	const rfdcCloneCircles = rfdc({ circles: true })
 
 	const clone = createClone()
-
 	const cloneCircles = createClone({ circles: true })
 
 	function runner(name: keyof typeof fixtures, contentders: Record<string, Function>) {
@@ -23,6 +25,15 @@ describe('clone', () => {
 			})
 		})
 	}
+
+	describe('create clone function', () => {
+		bench('createClone', () => {
+			createClone()
+		})
+		bench('rfdc()', () => {
+			rfdc()
+		})
+	})
 
 	runner('obj1', {
 		clone,

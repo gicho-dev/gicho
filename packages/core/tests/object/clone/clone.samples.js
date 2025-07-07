@@ -1,7 +1,6 @@
 export const samples = {
 	klona,
-	rfdcClone: _rfdc()(),
-	rfdcCloneCircles: _rfdc()({ circles: true }),
+	rfdc: _rfdc(),
 }
 
 /* ----------------------------------------
