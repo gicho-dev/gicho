@@ -79,7 +79,10 @@ export type LiteralUnion<T extends U, U = string> = T | (U & Record<never, never
  */
 export type Nullable<T> = T | null | undefined
 
-export type PlainObject = { [key in string | number | symbol]: unknown }
+/**
+ * A plain (record) object.
+ */
+export type PlainObject<T = unknown> = Record<PropertyKey, T>
 
 /**
  * Matches any [primitive value](https://developer.mozilla.org/en-US/docs/Glossary/Primitive).
