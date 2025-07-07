@@ -1,7 +1,5 @@
 import type { AnyFunction, BuiltIns, PlainObject, Primitive } from '../types'
 
-import { getType } from '../object/get-type'
-
 /**
  * Returns whether the value is empty
  */
@@ -22,13 +20,29 @@ export function isNumeric(n: unknown): boolean {
 }
 
 /**
- * Returns whether the value is a plain JS object type
+ * Returns whether the value is a plain object type
  * (checks that it's not an object connected to a special class or prototype)
  */
 export function isPlainObject(x: unknown): x is PlainObject {
-	if (getType(x) !== 'Object') return false
+	if (typeof x !== 'object' || x === null) return false
+
 	const prototype = Object.getPrototypeOf(x)
-	return !!prototype && prototype.constructor === Object && prototype === Object.prototype
+
+	if (
+		prototype !== null &&
+		prototype !== Object.prototype &&
+		Object.getPrototypeOf(prototype) !== null
+	) {
+		return false
+	}
+
+	if (Symbol.iterator in x) return false
+
+	if (Symbol.toStringTag in x) {
+		return Object.prototype.toString.call(x) === '[object Module]'
+	}
+
+	return true
 }
 
 /**
@@ -58,4 +72,8 @@ export function isPrimitiveOrFunction(x: unknown): x is Primitive | AnyFunction 
  */
 export function isBuiltInsOrFunction(x: unknown): x is BuiltIns | AnyFunction {
 	return isPrimitiveOrFunction(x) || x instanceof Date || x instanceof RegExp
+}
+
+export function isRecord(x: unknown): x is Record<PropertyKey, unknown> {
+	return Object.prototype.toString.call(x) === '[object Object]'
 }
