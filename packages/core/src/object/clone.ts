@@ -1,8 +1,10 @@
-import type { TypedArray } from '../types'
+import type { TypedArray, UnknownRecord } from '../types'
 
 /* ----------------------------------------
  *   Types
  * ------------------------------------- */
+
+type AnyArrayObject = any[] & UnknownRecord
 
 interface Constructor<T = unknown> {
 	new (...args: any[]): T
@@ -22,39 +24,37 @@ type CreateCloneConfig = Required<CreateCloneOptions>
 type CloneFn = <T>(x: T) => T
 type InternalCloneFn = <T>(x: T, refs: Map<unknown, unknown>) => T
 
-interface CloneHandlerContext extends CreateCloneConfig {
-	clone: InternalCloneFn
-	cloneFunctions: CloneFunctions
-	defaultCloneFunctions: CloneFunctions
-}
-
-type CloneHandler<T = any> = (x: T, ctx: CloneHandlerContext, refs: Map<unknown, unknown>) => T
-type ConstructorHandlerItem<T = unknown> = [Constructor<T>, CloneHandler<T>]
-
-type AnyArrayObject = any[] & Record<PropertyKey, any>
-
-/* ----------------------------------------
- *   Clone (Deep) Factory
- * ------------------------------------- */
-
 interface CloneFunctions {
 	cloneArray: CloneHandler<AnyArrayObject>
 	cloneArrayBuffer: CloneHandler<ArrayBuffer>
 	cloneArrayBufferView: CloneHandler<ArrayBufferView>
 	cloneDate: CloneHandler<Date>
 	cloneMap: CloneHandler<Map<unknown, unknown>>
-	cloneObject: CloneHandler<Record<PropertyKey, unknown>>
+	cloneObject: CloneHandler<UnknownRecord>
 	cloneRegExp: CloneHandler<RegExp>
 	cloneSet: CloneHandler<Set<unknown>>
 	cloneUnknown: CloneHandler<unknown>
 }
+
+type CloneHandler<T = any> = (x: T, ctx: CloneHandlerContext, refs: Map<unknown, unknown>) => T
+interface CloneHandlerContext extends CreateCloneConfig {
+	clone: InternalCloneFn
+	cloneFunctions: CloneFunctions
+	defaultCloneFunctions: CloneFunctions
+}
+
+type ConstructorHandlerItem<T = unknown> = [Constructor<T>, CloneHandler<T>]
+
+/* ----------------------------------------
+ *   Clone (Deep) Factory
+ * ------------------------------------- */
 
 const defaultCloneFunctions: CloneFunctions = {
 	cloneObject: (x, { circles, clone }, refs) => {
 		const Ctor = x.constructor
 
 		if (Ctor !== Object && typeof Ctor === 'function') {
-			const x2 = new (Ctor as Constructor<Record<PropertyKey, unknown>>)()
+			const x2 = new (Ctor as Constructor<UnknownRecord>)()
 			if (circles) refs.set(x, x2)
 
 			for (const k of Object.keys(x)) {
@@ -177,10 +177,10 @@ export function createClone(options: CreateCloneOptions = {}): CloneFn {
 
 		switch (Object.prototype.toString.call(x)) {
 			case '[object Array]':
-				return fns.cloneArray(x as unknown[], context, refs) as T
+				return fns.cloneArray(x as AnyArrayObject, context, refs) as T
 			case '[object Object]':
 			case '[object Module]':
-				return fns.cloneObject(x as Record<PropertyKey, unknown>, context, refs) as T
+				return fns.cloneObject(x as UnknownRecord, context, refs) as T
 			case '[object Map]':
 				return fns.cloneMap(x as unknown as Map<unknown, unknown>, context, refs) as T
 			case '[object Set]':
