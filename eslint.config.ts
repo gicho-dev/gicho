@@ -38,6 +38,7 @@ export default config(
 			'@typescript-eslint/explicit-function-return-type': 'off',
 			'@typescript-eslint/no-extraneous-class': 'off',
 			'@typescript-eslint/no-unsafe-function-type': 'off',
+			'@typescript-eslint/no-unused-expressions': 'off',
 		},
 	},
 )
