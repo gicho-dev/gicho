@@ -1,5 +1,6 @@
 import type {
 	And,
+	AnyRecord,
 	If,
 	IsAllOf,
 	IsKeyOptional,
@@ -54,7 +55,7 @@ type MergeRecords<Ts extends UnknownArray, TAcc = unknown> = Ts extends readonly
 	infer THead,
 	...infer TRest,
 ]
-	? THead extends Readonly<UnknownRecord>
+	? THead extends AnyRecord
 		? MergeRecords<TRest, MergeTwoRecords<TAcc, THead>>
 		: never
 	: TAcc
@@ -96,7 +97,7 @@ export type MergeDeep<Ts> = Ts extends UnknownArray
 						? MergeMaps<Ts>
 						: IsAllOf<Ts, UnknownSet> extends true
 							? MergeSets<Ts>
-							: IsAllOf<Ts, UnknownRecord> extends true
+							: IsAllOf<Ts, AnyRecord> extends true
 								? MergeRecords<Ts>
 								: MergeOthers<Ts>
 		: unknown

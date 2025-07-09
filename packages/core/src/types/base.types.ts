@@ -7,6 +7,9 @@ export type And<T1 extends boolean, T2 extends boolean> = [T1] extends [false] ?
 /** A function that can take any number of parameters and return any value. */
 export type AnyFunction = (...args: any[]) => any
 
+/** Represents an object with `any` value. You probably want this instead of `{}`. */
+export type AnyRecord = Record<PropertyKey, any>
+
 /** A value that can be either a single item of type T or an array of T. */
 export type Arrayable<T> = T | T[]
 
@@ -36,7 +39,7 @@ export type IsAllOf<Ts extends UnknownArray, T> = Ts extends readonly [infer THe
 	? If<IsNever<THead>, false, THead extends T ? IsAllOf<TRest, T> : false>
 	: true
 
-/**  */
+/** Returns a boolean for whether the given type is a loose tuple. */
 export type IsLooseTuple<T extends UnknownArray> = T extends readonly []
 	? true
 	: T extends readonly [unknown, ...UnknownArray]

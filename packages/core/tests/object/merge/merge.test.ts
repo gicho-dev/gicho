@@ -185,6 +185,25 @@ describe('merge / mergeObject', () => {
 			a123.map1?.set(null, 3)
 			a123.arr1.push()
 		})
+
+		test('type - simple merge', () => {
+			interface A {
+				x: number
+				y: string
+			}
+			interface B {
+				x?: number
+				x2?: number
+			}
+
+			const a: A = { x: 1, y: 'hi' }
+			const b: B = { x: 2 }
+
+			const merged = merge(a, b)
+
+			expect(merged).toEqual({ x: 2, y: 'hi' })
+			expectTypeOf(merged).toEqualTypeOf<{ x: number; y: string; x2?: number }>()
+		})
 	})
 
 	describe('mergeObject', () => {
