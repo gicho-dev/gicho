@@ -73,7 +73,3 @@ export function isPrimitiveOrFunction(x: unknown): x is Primitive | AnyFunction 
 export function isBuiltInsOrFunction(x: unknown): x is BuiltIns | AnyFunction {
 	return isPrimitiveOrFunction(x) || x instanceof Date || x instanceof RegExp
 }
-
-export function isRecord(x: unknown): x is Record<PropertyKey, unknown> {
-	return Object.prototype.toString.call(x) === '[object Object]'
-}
