@@ -114,6 +114,8 @@ export const typescript: ConfigGroupFn<'typescript'> = async (options = {}, cont
 				'@typescript-eslint/no-explicit-any': 'off',
 				// Enforce the use of top-level import type qualifier when an import only has specifiers with inline type qualifiers.
 				'@typescript-eslint/no-import-type-side-effects': 'error',
+				// Disallow void type outside of generic or return types.
+				'@typescript-eslint/no-invalid-void-type': 'off',
 				// Disallow non-null assertions using the ! postfix operator.
 				'@typescript-eslint/no-non-null-assertion': 'off',
 				// Disallow unused expressions.
