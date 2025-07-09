@@ -7,7 +7,7 @@ export const samples = {
  *   klona - default (v2.0.6)
  * ------------------------------------- */
 
-export function klona(x) {
+function klona(x) {
 	if (typeof x !== 'object') return x
 
 	let k
@@ -95,7 +95,7 @@ export function klona(x) {
  *   rfdc (v1.4.1)
  * ------------------------------------- */
 
-export function _rfdc() {
+function _rfdc() {
 	function copyBuffer(cur) {
 		if (cur instanceof Buffer) {
 			return Buffer.from(cur)
