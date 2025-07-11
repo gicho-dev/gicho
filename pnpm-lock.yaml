@@ -171,6 +171,7 @@ importers:
       '@gicho/core':
         specifier: workspace:^
         version: link:../core
+    devDependencies:
       ansis:
         specifier: 'catalog:'
         version: 4.1.0

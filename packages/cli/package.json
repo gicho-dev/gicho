@@ -46,10 +46,11 @@
 		"types": "tsc --noEmit"
 	},
 	"dependencies": {
-		"@gicho/core": "workspace:^",
+		"@gicho/core": "workspace:^"
+	},
+	"devDependencies": {
 		"ansis": "catalog:",
 		"tinyglobby": "catalog:"
 	},
-	"devDependencies": {},
 	"peerDependencies": {}
 }
