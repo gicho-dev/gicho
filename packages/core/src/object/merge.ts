@@ -7,12 +7,12 @@ import type {
 	IsLooseTuple,
 	IsNever,
 	PartialDeep,
-	Simplify,
-	Union,
+	Prettify,
 	UnknownArray,
 	UnknownMap,
 	UnknownRecord,
 	UnknownSet,
+	ValuesToUnion,
 } from '../types'
 
 /* --------------------------------------------------
@@ -31,36 +31,36 @@ type UnionOf<
 	TExtract extends 'array' | 'map.key' | 'map.value' | 'set',
 	Ts extends UnknownArray,
 	TAcc = never,
-> = Ts extends readonly [infer THead, ...infer TRest]
+> = Ts extends readonly [infer TFirst, ...infer TRest]
 	? TExtract extends 'array'
-		? THead extends UnknownArray
-			? UnionOf<TExtract, TRest, [...(TAcc extends UnknownArray ? TAcc : []), ...THead]>
+		? TFirst extends UnknownArray
+			? UnionOf<TExtract, TRest, [...(TAcc extends UnknownArray ? TAcc : []), ...TFirst]>
 			: UnionOf<TExtract, TRest, TAcc>
 		: TExtract extends 'map.key'
-			? THead extends ReadonlyMap<infer K, unknown>
+			? TFirst extends ReadonlyMap<infer K, unknown>
 				? UnionOf<TExtract, TRest, TAcc | K>
 				: UnionOf<TExtract, TRest, TAcc>
 			: TExtract extends 'map.value'
-				? THead extends ReadonlyMap<unknown, infer V>
+				? TFirst extends ReadonlyMap<unknown, infer V>
 					? UnionOf<TExtract, TRest, TAcc | V>
 					: UnionOf<TExtract, TRest, TAcc>
 				: TExtract extends 'set'
-					? THead extends ReadonlySet<infer V>
+					? TFirst extends ReadonlySet<infer V>
 						? UnionOf<TExtract, TRest, TAcc | V>
 						: UnionOf<TExtract, TRest, TAcc>
 					: TAcc
 	: TAcc
 
 type MergeRecords<Ts extends UnknownArray, TAcc = unknown> = Ts extends readonly [
-	infer THead,
+	infer TFirst,
 	...infer TRest,
 ]
-	? THead extends AnyRecord
-		? MergeRecords<TRest, MergeTwoRecords<TAcc, THead>>
+	? TFirst extends AnyRecord
+		? MergeRecords<TRest, MergeTwoRecords<TAcc, TFirst>>
 		: never
 	: TAcc
 
-type MergeTwoRecords<T1, T2> = Simplify<
+type MergeTwoRecords<T1, T2> = Prettify<
 	Omit<T1, keyof T2> &
 		Omit<T2, keyof T1> & {
 			[K in IntersectionKeysOf<T1, T2, false>]?: MergeDeep<[T1[K], T2[K]]>
@@ -76,12 +76,12 @@ type MergeMaps<Ts extends UnknownArray> = Map<UnionOf<'map.key', Ts>, UnionOf<'m
 type MergeSets<Ts extends UnknownArray> = Set<UnionOf<'set', Ts>>
 
 type MergeOthers<Ts extends UnknownArray, TAcc = never> = Ts extends readonly [
-	infer THead,
+	infer TFirst,
 	...infer TRest,
 ]
 	? TRest extends readonly []
-		? If<IsNever<THead>, TAcc, THead>
-		: MergeOthers<TRest, THead>
+		? If<IsNever<TFirst>, TAcc, TFirst>
+		: MergeOthers<TRest, TFirst>
 	: TAcc
 
 /** The result of using default merge (deep) strategy */
@@ -122,7 +122,7 @@ const ObjectType = {
 	Map: 'm',
 	Set: 's',
 } as const
-type ObjectType = Union<typeof ObjectType>
+type ObjectType = ValuesToUnion<typeof ObjectType>
 
 function getIterableOf<T>(iterables: readonly Readonly<Iterable<T>>[]): Iterable<T> {
 	return (function* () {
