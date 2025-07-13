@@ -12,6 +12,7 @@
 		"pnpm": ">=10"
 	},
 	"scripts": {
+		"build": "turbo build",
 		"clean": "rimraf lib/*",
 		"lint": "eslint .",
 		"gen:eslint-rules-obj": "tsx scripts/gen-eslint-rules-obj.ts",
@@ -42,7 +43,7 @@
 		"json-schema-to-typescript-lite": "catalog:",
 		"prettier": "catalog:",
 		"svelte": "catalog:",
-		"tsup": "catalog:",
+		"tsdown": "catalog:",
 		"tsx": "catalog:",
 		"turbo": "catalog:",
 		"typescript": "catalog:",

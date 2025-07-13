@@ -30,7 +30,8 @@
 			"default": "./dist/prettier.js"
 		},
 		"./tsconfig.base.json": "./tsconfig.base.json",
-		"./tsconfig.react.json": "./tsconfig.react.json"
+		"./tsconfig.react.json": "./tsconfig.react.json",
+		"./package.json": "./package.json"
 	},
 	"files": [
 		"dist",
@@ -39,7 +40,8 @@
 		"tsconfig.react.json"
 	],
 	"scripts": {
-		"build": "tsup",
+		"b": "tsdown",
+		"build": "tsdown",
 		"lint": "eslint .",
 		"lint:fix": "eslint --fix .",
 		"format": "prettier --write .",

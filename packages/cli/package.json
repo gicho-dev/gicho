@@ -27,10 +27,12 @@
 			"source": "./src/index.ts",
 			"types": "./dist/index.d.ts",
 			"default": "./dist/index.js"
-		}
+		},
+		"./package.json": "./package.json"
 	},
-	"main": "dist/index.js",
-	"types": "dist/index.d.ts",
+	"main": "./dist/index.js",
+	"module": "./dist/index.js",
+	"types": "./dist/index.d.ts",
 	"bin": {
 		"gicho": "./dist/index.js"
 	},
@@ -38,7 +40,8 @@
 		"node": ">=22"
 	},
 	"scripts": {
-		"build": "tsup",
+		"b": "tsdown",
+		"build": "tsdown",
 		"coverage": "vitest --coverage",
 		"test:b": "vitest bench",
 		"test": "vitest",
