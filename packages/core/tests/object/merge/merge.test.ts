@@ -3,11 +3,11 @@ import type { UnknownArray } from '../../../src/types'
 
 import { describe, expect, expectTypeOf, test } from 'vitest'
 
-import { createMerge, createMergeObject } from '../../../src/object/merge'
+import { createMerge, createMergeObjects } from '../../../src/object/merge'
 
-describe('merge / mergeObject', () => {
-	describe('merge - default', () => {
-		const merge = createMerge()
+describe('merge', () => {
+	describe('createMerge - default', () => {
+		const { merge } = createMerge()
 
 		test('merge map', () => {
 			const a = new Map<string, unknown>([
@@ -73,7 +73,7 @@ describe('merge / mergeObject', () => {
 				parentValues?: UnknownArray
 			}[] = []
 
-			const merge = createMerge({
+			const { merge } = createMerge({
 				mergeHandlers: {
 					mergeOthers: (values, ctx) => {
 						const { key, namespace, parentValues } = ctx
@@ -206,8 +206,8 @@ describe('merge / mergeObject', () => {
 		})
 	})
 
-	describe('mergeObject', () => {
-		const mergeObject = createMergeObject({ symbolKeys: true })
+	describe('createMergeObjects', () => {
+		const { merge } = createMergeObjects({ symbolKeys: true })
 
 		test('merge object with symbol keys', () => {
 			const sym1 = Symbol.for('test symbol')
@@ -215,7 +215,7 @@ describe('merge / mergeObject', () => {
 			const a = { a: 1, [sym1]: 2, arr1: [1, 2], o1: { x: 1, y: 2 } }
 			const b = { [sym1]: 3, c: 4, arr1: ['hi'], o1: { y: 20, z: 3 }, o2: { hi: 'hello' } }
 
-			const merged = mergeObject(a, b)
+			const merged = merge(a, b)
 
 			expect(merged).toEqual({
 				a: 1,
@@ -232,7 +232,7 @@ describe('merge / mergeObject', () => {
 		})
 
 		test('custom merger', () => {
-			const mergeObject = createMergeObject({
+			const { merge } = createMergeObjects({
 				merger(result, key, value, ctx) {
 					if (key === 'c') {
 						result[key] = `haha.${value}.${ctx.namespace}`
@@ -244,7 +244,7 @@ describe('merge / mergeObject', () => {
 			const a = { a: 1, b: 2, c: 3, obj1: { c: 1 } }
 			const b = { b: 20, c: 30, d: 4, obj1: { c: 'hi' } }
 
-			const merged = mergeObject(a, b)
+			const merged = merge(a, b)
 
 			expect(merged).toEqual({
 				a: 1,
@@ -254,5 +254,37 @@ describe('merge / mergeObject', () => {
 				obj1: { c: 'haha.hi.obj1' },
 			})
 		})
+	})
+
+	describe('common (createMerge, createMergeObjects)', () => {
+		const _merge = createMerge()
+		const _mergeObjects = createMergeObjects({ symbolKeys: true })
+
+		for (const fn of [_merge, _mergeObjects]) {
+			const { merge, mergeInto } = fn
+			const fnName = fn === _merge ? 'merge' : 'mergeObjects'
+
+			test(`${fnName} - merge into`, () => {
+				const a = { a: 1, b: 2, c: 3 }
+				const b = { b: 20, c: 30, d: 4 }
+				const c = { c: 35, e: 5 }
+
+				const expected = { a: 1, b: 20, c: 35, d: 4, e: 5 }
+
+				const merged1 = merge(a, b, c) // no mutate a, returns new object
+
+				expect(merged1).toEqual(expected)
+				expect(merged1).not.toEqual(a)
+				expect(merged1).not.toBe(a)
+				expect(a).not.toEqual(expected)
+
+				const merged2 = mergeInto(a, b, c) // mutates a, returns a
+
+				expect(merged2).toEqual(expected)
+				expect(merged2).toEqual(a)
+				expect(merged2).toBe(a)
+				expect(a).toEqual(expected)
+			})
+		}
 	})
 })

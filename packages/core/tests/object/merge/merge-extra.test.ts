@@ -1,16 +1,16 @@
 import { describe, expect, test } from 'vitest'
 
-import { createMerge, createMergeObject } from '../../../src/object/merge'
+import { createMerge, createMergeObjects } from '../../../src/object/merge'
 
 // based on https://github.com/TehShrike/deepmerge test cases
 
 describe('merge-extra', () => {
-	const _merge = createMerge()
-	const _mergeObject = createMergeObject({ symbolKeys: true })
+	const { merge: _merge } = createMerge()
+	const { merge: _mergeObjects } = createMergeObjects({ symbolKeys: true })
 
-	for (const fn of [_merge, _mergeObject]) {
+	for (const fn of [_merge, _mergeObjects]) {
 		const merge = fn
-		const fnName = fn === _merge ? 'merge' : 'mergeObject'
+		const fnName = fn === _merge ? 'merge' : 'mergeObjects'
 
 		test('add keys in target that do not exist at the root', () => {
 			const a = {}
@@ -356,6 +356,7 @@ describe('merge-extra', () => {
 			const merged = merge(a, b)
 
 			expect(merged).toEqual(expected)
+			merged.key
 			expect(merged.key.valueOf()).toBe(tuesday.valueOf())
 		})
 

@@ -3,6 +3,7 @@ import type {
 	AnyRecord,
 	If,
 	IsAllOf,
+	IsAllPlainObject,
 	IsKeyOptional,
 	IsLooseTuple,
 	IsNever,
@@ -97,13 +98,11 @@ export type MergeDeep<Ts> = Ts extends UnknownArray
 						? MergeMaps<Ts>
 						: IsAllOf<Ts, UnknownSet> extends true
 							? MergeSets<Ts>
-							: IsAllOf<Ts, AnyRecord> extends true
+							: IsAllPlainObject<Ts> extends true
 								? MergeRecords<Ts>
 								: MergeOthers<Ts>
 		: unknown
 	: never
-
-export type MergeFn = <Ts extends UnknownArray>(...values: Ts) => MergeDeep<Ts>
 
 /* ----------------------------------------
  *   Internal utils
@@ -238,6 +237,18 @@ export interface CreateMergeConfig {
 
 export type CreateMergeOptions = PartialDeep<CreateMergeConfig>
 
+export interface CreateMergeReturn {
+	/**
+	 * Deeply merges multiple values into a single object.
+	 */
+	merge: <Ts extends UnknownArray>(...values: Ts) => MergeDeep<Ts>
+
+	/**
+	 * Deeply merges multiple values into the target object.
+	 */
+	mergeInto: <T, Ts extends UnknownArray>(target: T, ...sources: Ts) => MergeDeep<[T, ...Ts]>
+}
+
 const defaultMergeHandlers: MergeHandlers = {
 	mergeObjects: (values, context) => {
 		const result: UnknownRecord = {}
@@ -289,7 +300,7 @@ const defaultMergeHandlers: MergeHandlers = {
 /**
  * Create a custom deep merge function.
  */
-export function createMerge(options: CreateMergeOptions = {}): MergeFn {
+export function createMerge(options: CreateMergeOptions = {}): CreateMergeReturn {
 	const { filterValues, mergeHandlers = {} } = options
 
 	const fns = {
@@ -347,10 +358,22 @@ export function createMerge(options: CreateMergeOptions = {}): MergeFn {
 		}
 	}
 
-	return (...values) => merge(values, context)
+	return {
+		merge: (...values) => merge(values, context),
+
+		mergeInto: <T, Ts extends UnknownArray>(target: T, ...sources: Ts): MergeDeep<[T, ...Ts]> => {
+			const result = merge([target, ...sources], context) as UnknownRecord
+			const t = target as unknown as UnknownRecord
+
+			// copy result to target
+			Object.assign(t, result)
+
+			return t as MergeDeep<[T, ...Ts]>
+		},
+	}
 }
 
-export const merge = createMerge()
+export const { merge: mergeDeep, mergeInto: mergeDeepInto } = createMerge()
 
 /* ----------------------------------------
  *   Merge (Deep) Plain Object Factory
@@ -395,19 +418,19 @@ export type CreateMergeObjectOptions = PartialDeep<CreateMergeObjectConfig>
  * Use case:
  *  - merge config/options objects (Much better performance than `createMerge`)
  */
-export function createMergeObject(options: CreateMergeObjectOptions = {}): MergeFn {
+export function createMergeObjects(options: CreateMergeObjectOptions = {}): CreateMergeReturn {
 	const { merger, symbolKeys = false } = options
 
 	const getKeys = symbolKeys ? getKeysAndSymbols : Object.keys
 
 	const context: MergeObjectHandlerContext = {
 		getObjectType,
-		merge,
+		merge: _merge,
 		merger,
 		namespace: '',
 	}
 
-	function merge<T1, T2>(o1: T1, o2: T2, context: MergeObjectHandlerContext): MergeDeep<[T1, T2]> {
+	function _merge<T1, T2>(o1: T1, o2: T2, context: MergeObjectHandlerContext): MergeDeep<[T1, T2]> {
 		const result = { ...o1 } as UnknownRecord
 
 		for (const key of getKeys(o2 as UnknownRecord)) {
@@ -427,7 +450,7 @@ export function createMergeObject(options: CreateMergeObjectOptions = {}): Merge
 			} else if (val1Type === 'a' && val2Type === 'a') {
 				result[key] = [...(val1 as unknown[]), ...(val2 as unknown[])]
 			} else if (val1Type === 'o' && val2Type === 'o') {
-				result[key] = merge(val1, val2, {
+				result[key] = _merge(val1, val2, {
 					...context,
 					namespace: `${context.namespace ? `${context.namespace}.` : ''}${String(key)}`,
 				})
@@ -439,10 +462,29 @@ export function createMergeObject(options: CreateMergeObjectOptions = {}): Merge
 		return result as MergeDeep<[T1, T2]>
 	}
 
-	return <Ts extends UnknownArray>(...values: Ts) =>
-		values.reduce((obj, c) => {
-			return getObjectType(c) === 'o' ? merge(obj, c, context) : c
-		}, {}) as MergeDeep<Ts>
+	return {
+		merge: <Ts extends UnknownArray>(...values: Ts) => {
+			let result = values[0]
+			const len = values.length
+			for (let i = 1; i < len; i++) {
+				const value = values[i]
+				result = getObjectType(value) === 'o' ? _merge(result, value, context) : value
+			}
+			return result as MergeDeep<Ts>
+		},
+
+		mergeInto: <T, Ts extends UnknownArray>(target: T, ...sources: Ts) => {
+			let result = target as unknown
+			for (const value of sources) {
+				result = getObjectType(value) === 'o' ? _merge(result, value, context) : value
+			}
+
+			// copy result to target
+			Object.assign(target as UnknownRecord, result)
+
+			return target as MergeDeep<[T, ...Ts]>
+		},
+	}
 }
 
-export const mergeObject = createMergeObject()
+export const { merge, mergeInto } = createMergeObjects()

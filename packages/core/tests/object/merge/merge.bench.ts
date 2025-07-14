@@ -1,15 +1,18 @@
 import { bench, describe } from 'vitest'
 
-import { createMerge, createMergeObject } from '../../../src/object/merge'
+import { clone } from '../../../src/object/clone'
+import { createMerge, createMergeObjects } from '../../../src/object/merge'
 import { fixtures } from './merge.fixtures'
 import { samples } from './merge.samples'
 
 describe('benchmark testing 1', () => {
 	const { deepmerge, fastifyDeepmerge } = samples
 
-	const merge = createMerge()
-	const mergeObject = createMergeObject()
-	const mergeObjectSymbols = createMergeObject({ symbolKeys: true })
+	const { merge, mergeInto } = createMerge()
+	const { merge: mergeObjects, mergeInto: mergeObjectsInto } = createMergeObjects()
+	const { merge: mergeObjectsSymbols, mergeInto: mergeObjectsSymbolsInto } = createMergeObjects({
+		symbolKeys: true,
+	})
 
 	const deepmergeMerge = deepmerge
 	const deepmergeMergeAll = deepmergeMerge.all
@@ -18,20 +21,22 @@ describe('benchmark testing 1', () => {
 	const fastifyDeepmergeMergeAll = fastifyDeepmerge({ all: true })
 	const fastifyDeepmergeMergeSymbols = fastifyDeepmerge({ all: true, symbols: true })
 
-	function runner(name: keyof typeof fixtures, contentders: Record<string, Function>) {
+	function runner(name: keyof typeof fixtures, contenders: Record<string, Function>) {
 		describe(name, () => {
-			const keys = Object.keys(contentders)
+			const keys = Object.keys(contenders)
 
 			keys.forEach((contender) => {
-				const merge = contentders[contender]
+				const merge = contenders[contender]
 
 				if (merge === deepmergeMergeAll) {
 					bench(`${name} - ${contender}`, () => {
-						merge(fixtures[name])
+						const values = clone(fixtures[name])
+						merge(values)
 					})
 				} else {
 					bench(`${name} - ${contender}`, () => {
-						merge(...fixtures[name])
+						const values = clone(fixtures[name])
+						merge(...values)
 					})
 				}
 			})
@@ -41,7 +46,9 @@ describe('benchmark testing 1', () => {
 	// with symbol keys
 	runner('simpleMix1', {
 		merge,
-		mergeObjectSymbols,
+		mergeObjectsSymbols,
+		mergeInto,
+		mergeObjectsSymbolsInto,
 		'deepmerge (all)': deepmergeMergeAll,
 		'@fastify/deepmerge (symbols)': fastifyDeepmergeMergeSymbols,
 	})
@@ -58,8 +65,11 @@ describe('benchmark testing 1', () => {
 
 	runner('json2', {
 		merge,
-		mergeObject,
-		mergeObjectSymbols,
+		mergeObjects,
+		mergeObjectsSymbols,
+		mergeInto,
+		mergeObjectsInto,
+		mergeObjectsSymbolsInto,
 		deepmerge: deepmergeMerge,
 		'deepmerge (all)': deepmergeMergeAll,
 		'@fastify/deepmerge': fastifyDeepmergeMerge,
@@ -68,16 +78,22 @@ describe('benchmark testing 1', () => {
 	})
 	runner('json100', {
 		merge,
-		mergeObject,
-		mergeObjectSymbols,
+		mergeObjects,
+		mergeObjectsSymbols,
+		mergeInto,
+		mergeObjectsInto,
+		mergeObjectsSymbolsInto,
 		'deepmerge (all)': deepmergeMergeAll,
 		'@fastify/deepmerge (all)': fastifyDeepmergeMergeAll,
 		'@fastify/deepmerge (symbols)': fastifyDeepmergeMergeSymbols,
 	})
 	runner('json1000', {
 		merge,
-		mergeObject,
-		mergeObjectSymbols,
+		mergeObjects,
+		mergeObjectsSymbols,
+		mergeInto,
+		mergeObjectsInto,
+		mergeObjectsSymbolsInto,
 		'deepmerge (all)': deepmergeMergeAll,
 		'@fastify/deepmerge (all)': fastifyDeepmergeMergeAll,
 		'@fastify/deepmerge (symbols)': fastifyDeepmergeMergeSymbols,
@@ -85,8 +101,11 @@ describe('benchmark testing 1', () => {
 
 	runner('jsonManyKeys2', {
 		merge,
-		mergeObject,
-		mergeObjectSymbols,
+		mergeObjects,
+		mergeObjectsSymbols,
+		mergeInto,
+		mergeObjectsInto,
+		mergeObjectsSymbolsInto,
 		deepmerge: deepmergeMerge,
 		'deepmerge (all)': deepmergeMergeAll,
 		'@fastify/deepmerge': fastifyDeepmergeMerge,
@@ -95,8 +114,11 @@ describe('benchmark testing 1', () => {
 	})
 	runner('jsonManyKeys10', {
 		merge,
-		mergeObject,
-		mergeObjectSymbols,
+		mergeObjects,
+		mergeObjectsSymbols,
+		mergeInto,
+		mergeObjectsInto,
+		mergeObjectsSymbolsInto,
 		'deepmerge (all)': deepmergeMergeAll,
 		'@fastify/deepmerge (all)': fastifyDeepmergeMergeAll,
 		'@fastify/deepmerge (symbols)': fastifyDeepmergeMergeSymbols,
