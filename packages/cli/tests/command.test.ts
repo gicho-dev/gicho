@@ -66,7 +66,7 @@ describe('command', () => {
 		expect(cm.matched?.options).toEqual({ '--': [], flag: true })
 		_parse(cm, ['-v'])
 		expect(cm.matched?.options).toEqual({ '--': [], v: true, version: true })
-		cm.displayHelp()
+
 		_parse(cm, ['build', '-c'])
 		expect(cm.matched?.commandName).toEqual('build')
 		expect(cm.matched?.options).toEqual({ '--': [], c: 'cream', cheese: 'cream' })
