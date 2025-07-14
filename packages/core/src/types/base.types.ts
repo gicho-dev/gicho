@@ -7,6 +7,15 @@ export type Awaitable<T> = T | PromiseLike<T>
 /** Matches any primitive, Date, or RegExp. */
 export type BuiltIns = Primitive | Date | RegExp
 
+/** Matches a `class`. */
+export interface Class<T, TArgs extends unknown[] = any[]> {
+	prototype: Pick<T, keyof T>
+	new (...args: TArgs): T
+}
+
+/** Matches a `class` constructor. */
+export type Constructor<T, TArgs extends unknown[] = any[]> = new (...args: TArgs) => T
+
 export type Expect<T extends true> = T
 
 /** Check if the given function has multiple call signatures. */
@@ -33,10 +42,6 @@ export type IsLooseTuple<T extends UnknownArray> = T extends readonly []
 		? true
 		: false
 
-/** Returns a boolean for whether a key is optional in the given object. */
-export type IsKeyOptional<K extends PropertyKey, T extends Partial<Record<K, unknown>>> =
-	T extends Record<K, unknown> ? false : true
-
 /** Returns a boolean for whether the two given types are equal. */
 export type IsEqual<A, B> =
 	(<T>() => T extends (A & T) | T ? 1 : 2) extends <T>() => T extends (B & T) | T ? 1 : 2
@@ -46,11 +51,8 @@ export type IsEqual<A, B> =
 /** Returns a boolean for whether the given type is `never`. */
 export type IsNever<T> = [T] extends [never] ? true : false
 
-/** Autocomplete-friendly union of `T` with fallback to `U`. */
-export type LiteralUnion<T extends U, U = string> = T | (U & Record<never, never>)
-
 /** Matches non-recursive types. */
-export type NonRecursiveType = BuiltIns | AnyFunction | (new (...args: any[]) => unknown)
+export type NonRecursiveType = BuiltIns | AnyFunction | Constructor<unknown, any[]>
 
 /** A value that may be null or undefined. */
 export type Nullable<T> = T | null | undefined
@@ -134,6 +136,33 @@ export type If<T extends boolean, TIfBranch, TElseBranch> =
 /** Returns the last element of a union type. */
 export type LastOfUnion<T> =
 	UnionToIntersection<T extends any ? () => T : never> extends () => infer R ? R : never
+
+/**
+ * Creates a union type that provides auto-completion for literal values in `T`
+ * while still allowing any value of type `TBase`.
+ *
+ * This is useful when you want to suggest specific values (like 'red' | 'blue')
+ * but still accept any string/number/etc.
+ *
+ * @example
+ * ```
+ * type Color = LiteralUnion<'red' | 'blue' | 'green', string>
+ * // IDE will suggest 'red', 'blue', 'green' but also accepts any string
+ * ```
+ */
+export type LiteralUnion<T, TBase extends Primitive> = T | (TBase & Record<never, never>)
+
+/**
+ * Creates a union type that provides auto-completion for literal values in `T`
+ * while still allowing any value of type `string`.
+ *
+ * @example
+ * ```
+ * type Color = LiteralStringUnion<'red' | 'blue' | 'green'>
+ * // IDE will suggest 'red', 'blue', 'green' but also accepts any string
+ * ```
+ */
+export type LiteralStringUnion<T> = LiteralUnion<T, string>
 
 /**
  * Convert a union type to an intersection type using [distributive conditional types](https://www.typescriptlang.org/docs/handbook/release-notes/typescript-2-8.html#distributive-conditional-types).

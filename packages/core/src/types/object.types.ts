@@ -2,9 +2,27 @@ import type {
 	AnyFunction,
 	BuiltIns,
 	HasMultipleCallSignatures,
+	If,
 	IsNever,
+	NonRecursiveType,
 	UnknownArray,
+	UnknownMap,
+	UnknownSet,
 } from './base.types'
+
+/** Returns a boolean for whether the given type is a plain key-value object. */
+export type IsPlainObject<T> = T extends NonRecursiveType | UnknownArray | UnknownMap | UnknownSet
+	? false
+	: T extends object
+		? true
+		: false
+
+export type IsAllPlainObject<Ts extends UnknownArray> = Ts extends readonly [
+	infer TFirst,
+	...infer TRest,
+]
+	? If<IsNever<TFirst>, false, If<IsPlainObject<TFirst>, IsAllPlainObject<TRest>, false>>
+	: true
 
 /* ----------------------------------------
  *   Index Signature
@@ -84,6 +102,10 @@ export type Prettify<T> = { [K in keyof T]: T[K] } & {}
 /* ----------------------------------------
  *   Optional / Required Keys
  * ------------------------------------- */
+
+/** Returns a boolean for whether a key is optional in the given object. */
+export type IsKeyOptional<K extends PropertyKey, T extends Partial<Record<K, unknown>>> =
+	T extends Record<K, unknown> ? false : true
 
 /** Extract all optional keys from the given type. */
 export type OptionalKeysOf<T extends object> = T extends unknown
