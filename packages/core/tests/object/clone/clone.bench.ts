@@ -10,8 +10,8 @@ describe('clone', () => {
 	const rfdcClone = rfdc()
 	const rfdcCloneCircles = rfdc({ circles: true })
 
-	const clone = createClone()
-	const cloneCircles = createClone({ circles: true })
+	const { clone } = createClone()
+	const { clone: cloneCircles } = createClone({ circles: true })
 
 	function runner(name: keyof typeof fixtures, contentders: Record<string, Function>) {
 		describe(name, () => {

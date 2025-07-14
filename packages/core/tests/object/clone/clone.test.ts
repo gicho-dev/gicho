@@ -4,8 +4,8 @@ import { createClone } from '../../../src/object/clone'
 import { fixtures } from './clone.fixtures'
 
 describe('clone', () => {
-	const clone = createClone()
-	const cloneCircles = createClone({ circles: true })
+	const { clone } = createClone()
+	const { clone: cloneCircles } = createClone({ circles: true })
 
 	const fn = <T>(x: T): [T, T] => {
 		const x2 = clone(x)

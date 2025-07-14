@@ -1,4 +1,4 @@
-import type { TypedArray, UnknownRecord } from '../types'
+import type { Constructor, TypedArray, UnknownRecord } from '../types'
 
 /* ----------------------------------------
  *   Types
@@ -6,11 +6,7 @@ import type { TypedArray, UnknownRecord } from '../types'
 
 type AnyArrayObject = any[] & UnknownRecord
 
-interface Constructor<T = unknown> {
-	new (...args: any[]): T
-}
-
-interface CreateCloneOptions {
+export interface CreateCloneOptions {
 	/**
 	 * Whether to support circular references
 	 * @default false
@@ -19,9 +15,16 @@ interface CreateCloneOptions {
 	cloneFunctions?: Partial<CloneFunctions>
 	customConstructors?: ConstructorHandlerItem[]
 }
-type CreateCloneConfig = Required<CreateCloneOptions>
 
-type CloneFn = <T>(x: T) => T
+export type CreateCloneConfig = Required<CreateCloneOptions>
+
+export interface CreateCloneReturn {
+	/**
+	 * Deeply clones a value.
+	 */
+	clone: <T>(x: T) => T
+}
+
 type InternalCloneFn = <T>(x: T, refs: Map<unknown, unknown>) => T
 
 interface CloneFunctions {
@@ -128,7 +131,7 @@ const defaultCloneFunctions: CloneFunctions = {
 		return (
 			typeof Buffer !== 'undefined' && x instanceof Buffer
 				? Buffer.from(x)
-				: new (x.constructor as Constructor)(
+				: new (x.constructor as Constructor<unknown>)(
 						x.buffer.slice(),
 						x.byteOffset,
 						(x as TypedArray).length,
@@ -142,10 +145,10 @@ const defaultCloneFunctions: CloneFunctions = {
 /**
  * Create a custom deep clone function.
  */
-export function createClone(options: CreateCloneOptions = {}): CloneFn {
+export function createClone(options: CreateCloneOptions = {}): CreateCloneReturn {
 	const { cloneFunctions = {}, circles = false, customConstructors = [] } = options
 
-	const customHandlers = new Map<Constructor, CloneHandler>()
+	const customHandlers = new Map<Constructor<unknown>, CloneHandler>()
 	for (const [ctor, handler] of customConstructors) customHandlers.set(ctor, handler)
 
 	const fns = {
@@ -199,5 +202,9 @@ export function createClone(options: CreateCloneOptions = {}): CloneFn {
 		return fns.cloneUnknown(x, context, refs) as T
 	}
 
-	return <T>(x: T): T => clone(x, new Map<unknown, unknown>())
+	return {
+		clone: <T>(x: T): T => clone(x, new Map<unknown, unknown>()),
+	}
 }
+
+export const { clone } = createClone()
