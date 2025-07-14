@@ -87,7 +87,7 @@ export interface ResolvedFetchOptions<TData = any>
 	_retryCount: number
 
 	headers: Headers
-	method: LiteralUnion<HttpMethod>
+	method: LiteralUnion<HttpMethod, string>
 	searchParams?: URLSearchParams
 }
 

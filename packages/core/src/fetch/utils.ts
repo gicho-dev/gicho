@@ -69,7 +69,7 @@ export async function callHooks<TContext extends FetchContext>(
 	}
 }
 
-export function canHaveBody(method: LiteralUnion<HttpMethod>): boolean {
+export function canHaveBody(method: LiteralUnion<HttpMethod, string>): boolean {
 	return PAYLOAD_METHODS.has(method.toUpperCase() as HttpPayloadableMethod)
 }
 
