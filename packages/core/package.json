@@ -18,9 +18,9 @@
 	"author": "Lucas Choi",
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/gichojs/gicho"
+		"url": "https://github.com/gichodev/gicho"
 	},
-	"homepage": "https://github.com/gichojs/gicho",
+	"homepage": "https://github.com/gichodev/gicho",
 	"sideEffects": false,
 	"type": "module",
 	"exports": {
