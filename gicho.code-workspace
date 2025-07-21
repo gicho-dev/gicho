@@ -5,15 +5,15 @@
 			"path": ".",
 		},
 		{
-			"name": "CLI",
+			"name": "🖥️ CLI",
 			"path": "./packages/cli",
 		},
 		{
-			"name": "CONFIG",
+			"name": "⚙️ CONFIG",
 			"path": "./packages/config",
 		},
 		{
-			"name": "CORE",
+			"name": "💎 CORE",
 			"path": "./packages/core",
 		},
 	],
