@@ -109,7 +109,10 @@ export const typescript: ConfigGroupFn<'typescript'> = async (options = {}, cont
 				// Disallow using the delete operator on computed key expressions.
 				'@typescript-eslint/no-dynamic-delete': 'off',
 				// Disallow accidentally using the "empty object" type.
-				'@typescript-eslint/no-empty-object-type': ['error', { allowInterfaces: 'always' }],
+				'@typescript-eslint/no-empty-object-type': [
+					'error',
+					{ allowInterfaces: 'always', allowObjectTypes: 'always' },
+				],
 				// Disallow the any type.
 				'@typescript-eslint/no-explicit-any': 'off',
 				// Enforce the use of top-level import type qualifier when an import only has specifiers with inline type qualifiers.
