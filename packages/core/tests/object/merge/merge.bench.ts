@@ -14,6 +14,10 @@ describe('benchmark testing 1', () => {
 	const { deepmerge, fastifyDeepmerge } = samples
 
 	const { merge, mergeInto } = createMerge()
+	const { merge: mergeWithFilter, mergeInto: mergeIntoWithFilter } = createMerge({
+		filterValues: (values) => values.filter((v) => v !== undefined),
+	})
+
 	const { mergeObjects, mergeObjectsInto } = createMergeObjects()
 	const { mergeObjects: mergeObjectsSymbols, mergeObjectsInto: mergeObjectsSymbolsInto } =
 		createMergeObjects({ symbolKeys: true })
@@ -50,8 +54,10 @@ describe('benchmark testing 1', () => {
 	// with symbol keys
 	runner('simpleMix1', {
 		merge,
+		mergeWithFilter,
 		mergeObjectsSymbols,
 		mergeInto,
+		mergeIntoWithFilter,
 		mergeObjectsSymbolsInto,
 		'deepmerge (all)': deepmergeMergeAll,
 		'@fastify/deepmerge (symbols)': fastifyDeepmergeMergeSymbols,
@@ -69,10 +75,12 @@ describe('benchmark testing 1', () => {
 
 	runner('json2', {
 		merge,
+		mergeWithFilter,
 		mergeConfigs,
 		mergeObjects,
 		mergeObjectsSymbols,
 		mergeInto,
+		mergeIntoWithFilter,
 		mergeConfigsInto,
 		mergeObjectsInto,
 		mergeObjectsSymbolsInto,
@@ -84,10 +92,12 @@ describe('benchmark testing 1', () => {
 	})
 	runner('json100', {
 		merge,
+		mergeWithFilter,
 		mergeConfigs,
 		mergeObjects,
 		mergeObjectsSymbols,
 		mergeInto,
+		mergeIntoWithFilter,
 		mergeConfigsInto,
 		mergeObjectsInto,
 		mergeObjectsSymbolsInto,
@@ -97,10 +107,12 @@ describe('benchmark testing 1', () => {
 	})
 	runner('json1000', {
 		merge,
+		mergeWithFilter,
 		mergeConfigs,
 		mergeObjects,
 		mergeObjectsSymbols,
 		mergeInto,
+		mergeIntoWithFilter,
 		mergeConfigsInto,
 		mergeObjectsInto,
 		mergeObjectsSymbolsInto,
@@ -111,10 +123,12 @@ describe('benchmark testing 1', () => {
 
 	runner('jsonManyKeys2', {
 		merge,
+		mergeWithFilter,
 		mergeConfigs,
 		mergeObjects,
 		mergeObjectsSymbols,
 		mergeInto,
+		mergeIntoWithFilter,
 		mergeConfigsInto,
 		mergeObjectsInto,
 		mergeObjectsSymbolsInto,
@@ -126,10 +140,12 @@ describe('benchmark testing 1', () => {
 	})
 	runner('jsonManyKeys10', {
 		merge,
+		mergeWithFilter,
 		mergeConfigs,
 		mergeObjects,
 		mergeObjectsSymbols,
 		mergeInto,
+		mergeIntoWithFilter,
 		mergeConfigsInto,
 		mergeObjectsInto,
 		mergeObjectsSymbolsInto,

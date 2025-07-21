@@ -48,6 +48,21 @@ describe('merge', () => {
 			expect(merged).toEqual(new Set([1, 2, 3, 4, 5, 6]))
 		})
 
+		test('merge withcustom filterValues', () => {
+			const a = { x: 1, y: 2, z: 3, arr1: [1, 2], u1: undefined, u2: null }
+			const b = { x: null, y: undefined, arr1: undefined, u2: undefined }
+
+			const { merge: mergeWithFilter } = createMerge({
+				filterValues: (values) => values.filter((v) => v !== undefined),
+			})
+
+			const merged = merge(a, b)
+			expect(merged).toEqual({ x: null, z: 3 })
+
+			const mergedWithFilter = mergeWithFilter(a, b)
+			expect(mergedWithFilter).toEqual({ x: null, y: 2, z: 3, arr1: [1, 2], u2: null })
+		})
+
 		test('cuatom merge with complex object and check meta data', () => {
 			const sym = Symbol(20)
 			const a = {
@@ -213,7 +228,8 @@ describe('merge', () => {
 			interface Config1 {
 				x: number | string
 				y: number
-				z?: number
+				z1?: number
+				z2?: number
 				obj1: { a: string; b: boolean; arr1: string[] }
 			}
 			type Options1 = Partial<Config1>
@@ -221,12 +237,13 @@ describe('merge', () => {
 			const defaultConfig: Config1 = {
 				x: 1,
 				y: 2,
-				z: 3,
+				z1: 3,
+				z2: 4,
 				obj1: { a: 'hi', b: true, arr1: ['a', 'b'] },
 			}
 			const options: Options1 = {
 				x: 2,
-				z: undefined,
+				z1: undefined,
 				obj1: { a: 'hello', b: false, arr1: ['c', 'd'] },
 			}
 
@@ -236,13 +253,15 @@ describe('merge', () => {
 			expect(merged).toEqual({
 				x: 2,
 				y: 2,
-				z: undefined,
+				z1: undefined, // overrides with `undefined` value (by mergeObjects)
+				z2: 4,
 				obj1: { a: 'hello', b: false, arr1: ['a', 'b', 'c', 'd'] },
 			})
 			expect(merged2).toEqual({
 				x: 2,
 				y: 2,
-				z: undefined,
+				z1: 3, // ignores explicit `undefined` value (by mergeConfigs)
+				z2: 4,
 				obj1: { a: 'hello', b: false, arr1: ['c', 'd'] },
 			})
 			expectTypeOf(merged).toEqualTypeOf<Config1>()

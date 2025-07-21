@@ -546,7 +546,11 @@ export function createMergeObjects(
 export const { mergeObjects, mergeObjectsInto } = createMergeObjects()
 
 export const predefinedMergers = {
+	/** No array concatenation; explicit `undefined` values are ignored. */
 	noConcatArrays: (result, key, val2, ctx) => {
+		// ignore explicit `undefined` value
+		if (val2 === undefined) return true
+
 		const val1 = result[key]
 
 		const val1Type = ctx.getObjectType(val1)
@@ -568,7 +572,8 @@ export const predefinedMergers = {
 
 /**
  * Deeply merges objects.
- * Arrays are not concatenated; last-wins strategy is applied.
+ * - Arrays are not concatenated; last-wins strategy is applied.
+ * - Ignore explicit `undefined` value
  */
 export const { mergeObjects: mergeConfigs, mergeObjectsInto: mergeConfigsInto } =
 	createMergeObjects({ merger: predefinedMergers.noConcatArrays })
