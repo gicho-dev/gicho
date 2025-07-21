@@ -34,6 +34,7 @@ function genJsonObject1(a: number, b: number): Record<string, unknown> {
 				a: a * a,
 				arr1: [a, b],
 			},
+			fn1: () => true,
 		},
 		d: `hello ${a} ${b}`,
 	}

@@ -6,10 +6,10 @@ import { createMerge, createMergeObjects } from '../../../src/object/merge'
 
 describe('merge-extra', () => {
 	const { merge: _merge } = createMerge()
-	const { merge: _mergeObjects } = createMergeObjects({ symbolKeys: true })
+	const { mergeObjects: _mergeObjects } = createMergeObjects({ symbolKeys: true })
 
 	for (const fn of [_merge, _mergeObjects]) {
-		const merge = fn
+		const merge = fn as typeof _merge
 		const fnName = fn === _merge ? 'merge' : 'mergeObjects'
 
 		test('add keys in target that do not exist at the root', () => {
@@ -180,22 +180,24 @@ describe('merge-extra', () => {
 			expect(merge(a, b)).toEqual(expected)
 		})
 
-		test('should replace object with primitive', () => {
-			const a = { key1: new Date() }
-			const b = 'test'
+		if (fnName === 'merge') {
+			test('should replace object with primitive', () => {
+				const a = { key1: new Date() }
+				const b = 'test'
 
-			const expected = 'test'
+				const expected = 'test'
 
-			expect(merge(a, b)).toEqual(expected)
-		})
+				expect(merge(a, b)).toEqual(expected)
+			})
 
-		test('should replace Date with RegExp', () => {
-			const a = new Date()
-			const b = /a/g
-			const expected = /a/g
+			test('should replace Date with RegExp', () => {
+				const a = new Date()
+				const b = /a/g
+				const expected = /a/g
 
-			expect(merge(a, b)).toEqual(expected)
-		})
+				expect(merge(a, b)).toEqual(expected)
+			})
+		}
 
 		test('should replace dates with arrays', () => {
 			const a = { key1: new Date() }
@@ -385,18 +387,18 @@ describe('merge-extra', () => {
 
 				expect(merge(a, b)).toEqual(expected)
 			})
+
+			test("should NOT clone array's element if it is object", () => {
+				const obj = { key: 'yup' }
+				const a: unknown[] = []
+				const b = [obj]
+
+				const merged = merge(a, b)
+
+				expect(merged[0]).toBe(obj) // NOT cloned (by design)
+				expect((merged[0] as { key: string }).key).toBe('yup')
+			})
 		}
-
-		test("should NOT clone array's element if it is object", () => {
-			const obj = { key: 'yup' }
-			const a: unknown[] = []
-			const b = [obj]
-
-			const merged = merge(a, b)
-
-			expect(merged[0]).toBe(obj) // NOT cloned (by design)
-			expect((merged[0] as { key: string }).key).toBe('yup')
-		})
 
 		test('should NOT clone an array property when there is no target array', () => {
 			const someObject = {}

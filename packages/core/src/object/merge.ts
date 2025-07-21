@@ -1,12 +1,13 @@
 import type {
 	And,
 	AnyRecord,
+	FilterPlainObjects,
 	If,
 	IsAllOf,
 	IsAllPlainObject,
 	IsKeyOptional,
-	IsLooseTuple,
 	IsNever,
+	Nullable,
 	PartialDeep,
 	Prettify,
 	UnknownArray,
@@ -52,56 +53,84 @@ type UnionOf<
 					: TAcc
 	: TAcc
 
-type MergeRecords<Ts extends UnknownArray, TAcc = unknown> = Ts extends readonly [
-	infer TFirst,
-	...infer TRest,
-]
-	? TFirst extends AnyRecord
-		? MergeRecords<TRest, MergeTwoRecords<TAcc, TFirst>>
-		: never
-	: TAcc
-
-type MergeTwoRecords<T1, T2> = Prettify<
-	Omit<T1, keyof T2> &
-		Omit<T2, keyof T1> & {
-			[K in IntersectionKeysOf<T1, T2, false>]?: MergeDeep<[T1[K], T2[K]]>
-		} & {
-			[K in IntersectionKeysOf<T1, T2, true>]: MergeDeep<
-				[Exclude<T1[K], undefined>, Exclude<T2[K], undefined>]
-			>
-		}
->
-
 type MergeArrays<Ts extends UnknownArray> = UnionOf<'array', Ts, []>
 type MergeMaps<Ts extends UnknownArray> = Map<UnionOf<'map.key', Ts>, UnionOf<'map.value', Ts>>
 type MergeSets<Ts extends UnknownArray> = Set<UnionOf<'set', Ts>>
 
-type MergeOthers<Ts extends UnknownArray, TAcc = never> = Ts extends readonly [
-	infer TFirst,
-	...infer TRest,
-]
-	? TRest extends readonly []
-		? If<IsNever<TFirst>, TAcc, TFirst>
-		: MergeOthers<TRest, TFirst>
+type MergeRecords<
+	TMergeType extends 'all' | 'obj',
+	Ts extends UnknownArray,
+	TAcc = unknown,
+> = Ts extends readonly [infer TFirst, ...infer TRest]
+	? TFirst extends AnyRecord
+		? MergeRecords<TMergeType, TRest, MergeTwoRecords<TMergeType, TAcc, TFirst>>
+		: never
 	: TAcc
 
-/** The result of using default merge (deep) strategy */
-export type MergeDeep<Ts> = Ts extends UnknownArray
-	? IsLooseTuple<Ts> extends true
-		? Ts extends readonly []
-			? unknown
-			: Ts extends readonly [infer T1]
-				? T1
-				: IsAllOf<Ts, UnknownArray> extends true
-					? MergeArrays<Ts>
+type MergeTwoRecords<TMergeType extends 'all' | 'obj', T1, T2> = Omit<T1, keyof T2> &
+	Omit<T2, keyof T1> & {
+		[K in IntersectionKeysOf<T1, T2, false>]?: TMergeType extends 'all'
+			? MergeDeep<[Exclude<T1[K], undefined>, Exclude<T2[K], undefined>]>
+			: MergeObj<[Exclude<T1[K], undefined>, Exclude<T2[K], undefined>]>
+	} & {
+		[K in IntersectionKeysOf<T1, T2, true>]: TMergeType extends 'all'
+			? MergeDeep<[Exclude<T1[K], undefined>, Exclude<T2[K], undefined>]>
+			: MergeObj<[Exclude<T1[K], undefined>, Exclude<T2[K], undefined>]>
+	}
+
+type MergeOthers<
+	TMergeType extends 'last' | 'union',
+	Ts extends UnknownArray,
+	TAcc = never,
+> = TMergeType extends 'last'
+	? Ts extends readonly [...unknown[], infer TLast]
+		? TLast
+		: never
+	: TMergeType extends 'union'
+		? Ts extends readonly [infer TFirst, ...infer TRest]
+			? TRest extends readonly []
+				? If<IsNever<TFirst>, TAcc, TAcc | TFirst>
+				: MergeOthers<TMergeType, TRest, TAcc | TFirst>
+			: TAcc
+		: never
+
+/**
+ * Deeply merges all input values by their type. Returns TDefault if empty.
+ */
+export type MergeDeep<Ts, TDefault = unknown> = Ts extends UnknownArray
+	? Ts extends readonly []
+		? TDefault
+		: Ts extends readonly [infer TOnly]
+			? TOnly
+			: IsAllOf<Ts, UnknownArray> extends true
+				? MergeArrays<Ts>
+				: IsAllPlainObject<Ts> extends true
+					? Prettify<MergeRecords<'all', Ts>>
 					: IsAllOf<Ts, UnknownMap> extends true
 						? MergeMaps<Ts>
 						: IsAllOf<Ts, UnknownSet> extends true
 							? MergeSets<Ts>
-							: IsAllPlainObject<Ts> extends true
-								? MergeRecords<Ts>
-								: MergeOthers<Ts>
-		: unknown
+							: MergeOthers<'last', Ts>
+	: never
+
+/**
+ * Deeply merges only plain objects from the given inputs (TFirst, ...Ts).
+ * Non-object values are ignored. Returns empty object if no objects remain.
+ */
+export type MergeObjectsDeep<Ts> = Ts extends UnknownArray
+	? MergeObj<FilterPlainObjects<Ts>, {}>
+	: never
+
+type MergeObj<Ts, TDefault = unknown> = Ts extends UnknownArray
+	? Ts extends readonly []
+		? TDefault
+		: Ts extends readonly [infer TOnly]
+			? TOnly
+			: IsAllOf<Ts, UnknownArray> extends true
+				? MergeArrays<Ts>
+				: IsAllPlainObject<Ts> extends true
+					? Prettify<MergeRecords<'obj', Ts>>
+					: MergeOthers<'last', Ts>
 	: never
 
 /* ----------------------------------------
@@ -246,7 +275,10 @@ export interface CreateMergeReturn {
 	/**
 	 * Deeply merges multiple values into the target object.
 	 */
-	mergeInto: <T, Ts extends UnknownArray>(target: T, ...sources: Ts) => MergeDeep<[T, ...Ts]>
+	mergeInto: <T extends NonNullable<unknown>, Ts extends UnknownArray>(
+		target: T,
+		...sources: Ts
+	) => MergeDeep<[T, ...Ts]>
 }
 
 const defaultMergeHandlers: MergeHandlers = {
@@ -361,19 +393,21 @@ export function createMerge(options: CreateMergeOptions = {}): CreateMergeReturn
 	return {
 		merge: (...values) => merge(values, context),
 
-		mergeInto: <T, Ts extends UnknownArray>(target: T, ...sources: Ts): MergeDeep<[T, ...Ts]> => {
-			const result = merge([target, ...sources], context) as UnknownRecord
-			const t = target as unknown as UnknownRecord
+		mergeInto: <T extends NonNullable<unknown>, Ts extends UnknownArray>(
+			target: T,
+			...sources: Ts
+		): MergeDeep<[T, ...Ts]> => {
+			const result = merge([target, ...sources], context)
 
 			// copy result to target
-			Object.assign(t, result)
+			Object.assign(target, result)
 
-			return t as MergeDeep<[T, ...Ts]>
+			return target as MergeDeep<[T, ...Ts]>
 		},
 	}
 }
 
-export const { merge: mergeDeep, mergeInto: mergeDeepInto } = createMerge()
+export const { merge, mergeInto } = createMerge()
 
 /* ----------------------------------------
  *   Merge (Deep) Plain Object Factory
@@ -383,7 +417,7 @@ type MergeObjectFn = <T1, T2>(
 	a: T1,
 	b: T2,
 	context: MergeObjectHandlerContext,
-) => MergeDeep<[T1, T2]>
+) => MergeObjectsDeep<[T1, T2]>
 
 type MergerFn = (
 	result: UnknownRecord,
@@ -412,13 +446,33 @@ export interface CreateMergeObjectConfig {
 
 export type CreateMergeObjectOptions = PartialDeep<CreateMergeObjectConfig>
 
+export interface CreateMergeObjectsReturn {
+	/**
+	 * Deeply merges multiple values into a single object.
+	 */
+	mergeObjects: <T extends Nullable<AnyRecord>, Ts extends readonly Nullable<AnyRecord>[]>(
+		value1: T,
+		...values: Ts
+	) => MergeObjectsDeep<[T, ...Ts]>
+
+	/**
+	 * Deeply merges multiple values into the target object.
+	 */
+	mergeObjectsInto: <T extends AnyRecord, Ts extends readonly Nullable<AnyRecord>[]>(
+		target: T,
+		...sources: Ts
+	) => MergeObjectsDeep<[T, ...Ts]>
+}
+
 /**
  * Create a custom deep merge function for plain objects.
  *
  * Use case:
  *  - merge config/options objects (Much better performance than `createMerge`)
  */
-export function createMergeObjects(options: CreateMergeObjectOptions = {}): CreateMergeReturn {
+export function createMergeObjects(
+	options: CreateMergeObjectOptions = {},
+): CreateMergeObjectsReturn {
 	const { merger, symbolKeys = false } = options
 
 	const getKeys = symbolKeys ? getKeysAndSymbols : Object.keys
@@ -430,7 +484,11 @@ export function createMergeObjects(options: CreateMergeObjectOptions = {}): Crea
 		namespace: '',
 	}
 
-	function _merge<T1, T2>(o1: T1, o2: T2, context: MergeObjectHandlerContext): MergeDeep<[T1, T2]> {
+	function _merge<T1, T2>(
+		o1: T1,
+		o2: T2,
+		context: MergeObjectHandlerContext,
+	): MergeObjectsDeep<[T1, T2]> {
 		const result = { ...o1 } as UnknownRecord
 
 		for (const key of getKeys(o2 as UnknownRecord)) {
@@ -459,32 +517,58 @@ export function createMergeObjects(options: CreateMergeObjectOptions = {}): Crea
 			}
 		}
 
-		return result as MergeDeep<[T1, T2]>
+		return result as MergeObjectsDeep<[T1, T2]>
 	}
 
 	return {
-		merge: <Ts extends UnknownArray>(...values: Ts) => {
-			let result = values[0]
-			const len = values.length
-			for (let i = 1; i < len; i++) {
-				const value = values[i]
-				result = getObjectType(value) === 'o' ? _merge(result, value, context) : value
+		mergeObjects: <T1, Ts extends UnknownArray>(value1: T1, ...values: Ts) => {
+			let result = value1 ?? {}
+			for (const value of values) {
+				if (getObjectType(value) === 'o') result = _merge(result, value, context)
 			}
-			return result as MergeDeep<Ts>
+			return result as MergeObjectsDeep<[T1, ...Ts]>
 		},
 
-		mergeInto: <T, Ts extends UnknownArray>(target: T, ...sources: Ts) => {
+		mergeObjectsInto: <T, Ts extends UnknownArray>(target: T, ...sources: Ts) => {
 			let result = target as unknown
 			for (const value of sources) {
-				result = getObjectType(value) === 'o' ? _merge(result, value, context) : value
+				if (getObjectType(value) === 'o') result = _merge(result, value, context)
 			}
 
 			// copy result to target
 			Object.assign(target as UnknownRecord, result)
 
-			return target as MergeDeep<[T, ...Ts]>
+			return target as MergeObjectsDeep<[T, ...Ts]>
 		},
 	}
 }
 
-export const { merge, mergeInto } = createMergeObjects()
+export const { mergeObjects, mergeObjectsInto } = createMergeObjects()
+
+export const predefinedMergers = {
+	noConcatArrays: (result, key, val2, ctx) => {
+		const val1 = result[key]
+
+		const val1Type = ctx.getObjectType(val1)
+		if (val1Type === 'o') {
+			const val2Type = ctx.getObjectType(val2)
+			if (val2Type === 'o') {
+				result[key] = ctx.merge(val1, val2, {
+					...ctx,
+					namespace: `${ctx.namespace ? `${ctx.namespace}.` : ''}${String(key)}`,
+				})
+				return true
+			}
+		}
+
+		result[key] = val2
+		return true
+	},
+} satisfies Record<string, MergerFn>
+
+/**
+ * Deeply merges objects.
+ * Arrays are not concatenated; last-wins strategy is applied.
+ */
+export const { mergeObjects: mergeConfigs, mergeObjectsInto: mergeConfigsInto } =
+	createMergeObjects({ merger: predefinedMergers.noConcatArrays })

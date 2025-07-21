@@ -10,20 +10,6 @@ import type {
 	UnknownSet,
 } from './base.types'
 
-/** Returns a boolean for whether the given type is a plain key-value object. */
-export type IsPlainObject<T> = T extends NonRecursiveType | UnknownArray | UnknownMap | UnknownSet
-	? false
-	: T extends object
-		? true
-		: false
-
-export type IsAllPlainObject<Ts extends UnknownArray> = Ts extends readonly [
-	infer TFirst,
-	...infer TRest,
-]
-	? If<IsNever<TFirst>, false, If<IsPlainObject<TFirst>, IsAllPlainObject<TRest>, false>>
-	: true
-
 /* ----------------------------------------
  *   Index Signature
  * ------------------------------------- */
@@ -66,6 +52,35 @@ export type MergeMany<Ts extends UnknownArray, TAcc = unknown> = Ts extends [
 ]
 	? MergeMany<TRest, Merge<TAcc, TFirst>>
 	: TAcc
+
+/* ----------------------------------------
+ *   Plain Object
+ * ------------------------------------- */
+
+/** Extracts only plain objects from the given array. */
+export type FilterPlainObjects<Ts extends UnknownArray> = Ts extends readonly [
+	infer TFirst,
+	...infer TRest,
+]
+	? IsPlainObject<TFirst> extends true
+		? [TFirst, ...FilterPlainObjects<TRest>]
+		: FilterPlainObjects<TRest>
+	: []
+
+/** Returns a boolean for whether the given type is a plain key-value object. */
+export type IsPlainObject<T> = T extends NonRecursiveType | UnknownArray | UnknownMap | UnknownSet
+	? false
+	: T extends object
+		? true
+		: false
+
+/** Returns a boolean for whether all items in the given array are plain objects. */
+export type IsAllPlainObject<Ts extends UnknownArray> = Ts extends readonly [
+	infer TFirst,
+	...infer TRest,
+]
+	? If<IsNever<TFirst>, false, If<IsPlainObject<TFirst>, IsAllPlainObject<TRest>, false>>
+	: true
 
 /* ----------------------------------------
  *   Prettify
@@ -145,7 +160,7 @@ export type PartialDeep<T> = T extends BuiltIns | (new (...args: any[]) => unkno
 						: T extends object
 							? T extends UnknownArray
 								? T
-								: (T extends AnyFunction ? (...args: Parameters<T>) => ReturnType<T> : object) & {
+								: (T extends AnyFunction ? (...args: Parameters<T>) => ReturnType<T> : {}) & {
 										[K in keyof T]?: PartialDeep<T[K]>
 									}
 							: unknown

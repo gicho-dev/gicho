@@ -1,7 +1,12 @@
 import { bench, describe } from 'vitest'
 
 import { clone } from '../../../src/object/clone'
-import { createMerge, createMergeObjects } from '../../../src/object/merge'
+import {
+	createMerge,
+	createMergeObjects,
+	mergeConfigs,
+	mergeConfigsInto,
+} from '../../../src/object/merge'
 import { fixtures } from './merge.fixtures'
 import { samples } from './merge.samples'
 
@@ -9,10 +14,9 @@ describe('benchmark testing 1', () => {
 	const { deepmerge, fastifyDeepmerge } = samples
 
 	const { merge, mergeInto } = createMerge()
-	const { merge: mergeObjects, mergeInto: mergeObjectsInto } = createMergeObjects()
-	const { merge: mergeObjectsSymbols, mergeInto: mergeObjectsSymbolsInto } = createMergeObjects({
-		symbolKeys: true,
-	})
+	const { mergeObjects, mergeObjectsInto } = createMergeObjects()
+	const { mergeObjects: mergeObjectsSymbols, mergeObjectsInto: mergeObjectsSymbolsInto } =
+		createMergeObjects({ symbolKeys: true })
 
 	const deepmergeMerge = deepmerge
 	const deepmergeMergeAll = deepmergeMerge.all
@@ -65,9 +69,11 @@ describe('benchmark testing 1', () => {
 
 	runner('json2', {
 		merge,
+		mergeConfigs,
 		mergeObjects,
 		mergeObjectsSymbols,
 		mergeInto,
+		mergeConfigsInto,
 		mergeObjectsInto,
 		mergeObjectsSymbolsInto,
 		deepmerge: deepmergeMerge,
@@ -78,9 +84,11 @@ describe('benchmark testing 1', () => {
 	})
 	runner('json100', {
 		merge,
+		mergeConfigs,
 		mergeObjects,
 		mergeObjectsSymbols,
 		mergeInto,
+		mergeConfigsInto,
 		mergeObjectsInto,
 		mergeObjectsSymbolsInto,
 		'deepmerge (all)': deepmergeMergeAll,
@@ -89,9 +97,11 @@ describe('benchmark testing 1', () => {
 	})
 	runner('json1000', {
 		merge,
+		mergeConfigs,
 		mergeObjects,
 		mergeObjectsSymbols,
 		mergeInto,
+		mergeConfigsInto,
 		mergeObjectsInto,
 		mergeObjectsSymbolsInto,
 		'deepmerge (all)': deepmergeMergeAll,
@@ -101,9 +111,11 @@ describe('benchmark testing 1', () => {
 
 	runner('jsonManyKeys2', {
 		merge,
+		mergeConfigs,
 		mergeObjects,
 		mergeObjectsSymbols,
 		mergeInto,
+		mergeConfigsInto,
 		mergeObjectsInto,
 		mergeObjectsSymbolsInto,
 		deepmerge: deepmergeMerge,
@@ -114,9 +126,11 @@ describe('benchmark testing 1', () => {
 	})
 	runner('jsonManyKeys10', {
 		merge,
+		mergeConfigs,
 		mergeObjects,
 		mergeObjectsSymbols,
 		mergeInto,
+		mergeConfigsInto,
 		mergeObjectsInto,
 		mergeObjectsSymbolsInto,
 		'deepmerge (all)': deepmergeMergeAll,
