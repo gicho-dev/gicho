@@ -142,17 +142,7 @@ export const typescript: ConfigGroupFn<'typescript'> = async (options = {}, cont
 				],
 				// Disallow the use of variables before they are defined.
 				'no-use-before-define': 'off',
-				'@typescript-eslint/no-use-before-define': [
-					'error',
-					{
-						functions: false,
-						classes: false,
-						enums: true,
-						ignoreTypeReferences: true,
-						typedefs: true,
-						variables: true,
-					},
-				],
+				'@typescript-eslint/no-use-before-define': 'off',
 				// Disallow certain triple slash directives in favor of ES6-style import declarations.
 				'@typescript-eslint/triple-slash-reference': 'off',
 				// Disallow two overloads that could be unified into one with a union or an optional/rest parameter.

@@ -158,7 +158,7 @@ export const javascript: ConfigGroupFn<'javascript'> = async (options = {}) => {
 					},
 				],
 				// Disallow the use of variables before they are defined
-				'no-use-before-define': ['error', { functions: false, classes: false, variables: true }],
+				'no-use-before-define': ['error', { functions: false, classes: false, variables: false }],
 				// Disallow variable assignments when the value is not used
 				'no-useless-assignment': 'error',
 				// ✅ Disallow useless backreferences in regular expressions
