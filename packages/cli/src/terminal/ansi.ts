@@ -1,4 +1,19 @@
-export { type Ansis, default as ansiStyle } from 'ansis'
+export {
+	type AnsiColors as AnsiColor,
+	type Ansis,
+	type AnsiStyles as AnsiStyle,
+	default as ansiStyle,
+} from 'ansis'
+
+/* ----------------------------------------
+ *   Types
+ * ------------------------------------- */
+
+export type AnsiBasicColor = 'red' | 'green' | 'yellow' | 'blue' | 'magenta' | 'cyan' | 'white'
+export type AnsiBrightColor = `${AnsiBasicColor}Bright`
+
+export type AnsiBaseTextColor = 'black' | 'gray' | AnsiBasicColor | AnsiBrightColor
+export type AnsiBaseBgColor = `bg${Capitalize<AnsiBaseTextColor>}`
 
 /* ----------------------------------------
  *   ANSI Sequences Constants / Methods
