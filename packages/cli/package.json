@@ -53,7 +53,8 @@
 	},
 	"devDependencies": {
 		"ansis": "catalog:",
-		"tinyglobby": "catalog:"
+		"tinyglobby": "catalog:",
+		"wrap-ansi": "catalog:"
 	},
 	"peerDependencies": {}
 }
