@@ -1,18 +1,18 @@
-import { describe, expect, it } from 'vitest'
+import { describe, expect, test } from 'vitest'
 
 import { split } from '../../src/object/split'
 
 describe('split', () => {
 	const fn1 = () => false
 
-	it('split mixed-type object', () => {
+	test('split mixed-type object', () => {
 		const obj = { a: 1, b: 2, c: 3, d: 4, no1: null, e: 'hi', no2: undefined, fn1 }
 		const [left, right] = split(obj, ['a', 'c', 'fn1', 'no2'])
 		expect(left).toEqual({ a: 1, c: 3, fn1, no2: undefined })
 		expect(right).toEqual({ b: 2, d: 4, e: 'hi', no1: null })
 	})
 
-	it('split with interface', () => {
+	test('split with interface', () => {
 		interface Type1 {
 			a: number
 			b: string
