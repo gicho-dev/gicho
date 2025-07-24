@@ -15,6 +15,7 @@
 		"build": "turbo build",
 		"clean": "rimraf lib/*",
 		"lint": "eslint .",
+		"gen:east-asian-width": "jiti scripts/east-asian-width/gen-east-asian-width.ts",
 		"gen:eslint-rules-obj": "tsx scripts/gen-eslint-rules-obj.ts",
 		"gen:eslint-types": "jiti scripts/gen-eslint-types.ts",
 		"t1": "jiti scripts/test1.ts",
