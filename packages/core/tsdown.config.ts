@@ -1,6 +1,6 @@
 import { defineConfig } from 'tsdown'
 
-const groups = ['fetch', 'is', 'object', 'types']
+const groups = ['fetch', 'is', 'object', 'string', 'types']
 
 export default defineConfig({
 	dts: true,

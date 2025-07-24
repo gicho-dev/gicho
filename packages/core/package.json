@@ -44,6 +44,11 @@
 			"types": "./dist/object.d.ts",
 			"default": "./dist/object.js"
 		},
+		"./string": {
+			"source": "./src/string/index.ts",
+			"types": "./dist/string.d.ts",
+			"default": "./dist/string.js"
+		},
 		"./types": {
 			"source": "./src/types/index.ts",
 			"types": "./dist/types.d.ts",
@@ -75,6 +80,7 @@
 			"./fetch": "./dist/fetch.js",
 			"./is": "./dist/is.js",
 			"./object": "./dist/object.js",
+			"./string": "./dist/string.js",
 			"./types": "./dist/types.js",
 			"./package.json": "./package.json"
 		}
