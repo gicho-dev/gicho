@@ -34,5 +34,6 @@
 			"*.tsbuildinfo": true,
 		},
 		"typescript.preferences.importModuleSpecifier": "project-relative",
+		"vitest.nodeEnv": { "FORCE_COLOR": "true" },
 	},
 }
