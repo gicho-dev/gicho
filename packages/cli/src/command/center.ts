@@ -1,10 +1,11 @@
 import type { Awaitable } from '@gicho/core/types'
 
-import type { LoggerOutput } from '../console'
+import type { BaseLogMethods } from '../terminal'
 import type { CommandHelpSection, CommandOption, CommandOptionConfig, ParsedArgv } from './types'
 
 import EventEmitter from 'node:events'
 
+import { term } from '../terminal'
 import { __DEF, __ROOT, Command } from './command'
 import { CommandError, UnknownOptionError } from './error'
 import { parseArgs } from './parser'
@@ -26,7 +27,7 @@ export class CommandCenter extends EventEmitter {
 	commandMap: Record<string, Command> = {}
 	matched: MatchedInfo | null = null
 
-	private _output: LoggerOutput = console
+	private _output: BaseLogMethods = term
 	private _strict: boolean = true
 	_maxCommandNameDepth: number = 0
 
@@ -40,6 +41,14 @@ export class CommandCenter extends EventEmitter {
 
 		this.option('-h, --help', 'Display help message')
 		this.option('-v, --version', 'Display version number')
+	}
+
+	/**
+	 * Set the output object.
+	 */
+	output(output: BaseLogMethods): this {
+		this._output = output
+		return this
 	}
 
 	/**
