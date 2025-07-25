@@ -6,5 +6,6 @@ export default defineConfig({
 			reporter: ['text', 'html', 'json'],
 		},
 		printConsoleTrace: true,
+		snapshotSerializers: ['./tests/utils/ansi-serializer.ts'],
 	},
 })
