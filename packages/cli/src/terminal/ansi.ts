@@ -39,7 +39,7 @@ export const ansiCursor = {
 	xy: (x?: number, y?: number) => `${CSI}${y ?? ''};${x ?? ''}H` as const,
 
 	lineStart: `${CSI}G`,
-	lineEnd: `${CSI}99999G`,
+	lineEnd: `${CSI}9999G`,
 
 	hide: `${CSI}?25l`,
 	show: `${CSI}?25h`,
