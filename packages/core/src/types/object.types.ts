@@ -19,7 +19,7 @@ import type {
  * leaving only explicitly defined properties.
  */
 export type OmitIndexSignature<TObject> = {
-	[K in keyof TObject as object extends Record<K, unknown> ? never : K]: TObject[K]
+	[K in keyof TObject as {} extends Record<K, unknown> ? never : K]: TObject[K]
 }
 
 /**
@@ -27,7 +27,7 @@ export type OmitIndexSignature<TObject> = {
  * leaving out all explicitly defined properties.
  */
 export type PickIndexSignature<TObject> = {
-	[K in keyof TObject as object extends Record<K, unknown> ? K : never]: TObject[K]
+	[K in keyof TObject as {} extends Record<K, unknown> ? K : never]: TObject[K]
 }
 
 /* ----------------------------------------
@@ -37,7 +37,7 @@ export type PickIndexSignature<TObject> = {
 /**
  * Merge two types into a new type. Keys of the `B` type overrides keys of the `A` type.
  */
-export type Merge<A, B> = Prettify<
+export type MergeTwo<A, B> = Prettify<
 	{
 		[K in keyof A as K extends keyof B ? never : K]: A[K]
 	} & B
@@ -46,11 +46,11 @@ export type Merge<A, B> = Prettify<
 /**
  * Merge multiple types into a new type.
  */
-export type MergeMany<Ts extends UnknownArray, TAcc = unknown> = Ts extends [
+export type Merge<Ts extends UnknownArray, TAcc = unknown> = Ts extends [
 	infer TFirst,
 	...infer TRest,
 ]
-	? MergeMany<TRest, Merge<TAcc, TFirst>>
+	? Merge<TRest, MergeTwo<TAcc, TFirst>>
 	: TAcc
 
 /* ----------------------------------------
@@ -130,8 +130,11 @@ export type OptionalKeysOf<T extends object> = T extends unknown
 			keyof T
 	: never
 
+/** Make the specified keys `K` in type `T` optional. */
+export type PartialByKeys<T, K extends keyof T> = Prettify<Omit<T, K> & Partial<Pick<T, K>>>
+
 /** Make the specified keys `K` in type `T` required. */
-export type RequiredByKeys<T, K extends keyof T> = T & { [P in K]-?: T[P] }
+export type RequiredByKeys<T, K extends keyof T> = Prettify<Omit<T, K> & Required<Pick<T, K>>>
 
 /** Extract all required keys from the given type. */
 export type RequiredKeysOf<T extends object> = T extends unknown
@@ -192,7 +195,7 @@ export type RequiredDeep<
 										? E
 										: HasMultipleCallSignatures<E> extends true
 											? E
-											: ((...params: Parameters<E>) => ReturnType<E>) & RequiredObjectDeep<E>
+											: ((...args: Parameters<E>) => ReturnType<E>) & RequiredObjectDeep<E>
 									: E extends object
 										? E extends Array<infer TValue>
 											? TValue[] extends E

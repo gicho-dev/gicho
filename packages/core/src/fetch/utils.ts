@@ -1,4 +1,4 @@
-import type { LiteralUnion, TimeoutId } from '../types'
+import type { LiteralUnion } from '../types'
 import type {
 	ArrayableFetchHook,
 	FetchClientOptions,
@@ -41,7 +41,7 @@ export function anyAbortSignal(signals: AbortSignal[]): AbortSignal {
 export function appendTimeoutSignal(
 	request: Request,
 	options: FetchOptions,
-): TimeoutId | undefined {
+): number | NodeJS.Timeout | undefined {
 	const { timeout } = options
 	if (!timeout) return undefined
 

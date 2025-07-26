@@ -183,7 +183,15 @@ export type UnionToIntersection<TUnion> = (
 export type UnionToTuple<T, L = LastOfUnion<T>> =
 	IsNever<T> extends false ? [...UnionToTuple<Exclude<T, L>>, L] : []
 
-/** Create a union of any values in a tuple or record. */
+/**
+ * Create a union of any values in a tuple or record.
+ *
+ * @example
+ * ```
+ * type Numbers = ValuesToUnion<[1, 2, 3]>   // => 1 | 2 | 3
+ * type Strings = ValuesToUnion<{ a: 'x', b: 'y' }>   // => 'x' | 'y'
+ * ```
+ */
 export type ValuesToUnion<TArrayOrRecord extends readonly any[] | Record<PropertyKey, unknown>> =
 	TArrayOrRecord extends readonly any[]
 		? TArrayOrRecord[number]

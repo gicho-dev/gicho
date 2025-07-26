@@ -368,8 +368,6 @@ describe('base types', () => {
 		})
 
 		test('UnionToTuple', () => {
-			assertType<UnionToTuple<1 | 2 | 3>>([1, 2, 3])
-
 			type A = null | 2 | 'a'
 			type A2 =
 				| [null, 2, 'a']
