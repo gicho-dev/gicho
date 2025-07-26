@@ -7,12 +7,6 @@ export type Awaitable<T> = T | PromiseLike<T>
 /** Matches any primitive, Date, or RegExp. */
 export type BuiltIns = Primitive | Date | RegExp
 
-/** Matches a `class`. */
-export interface Class<T, TArgs extends unknown[] = any[]> {
-	prototype: Pick<T, keyof T>
-	new (...args: TArgs): T
-}
-
 /** Matches a `class` constructor. */
 export type Constructor<T, TArgs extends unknown[] = any[]> = new (...args: TArgs) => T
 
@@ -63,9 +57,6 @@ export type PlainObject<T = unknown> = Record<PropertyKey, T>
 /** Matches any [primitive value](https://developer.mozilla.org/en-US/docs/Glossary/Primitive). */
 export type Primitive = Nullable<string | number | bigint | boolean | symbol>
 
-/** A timeout ID. */
-export type TimeoutId = ReturnType<typeof setTimeout>
-
 /**
  * Matches any [typed array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/TypedArray), like `Uint8Array` or `Float64Array`.
  */
@@ -84,7 +75,7 @@ export type TypedArray =
 	| BigUint64Array
 
 /* ----------------------------------------
- *   Any / Unknown (readonly) Types
+ *   Any- or Unknown- (readonly) types
  * ------------------------------------- */
 
 /** Represents an array with `any` value. */
@@ -104,7 +95,7 @@ export type UnknownRecord = Record<PropertyKey, unknown>
 export type UnknownSet = ReadonlySet<unknown>
 
 /* ----------------------------------------
- *   Logic
+ *   Logic types
  * ------------------------------------- */
 
 export type And<T1 extends boolean, T2 extends boolean> = [T1] extends [false] ? false : T2
@@ -130,7 +121,7 @@ export type If<T extends boolean, TIfBranch, TElseBranch> =
 	IsNever<T> extends true ? TElseBranch : T extends true ? TIfBranch : TElseBranch
 
 /* ----------------------------------------
- *   Union
+ *   Union types
  * ------------------------------------- */
 
 /** Returns the last element of a union type. */
