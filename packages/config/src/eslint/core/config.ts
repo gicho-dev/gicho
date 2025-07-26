@@ -55,34 +55,18 @@ export async function config(
 		importFn(opt.import, context),
 	]
 
-	if (opt.jsdoc) {
-		configs.push(jsdoc(opt.jsdoc, context))
-	}
-	if (opt.typescript) {
-		configs.push(typescript(opt.typescript, context))
-	}
-	if (opt.stylistic) {
-		configs.push(stylistic(opt.stylistic, context))
-	}
-	if (opt.perfectionist) {
-		configs.push(perfectionist(opt.perfectionist, context))
-	}
-	if (opt.json) {
-		configs.push(json(opt.json, context))
-	}
-	if (opt.react) {
-		configs.push(react(opt.react, context))
-	}
-	if (opt.svelte) {
-		configs.push(svelte(opt.svelte, context))
-	}
+	if (opt.jsdoc) configs.push(jsdoc(opt.jsdoc, context))
+	if (opt.typescript) configs.push(typescript(opt.typescript, context))
+	if (opt.stylistic) configs.push(stylistic(opt.stylistic, context))
+	if (opt.perfectionist) configs.push(perfectionist(opt.perfectionist, context))
+
+	if (opt.json) configs.push(json(opt.json, context))
+	if (opt.react) configs.push(react(opt.react, context))
+	if (opt.svelte) configs.push(svelte(opt.svelte, context))
 
 	configs.push(disables(opt.disables, context))
 
-	const flatConfigs: LinterConfig[] = (
-		await Promise.all(configs.map(async (config) => await config))
-	).flat()
-
+	const flatConfigs: LinterConfig[] = (await Promise.all(configs)).flat()
 	const finalConfigs = customConfigs.length ? [...flatConfigs, ...customConfigs] : flatConfigs
 
 	return onFinalize(finalConfigs)
