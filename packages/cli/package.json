@@ -52,9 +52,9 @@
 		"@gicho/core": "workspace:^"
 	},
 	"devDependencies": {
-		"ansis": "catalog:",
-		"tinyglobby": "catalog:",
-		"wrap-ansi": "catalog:"
+		"ansis": "catalog:dev",
+		"tinyglobby": "catalog:dev",
+		"wrap-ansi": "catalog:dev"
 	},
 	"peerDependencies": {}
 }

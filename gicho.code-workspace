@@ -9,16 +9,12 @@
 			"path": "./packages/cli",
 		},
 		{
-			"name": "⚙️ CONFIG",
-			"path": "./packages/config",
-		},
-		{
 			"name": "💎 CORE",
 			"path": "./packages/core",
 		},
 	],
 	"settings": {
-		"conventionalCommits.scopes": ["core", "cli", "config", "deps"],
+		"conventionalCommits.scopes": ["core", "cli", "deps"],
 		"editor.codeActionsOnSave": {
 			"source.fixAll": "explicit",
 		},
