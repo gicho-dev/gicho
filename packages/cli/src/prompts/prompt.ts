@@ -137,13 +137,13 @@ export interface Prompt<TValue, TOptions = any> {
 	prompt(): Promise<TValue | CancelSymbol>
 	setValue(value: TValue): void
 	shouldIgnoreKey: (char: string | undefined, key: Key) => boolean
-	render(ctx: this, opts: TOptions, p: SharedPromptContext): string
+	render(prompt: this, opts: TOptions, shared: SharedPromptContext): string
 }
 
 export interface CommonPromptOptions<TValue, TSelf extends Prompt<TValue> = Prompt<TValue>>
 	extends BasePromptOptions {
 	initialValue?: TValue
-	render?(ctx: TSelf, opts: TSelf['options'], p: SharedPromptContext): string
+	render?(prompt: TSelf, opts: TSelf['options'], shared: SharedPromptContext): string
 	signal?: AbortSignal
 	validate?(value: TValue): string | Error | undefined
 }

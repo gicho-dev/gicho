@@ -2,6 +2,8 @@ import type { Readable, Writable } from 'node:stream'
 import type { LiteralUnion } from '@gicho/core/types'
 
 import type { AnsiBaseTextColor } from '../terminal'
+import type { BaseLogMethods } from '../types'
+import type { SharedPromptContext } from './internal/shared'
 import type { PromptAction, PromptColorKey, PromptSymbolKey } from './prompt'
 
 /* ----------------------------------------
@@ -13,8 +15,15 @@ export interface SharedPromptConfig extends Required<BasePromptOptions> {
 	colors: Record<PromptColorKey, AnsiBaseTextColor>
 	fallbackColumns: number
 	lineGap: number
-	log: LogConfig
-	/** Symbol/Strings for prompt elements */
+	/**
+	 * The maximum log level to display.
+	 * @default 3
+	 */
+	logLevel: LogLevel
+	logTypes: Record<string, LogTypeDescriptor>
+	/**
+	 * Symbol/Strings for prompt elements
+	 */
 	S: Record<PromptSymbolKey, string>
 	shortcutKeys: Record<string, PromptAction>
 }
@@ -47,37 +56,17 @@ export interface LogTypeDescriptor {
 	suffix?: string
 }
 
-type LogMessageFormatter = (data: LogMessage, context: LogMessageFormatterContext) => string
+export type LogMessageFormatter = (data: LogMessage, context: LogMessageFormatterContext) => string
 
 interface LogMessageFormatterContext {
 	baseFormatter: LogMessageFormatter
-	config: SharedPromptConfig
+	shared: SharedPromptContext
 }
 
 export interface LogMessage
 	extends Pick<LogTypeDescriptor, 'level' | 'prefix' | 'suffix' | 'symbol'> {
 	messages: any[]
 	type: string
-}
-
-export interface BaseLogMethods {
-	/**
-	 * Display log messages.
-	 * Multiple arguments can be passed, with the first used as the primary message and all additional used as substitution values similar to `printf(3)` (the arguments are all passed to `util.format()`).
-	 *
-	 * @example
-	 * ```ts
-	 * log('Hello, world!')                 // => Hello, world!
-	 * log('Add - %d + %d = %d', 2, 3, 5)   // => Add - 2 + 3 = 5
-	 * ```
-	 */
-	log(...messages: any[]): void
-	/** Display info messages */
-	info(...messages: any[]): void
-	/** Display warning messages */
-	warn(...messages: any[]): void
-	/** Display error messages */
-	error(...messages: any[]): void
 }
 
 export interface LogMethods extends BaseLogMethods {
@@ -96,9 +85,3 @@ export interface LogMethods extends BaseLogMethods {
 }
 
 export type LogType = keyof LogMethods & {}
-
-export interface LogConfig {
-	formatter: LogMessageFormatter
-	level: LogLevel
-	types: Record<string, LogTypeDescriptor>
-}

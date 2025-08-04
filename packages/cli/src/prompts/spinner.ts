@@ -38,7 +38,6 @@ const defaultOptions: SpinnerOptions = {
 	indicator: 'dots',
 	symbolColor: 'cyan',
 	symbols: unicodeOr(['◒', '◐', '◓', '◑'], ['|', '/', '-', '\\']),
-	// symbols: unicodeOr(['⠋', '⠙', '⠹', '⠸', '⠼', '⠴', '⠦', '⠧', '⠇', '⠏'], ['|', '/', '-', '\\']),
 }
 
 /**
@@ -55,8 +54,8 @@ export function spinner(options: SpinnerOptions = {}): SpinnerReturn {
 		symbols,
 	} = opts as RequiredByKeys<SpinnerOptions, 'input' | 'output' | 'symbols' | 'symbolColor'>
 
-	const g = shared
-	const { colors, fallbackColumns, S } = g.config
+	const _s = shared
+	const { colors, fallbackColumns, S } = _s.config
 
 	const CI = isCI()
 
@@ -138,7 +137,7 @@ export function spinner(options: SpinnerOptions = {}): SpinnerReturn {
 		msg = removeTrailingDots(message)
 		startTime = performance.now()
 
-		output.write(g.linePrefix())
+		output.write(_s.linePrefix())
 
 		let frameIndex = 0
 		let indicatorTimer = 0
@@ -154,12 +153,12 @@ export function spinner(options: SpinnerOptions = {}): SpinnerReturn {
 
 			let str
 			if (CI) {
-				str = g.lineRaw(frameChar, `${msg}...`, true)
+				str = _s.lineRaw(frameChar, `${msg}...`, true)
 			} else if (indicator === 'timer') {
-				str = g.lineRaw(frameChar, `${msg} ${formatTimer(startTime)}`, true)
+				str = _s.lineRaw(frameChar, `${msg} ${formatTimer(startTime)}`, true)
 			} else {
 				const loadingDots = '.'.repeat(Math.floor(indicatorTimer)).slice(0, 3)
-				str = g.lineRaw(frameChar, `${msg}${loadingDots}`, true)
+				str = _s.lineRaw(frameChar, `${msg}${loadingDots}`, true)
 			}
 
 			prevLineCount = getWrappedLineCount(str, getColumns(output, fallbackColumns))
@@ -187,9 +186,9 @@ export function spinner(options: SpinnerOptions = {}): SpinnerReturn {
 		msg = message ?? msg
 
 		if (indicator === 'timer') {
-			output.write(g.lineRaw(symbol, `${msg} ${formatTimer(startTime)}`))
+			output.write(_s.lineRaw(symbol, `${msg} ${formatTimer(startTime)}`))
 		} else {
-			output.write(g.lineRaw(symbol, msg))
+			output.write(_s.lineRaw(symbol, msg))
 		}
 
 		clearHooks()

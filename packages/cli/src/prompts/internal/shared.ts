@@ -1,35 +1,33 @@
 import type { PromptAction, PromptColorKey, PromptSymbolKey } from '../prompt'
-import type { LogConfig, SharedPromptConfig } from '../prompts.types'
-
-import { formatWithOptions } from 'node:util'
+import type { SharedPromptConfig } from '../prompts.types'
 
 import { ansi } from '../../terminal'
 import { getCurrentStackTrace, unicodeOr } from './utils'
 
-const logConfig: LogConfig = {
-	formatter(data) {
-		const messages = data.messages || []
-		const message = messages[0]
-		const args = messages.slice(1)
+/** Shared config for prompt elements */
+const config: SharedPromptConfig = {
+	input: process.stdin,
+	output: process.stdout,
 
-		const prefix =
-			(shared.isActive ? shared.linePrefix() : '') +
-			(data.symbol ? data.symbol + shared.config.S.spacer : '') +
-			(data.prefix ?? '')
-		const suffix = data.suffix ?? ''
+	actions: new Set(['cancel', 'ok', 'up', 'down', 'left', 'right', 'space']),
 
-		let body = formatWithOptions({ colors: true }, message, ...args) + suffix
-		body = body
-			.split('\n')
-			.map((l, i) => (i ? shared.lineBar('base', l, true) : l))
-			.join('\n')
+	colors: {
+		base: 'gray',
 
-		return prefix + body
+		initial: 'cyan',
+		active: 'cyan',
+		completed: 'green',
+		canceled: 'red',
+		error: 'yellow',
+
+		focused: 'green',
 	},
 
-	level: 3,
+	fallbackColumns: 80,
+	// log: logConfig,
 
-	types: {
+	logLevel: 3,
+	logTypes: {
 		// Level 0
 		fatal: {
 			level: 0,
@@ -51,7 +49,6 @@ const logConfig: LogConfig = {
 		// Level 2
 		log: {
 			level: 2,
-			symbol: unicodeOr(ansi.c.gray('┆'), '|'),
 		},
 
 		// Level 3
@@ -79,53 +76,31 @@ const logConfig: LogConfig = {
 			level: 5,
 			symbol: unicodeOr('→', '-'),
 			formatter: (data, ctx) => {
-				const _message = ctx.config.log.formatter(data, ctx)
-
 				const indent = ' '.repeat(2)
 
-				const stackLines =
-					indent +
+				return (
+					ctx.baseFormatter(data, ctx) +
+					shared.lineBar('base') +
 					getCurrentStackTrace()
-						.map((line) =>
-							line
+						.map((line) => {
+							line = line
 								.replace(/^at +/, (m) => ansi.c.gray(m))
-								.replace(/\((.+)\)/, (_, m) => `(${ansi.c.cyan(m)})`),
-						)
-						.join(`\n${indent}`)
+								.replace(/\((.+)\)/, (_, m) => `(${ansi.c.cyan(m)})`)
 
-				return `${_message}\n${stackLines}\n`
+							return shared.lineBar('base', indent + line)
+						})
+						.join('')
+				)
 			},
 		},
 
 		// Level `Verbose` (Infinity)
 		verbose: {
-			level: Number.POSITIVE_INFINITY,
+			level: Infinity,
 			prefix: `${ansi.c.bgGray(' VERBOSE ')} `,
 		},
 	},
-}
 
-/** Shared config for prompt elements */
-const config: SharedPromptConfig = {
-	input: process.stdin,
-	output: process.stdout,
-
-	actions: new Set(['cancel', 'ok', 'up', 'down', 'left', 'right', 'space']),
-
-	colors: {
-		base: 'gray',
-
-		initial: 'cyan',
-		active: 'cyan',
-		completed: 'green',
-		canceled: 'red',
-		error: 'yellow',
-
-		focused: 'green',
-	},
-
-	fallbackColumns: 80,
-	log: logConfig,
 	lineGap: 1,
 
 	S: {

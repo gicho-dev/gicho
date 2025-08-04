@@ -64,13 +64,13 @@ export function createTextPrompt(opts: TextPromptOptions): TextPrompt {
  * ------------------------------------- */
 
 const defaultOptions: Partial<TextPromptOptions> = {
-	render(p, opts, g) {
+	render(p, opts, _s) {
 		const { error, state, userInput, value = '' } = p
 		const { message, placeholder } = opts
 
-		const { colors } = g.config
+		const { colors } = _s.config
 
-		const title = g.linePrefix() + g.line(state, state, message)
+		const title = _s.linePrefix() + _s.line(state, state, message)
 
 		const placeholderText = placeholder
 			? ansi.c.inverse(placeholder[0]) + ansi.c.dim(placeholder.slice(1))
@@ -79,13 +79,13 @@ const defaultOptions: Partial<TextPromptOptions> = {
 
 		switch (state) {
 			case 'error':
-				return title + g.lineBar(state, input) + g.lineEnd(state, ansi.c[colors[state]](error))
+				return title + _s.lineBar(state, input) + _s.lineEnd(state, ansi.c[colors[state]](error))
 			case 'completed':
-				return title + g.lineBar('base', ansi.c.dim(value))
+				return title + _s.lineBar('base', ansi.c.dim(value))
 			case 'canceled':
-				return title + g.lineBar('base', ansi.c.strikethrough.dim(value))
+				return title + _s.lineBar('base', ansi.c.strikethrough.dim(value))
 			default:
-				return title + g.lineBar(state, input) + g.lineEnd(state, '', true)
+				return title + _s.lineBar(state, input) + _s.lineEnd(state, '', true)
 		}
 	},
 }

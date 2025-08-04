@@ -1,3 +1,5 @@
+import type { PartialDeep } from '@gicho/core/types'
+
 import type { CancelSymbol } from './internal/utils'
 import type { OutputOptions, SharedPromptConfig } from './prompts.types'
 
@@ -38,6 +40,6 @@ export function isCanceled(result: unknown): result is CancelSymbol {
 /**
  * Updates the shared prompt config.
  */
-export function updateConfig(options: Partial<SharedPromptConfig>) {
+export function updateConfig(options: PartialDeep<SharedPromptConfig>) {
 	mergeConfigsInto(shared.config, options)
 }

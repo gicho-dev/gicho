@@ -42,20 +42,20 @@ const defaultOptions: Partial<ConfirmPromptOptions> = {
 	inactive: 'No',
 	initialValue: true,
 
-	render(p, opts, g) {
+	render(p, opts, _s) {
 		const { state, value } = p
 		const { active, inactive, message } = opts
 
-		const { colors, S } = g.config
+		const { colors, S } = _s.config
 
-		const title = g.linePrefix() + g.line(state, state, message)
+		const title = _s.linePrefix() + _s.line(state, state, message)
 		const valueText = value ? active : inactive
 
 		switch (state) {
 			case 'completed':
-				return title + g.lineBar('base', ansi.c.dim(valueText))
+				return title + _s.lineBar('base', ansi.c.dim(valueText))
 			case 'canceled':
-				return title + g.lineBar('base', ansi.c.strikethrough.dim(valueText))
+				return title + _s.lineBar('base', ansi.c.strikethrough.dim(valueText))
 
 			default: {
 				const y = value
@@ -66,7 +66,7 @@ const defaultOptions: Partial<ConfirmPromptOptions> = {
 					: `${ansi.c[colors.focused](S.radio0)} ${ansi.c.dim(inactive)}`
 				const sp = ansi.c.dim('/')
 
-				return title + g.lineBar(state, `${y} ${sp} ${n}`) + g.lineEnd(state, '', true)
+				return title + _s.lineBar(state, `${y} ${sp} ${n}`) + _s.lineEnd(state, '', true)
 			}
 		}
 	},
