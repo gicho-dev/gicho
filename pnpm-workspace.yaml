@@ -8,18 +8,18 @@ onlyBuiltDependencies:
 catalogs:
   dev:
     '@gicho/config': ^0.0.1-alpha.6
-    '@hono/node-server': ^1.14.4
-    '@types/node': ^24.0.1
-    '@vitest/coverage-v8': ^3.2.3
+    '@hono/node-server': ^1.18.1
+    '@types/node': ^24.1.0
+    '@vitest/coverage-v8': ^3.2.4
     ansis: ^4.1.0
     eslint: ^9.32.0
-    hono: ^4.7.11
-    jiti: ^2.4.2
+    hono: ^4.8.12
+    jiti: ^2.5.1
     prettier: ^3.6.2
     tinyglobby: ^0.2.14
-    tsdown: ^0.12.9
-    tsx: ^4.19.4
-    turbo: ^2.5.4
+    tsdown: ^0.13.2
+    tsx: ^4.20.3
+    turbo: ^2.5.5
     typescript: ^5.8.3
-    vitest: ^3.2.3
+    vitest: ^3.2.4
     wrap-ansi: ^9.0.0
