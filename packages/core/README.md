@@ -4,7 +4,7 @@
 
 ---
 
-**A collection of base utilities for happy coding with TypeScript.**  
+**A collection of base utilities for happy coding with TypeScript.**
 _gicho_ means **foundation, basis** in Korean — modern essential tools for faster, more efficient development.
 
 ---

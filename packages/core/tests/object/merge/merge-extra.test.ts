@@ -358,7 +358,6 @@ describe('merge-extra', () => {
 			const merged = merge(a, b)
 
 			expect(merged).toEqual(expected)
-			merged.key
 			expect(merged.key.valueOf()).toBe(tuesday.valueOf())
 		})
 

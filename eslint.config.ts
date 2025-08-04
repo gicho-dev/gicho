@@ -11,4 +11,10 @@ export default defineConfig({
 	},
 
 	svelte: false,
+
+	ts: {
+		rules: {
+			'@typescript-eslint/no-empty-object-type': 'off',
+		},
+	},
 })

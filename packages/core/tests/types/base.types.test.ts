@@ -389,14 +389,3 @@ describe('base types', () => {
 		})
 	})
 })
-
-// type A1 = IsTuple<[1, 2, 3]>
-// type A2 = IsTuple<number[]>
-// type A3 = IsTuple<[1?, 2?]>
-// type A4 = IsTuple<[1, 2, ...number[]]>
-
-// type A1 = ValuesToUnion<{ x: 1; y: 2 } | { x: 1; y: 3; z: 'open' }>
-// const a1 = [1, 2, 'c'] as const
-// type A2 = ValuesToUnion<typeof a1>
-
-// type Numbers = UnionToTuple<1 | 2 | 3> // => [1, 2, 3]

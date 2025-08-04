@@ -424,7 +424,7 @@ type MergerFn = (
 	key: PropertyKey,
 	value: unknown,
 	context: MergeObjectHandlerContext,
-) => boolean | void
+) => boolean | undefined
 
 export interface MergeObjectHandlerContext extends CreateMergeObjectConfig {
 	getObjectType: typeof getObjectType

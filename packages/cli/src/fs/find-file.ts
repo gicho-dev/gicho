@@ -1,6 +1,5 @@
-/* ----------------------------------------
- *   Inspired by `pkg-types`
- * ------------------------------------- */
+// Inspired by `pkg-types`
+// https://github.com/unjs/pkg-types/blob/main/src/resolve/utils.ts
 
 import type { Arrayable } from '@gicho/core/types'
 

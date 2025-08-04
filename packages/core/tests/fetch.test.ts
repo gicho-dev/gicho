@@ -1,4 +1,4 @@
-import type { Server } from 'http'
+import type { Server } from 'node:http'
 
 import { serve } from '@hono/node-server'
 import { Hono } from 'hono'
@@ -30,12 +30,12 @@ describe('fetch', () => {
 		})
 	})
 
-	afterAll(() => {
-		server?.close()
-	})
-
 	beforeEach(() => {
 		fetch.mockClear()
+	})
+
+	afterAll(() => {
+		server?.close()
 	})
 
 	describe('createFetchClient()', () => {
@@ -45,6 +45,13 @@ describe('fetch', () => {
 			expect(await c.fetch.text($url('ok'))).toBe('OK')
 			expect(await c.get.json($url('hello'))).toEqual({ message: 'Hello~!' })
 			expect(fetch).toHaveBeenCalledTimes(2)
+
+			const data = await c.get.json<{ x: number }>('ss')
+			const res = await c.get('ss')
+
+			c.get('', { bodyType: 'raw' })
+
+			// c.get('')
 
 			// const source = new URLSearchParams('a=1&b=2&c=3&a=11')
 			// const target = new URLSearchParams('a=100')
