@@ -1,4 +1,5 @@
+export * from './base'
 export * from './confirm'
-export * from './prompt'
+export * from './log'
 export * from './spinner'
 export * from './text'

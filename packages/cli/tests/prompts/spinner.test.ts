@@ -1,38 +1,34 @@
-import type { Terminal, TerminalPlugin, TerminalSpinner } from '../../../src/terminal'
-
 import EventEmitter from 'node:events'
 import { afterAll, afterEach, beforeAll, beforeEach, describe, expect, test, vi } from 'vitest'
 
-import { createTerminal, promptSpinner } from '../../../src/terminal'
-import { MockWritable } from '../terminal.test-utils'
+import * as p from '../../src/prompts'
+import { MockWritable } from '../terminal/terminal.test-utils'
 
-describe.each(['true', 'false'])('terminal/prompts/spinner (isCI = %s)', (isCI) => {
+describe.each(['true', 'false'])('prompts/spinner (isCI = %s)', (isCI) => {
 	let origCI: string | undefined
 	let output: MockWritable
-
-	let term: Terminal<[TerminalPlugin<TerminalSpinner>]>
 
 	beforeAll(() => {
 		origCI = process.env.CI
 		process.env.CI = isCI
 	})
-	afterAll(() => {
-		process.env.CI = origCI
-	})
-
 	beforeEach(() => {
 		output = new MockWritable()
-		term = createTerminal({ plugins: [promptSpinner()], output })
+		p.updateConfig({ output })
 		vi.useFakeTimers()
 	})
+
 	afterEach(() => {
 		vi.useRealTimers()
 		vi.restoreAllMocks()
 	})
+	afterAll(() => {
+		process.env.CI = origCI
+	})
 
 	describe('basic', () => {
 		test('renders frames at interval', () => {
-			const result = term.spinner()
+			const result = p.spinner()
 			result.start()
 			for (let i = 0; i < 4; i++) vi.advanceTimersByTime(80) // 4 frames
 			result.stop()
@@ -41,7 +37,7 @@ describe.each(['true', 'false'])('terminal/prompts/spinner (isCI = %s)', (isCI) 
 		})
 
 		test('renders timer when indicator is "timer"', () => {
-			const result = term.spinner({ indicator: 'timer' })
+			const result = p.spinner({ indicator: 'timer' })
 			result.start('START')
 			vi.advanceTimersByTime(80)
 			result.stop('STOP')
@@ -50,7 +46,7 @@ describe.each(['true', 'false'])('terminal/prompts/spinner (isCI = %s)', (isCI) 
 		})
 
 		test('renders cancel symbol if code = 1', () => {
-			const result = term.spinner()
+			const result = p.spinner()
 			result.start()
 			vi.advanceTimersByTime(80)
 			result.stop('STOP', 1)
@@ -60,7 +56,7 @@ describe.each(['true', 'false'])('terminal/prompts/spinner (isCI = %s)', (isCI) 
 		})
 
 		test('renders error message if code > 1', () => {
-			const result = term.spinner()
+			const result = p.spinner()
 			result.start()
 			vi.advanceTimersByTime(80)
 			result.stop('STOP', 2)
@@ -70,7 +66,7 @@ describe.each(['true', 'false'])('terminal/prompts/spinner (isCI = %s)', (isCI) 
 		})
 
 		test('renders messages (with multiple lines)', () => {
-			const result = term.spinner()
+			const result = p.spinner()
 			result.start('START')
 			vi.advanceTimersByTime(80)
 			result.message('message 1')
@@ -90,7 +86,7 @@ describe.each(['true', 'false'])('terminal/prompts/spinner (isCI = %s)', (isCI) 
 
 	describe('custom', () => {
 		test('custom symbols and symbolColor', () => {
-			const result = term.spinner({ symbolColor: 'red', symbols: ['🍎', '🍌', '🍇', '🍓'] })
+			const result = p.spinner({ symbolColor: 'red', symbols: ['🍎', '🍌', '🍇', '🍓'] })
 			result.start()
 			for (let i = 0; i < 4; i++) vi.advanceTimersByTime(80) // 4 frames
 			result.stop()
@@ -99,7 +95,7 @@ describe.each(['true', 'false'])('terminal/prompts/spinner (isCI = %s)', (isCI) 
 		})
 
 		test('custom delay', () => {
-			const result = term.spinner({ delay: 200 })
+			const result = p.spinner({ delay: 200 })
 			result.start()
 			for (let i = 0; i < 4; i++) vi.advanceTimersByTime(200) // 4 frames
 			result.stop()
@@ -129,7 +125,7 @@ describe.each(['true', 'false'])('terminal/prompts/spinner (isCI = %s)', (isCI) 
 		})
 
 		test('uses custom cancelMessage when SIGINT', () => {
-			const result = term.spinner({ cancelMessage: 'Wow! Canceled!' })
+			const result = p.spinner({ cancelMessage: 'Wow! Canceled!' })
 			result.start('Test')
 			emitter.emit('SIGINT')
 
@@ -137,7 +133,7 @@ describe.each(['true', 'false'])('terminal/prompts/spinner (isCI = %s)', (isCI) 
 		})
 
 		test('uses custom errorMessage when exit code 2', () => {
-			const result = term.spinner({ errorMessage: 'Wow! Error!' })
+			const result = p.spinner({ errorMessage: 'Wow! Error!' })
 			result.start('Test')
 			emitter.emit('exit', 2)
 
@@ -147,7 +143,7 @@ describe.each(['true', 'false'])('terminal/prompts/spinner (isCI = %s)', (isCI) 
 
 	test('can be aborted by signal', () => {
 		const controller = new AbortController()
-		const result = term.spinner({ signal: controller.signal })
+		const result = p.spinner({ signal: controller.signal })
 		result.start('Signal Test')
 		controller.abort()
 

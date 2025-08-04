@@ -1,6 +1,6 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`terminal/prompts/spinner (isCI = false) > basic > renders cancel symbol if code = 1 1`] = `
+exports[`prompts/spinner (isCI = false) > basic > renders cancel symbol if code = 1 1`] = `
 [
   "{CURSOR:hide}",
   "{90brightBlack}┆{39x}\\n",
@@ -12,7 +12,7 @@ exports[`terminal/prompts/spinner (isCI = false) > basic > renders cancel symbol
 ]
 `;
 
-exports[`terminal/prompts/spinner (isCI = false) > basic > renders error message if code > 1 1`] = `
+exports[`prompts/spinner (isCI = false) > basic > renders error message if code > 1 1`] = `
 [
   "{CURSOR:hide}",
   "{90brightBlack}┆{39x}\\n",
@@ -24,7 +24,7 @@ exports[`terminal/prompts/spinner (isCI = false) > basic > renders error message
 ]
 `;
 
-exports[`terminal/prompts/spinner (isCI = false) > basic > renders frames at interval 1`] = `
+exports[`prompts/spinner (isCI = false) > basic > renders frames at interval 1`] = `
 [
   "{CURSOR:hide}",
   "{90brightBlack}┆{39x}\\n",
@@ -45,7 +45,7 @@ exports[`terminal/prompts/spinner (isCI = false) > basic > renders frames at int
 ]
 `;
 
-exports[`terminal/prompts/spinner (isCI = false) > basic > renders messages (with multiple lines) 1`] = `
+exports[`prompts/spinner (isCI = false) > basic > renders messages (with multiple lines) 1`] = `
 [
   "{CURSOR:hide}",
   "{90brightBlack}┆{39x}\\n",
@@ -69,7 +69,7 @@ exports[`terminal/prompts/spinner (isCI = false) > basic > renders messages (wit
 ]
 `;
 
-exports[`terminal/prompts/spinner (isCI = false) > basic > renders timer when indicator is "timer" 1`] = `
+exports[`prompts/spinner (isCI = false) > basic > renders timer when indicator is "timer" 1`] = `
 [
   "{CURSOR:hide}",
   "{90brightBlack}┆{39x}\\n",
@@ -81,7 +81,7 @@ exports[`terminal/prompts/spinner (isCI = false) > basic > renders timer when in
 ]
 `;
 
-exports[`terminal/prompts/spinner (isCI = false) > can be aborted by signal 1`] = `
+exports[`prompts/spinner (isCI = false) > can be aborted by signal 1`] = `
 [
   "{CURSOR:hide}",
   "{90brightBlack}┆{39x}\\n",
@@ -90,7 +90,7 @@ exports[`terminal/prompts/spinner (isCI = false) > can be aborted by signal 1`] 
 ]
 `;
 
-exports[`terminal/prompts/spinner (isCI = false) > custom > custom delay 1`] = `
+exports[`prompts/spinner (isCI = false) > custom > custom delay 1`] = `
 [
   "{CURSOR:hide}",
   "{90brightBlack}┆{39x}\\n",
@@ -111,7 +111,7 @@ exports[`terminal/prompts/spinner (isCI = false) > custom > custom delay 1`] = `
 ]
 `;
 
-exports[`terminal/prompts/spinner (isCI = false) > custom > custom symbols and symbolColor 1`] = `
+exports[`prompts/spinner (isCI = false) > custom > custom symbols and symbolColor 1`] = `
 [
   "{CURSOR:hide}",
   "{90brightBlack}┆{39x}\\n",
@@ -132,7 +132,7 @@ exports[`terminal/prompts/spinner (isCI = false) > custom > custom symbols and s
 ]
 `;
 
-exports[`terminal/prompts/spinner (isCI = false) > process exit handling > uses custom cancelMessage when SIGINT 1`] = `
+exports[`prompts/spinner (isCI = false) > process exit handling > uses custom cancelMessage when SIGINT 1`] = `
 [
   "{CURSOR:hide}",
   "{90brightBlack}┆{39x}\\n",
@@ -141,7 +141,7 @@ exports[`terminal/prompts/spinner (isCI = false) > process exit handling > uses 
 ]
 `;
 
-exports[`terminal/prompts/spinner (isCI = false) > process exit handling > uses custom errorMessage when exit code 2 1`] = `
+exports[`prompts/spinner (isCI = false) > process exit handling > uses custom errorMessage when exit code 2 1`] = `
 [
   "{CURSOR:hide}",
   "{90brightBlack}┆{39x}\\n",
@@ -150,7 +150,7 @@ exports[`terminal/prompts/spinner (isCI = false) > process exit handling > uses 
 ]
 `;
 
-exports[`terminal/prompts/spinner (isCI = true) > basic > renders cancel symbol if code = 1 1`] = `
+exports[`prompts/spinner (isCI = true) > basic > renders cancel symbol if code = 1 1`] = `
 [
   "{CURSOR:hide}",
   "{90brightBlack}┆{39x}\\n",
@@ -161,7 +161,7 @@ exports[`terminal/prompts/spinner (isCI = true) > basic > renders cancel symbol 
 ]
 `;
 
-exports[`terminal/prompts/spinner (isCI = true) > basic > renders error message if code > 1 1`] = `
+exports[`prompts/spinner (isCI = true) > basic > renders error message if code > 1 1`] = `
 [
   "{CURSOR:hide}",
   "{90brightBlack}┆{39x}\\n",
@@ -172,7 +172,7 @@ exports[`terminal/prompts/spinner (isCI = true) > basic > renders error message 
 ]
 `;
 
-exports[`terminal/prompts/spinner (isCI = true) > basic > renders frames at interval 1`] = `
+exports[`prompts/spinner (isCI = true) > basic > renders frames at interval 1`] = `
 [
   "{CURSOR:hide}",
   "{90brightBlack}┆{39x}\\n",
@@ -183,7 +183,7 @@ exports[`terminal/prompts/spinner (isCI = true) > basic > renders frames at inte
 ]
 `;
 
-exports[`terminal/prompts/spinner (isCI = true) > basic > renders messages (with multiple lines) 1`] = `
+exports[`prompts/spinner (isCI = true) > basic > renders messages (with multiple lines) 1`] = `
 [
   "{CURSOR:hide}",
   "{90brightBlack}┆{39x}\\n",
@@ -202,7 +202,7 @@ exports[`terminal/prompts/spinner (isCI = true) > basic > renders messages (with
 ]
 `;
 
-exports[`terminal/prompts/spinner (isCI = true) > basic > renders timer when indicator is "timer" 1`] = `
+exports[`prompts/spinner (isCI = true) > basic > renders timer when indicator is "timer" 1`] = `
 [
   "{CURSOR:hide}",
   "{90brightBlack}┆{39x}\\n",
@@ -213,7 +213,7 @@ exports[`terminal/prompts/spinner (isCI = true) > basic > renders timer when ind
 ]
 `;
 
-exports[`terminal/prompts/spinner (isCI = true) > can be aborted by signal 1`] = `
+exports[`prompts/spinner (isCI = true) > can be aborted by signal 1`] = `
 [
   "{CURSOR:hide}",
   "{90brightBlack}┆{39x}\\n",
@@ -222,7 +222,7 @@ exports[`terminal/prompts/spinner (isCI = true) > can be aborted by signal 1`] =
 ]
 `;
 
-exports[`terminal/prompts/spinner (isCI = true) > custom > custom delay 1`] = `
+exports[`prompts/spinner (isCI = true) > custom > custom delay 1`] = `
 [
   "{CURSOR:hide}",
   "{90brightBlack}┆{39x}\\n",
@@ -233,7 +233,7 @@ exports[`terminal/prompts/spinner (isCI = true) > custom > custom delay 1`] = `
 ]
 `;
 
-exports[`terminal/prompts/spinner (isCI = true) > custom > custom symbols and symbolColor 1`] = `
+exports[`prompts/spinner (isCI = true) > custom > custom symbols and symbolColor 1`] = `
 [
   "{CURSOR:hide}",
   "{90brightBlack}┆{39x}\\n",
@@ -244,7 +244,7 @@ exports[`terminal/prompts/spinner (isCI = true) > custom > custom symbols and sy
 ]
 `;
 
-exports[`terminal/prompts/spinner (isCI = true) > process exit handling > uses custom cancelMessage when SIGINT 1`] = `
+exports[`prompts/spinner (isCI = true) > process exit handling > uses custom cancelMessage when SIGINT 1`] = `
 [
   "{CURSOR:hide}",
   "{90brightBlack}┆{39x}\\n",
@@ -253,7 +253,7 @@ exports[`terminal/prompts/spinner (isCI = true) > process exit handling > uses c
 ]
 `;
 
-exports[`terminal/prompts/spinner (isCI = true) > process exit handling > uses custom errorMessage when exit code 2 1`] = `
+exports[`prompts/spinner (isCI = true) > process exit handling > uses custom errorMessage when exit code 2 1`] = `
 [
   "{CURSOR:hide}",
   "{90brightBlack}┆{39x}\\n",

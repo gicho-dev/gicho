@@ -1,11 +1,10 @@
 import type { Awaitable } from '@gicho/core/types'
 
-import type { BaseLogMethods } from '../terminal'
+import type { BaseLogMethods } from '../types'
 import type { CommandHelpSection, CommandOption, CommandOptionConfig, ParsedArgv } from './types'
 
 import EventEmitter from 'node:events'
 
-import { term } from '../terminal'
 import { __DEF, __ROOT, Command } from './command'
 import { CommandError, UnknownOptionError } from './error'
 import { parseArgs } from './parser'
@@ -27,7 +26,7 @@ export class CommandCenter extends EventEmitter {
 	commandMap: Record<string, Command> = {}
 	matched: MatchedInfo | null = null
 
-	private _output: BaseLogMethods = term
+	private _output: BaseLogMethods = console
 	private _strict: boolean = true
 	_maxCommandNameDepth: number = 0
 
