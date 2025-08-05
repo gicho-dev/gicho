@@ -1,5 +1,5 @@
 import type { Key, ReadLine } from 'node:readline'
-import type { Writable } from 'node:stream'
+import type { Readable, Writable } from 'node:stream'
 import type { LiteralStringUnion } from '@gicho/core/types'
 
 import type { SharedPromptContext } from './internal/shared'
@@ -49,6 +49,15 @@ interface PromptEventMap<TValue> {
 }
 type PromptEventName = keyof PromptEventMap<any>
 
+type PromptEventHandler<K extends PromptEventName, TValue> = (
+	event: PromptEventMap<TValue>[K],
+) => void
+
+interface PromptEventListenerItem<K extends PromptEventName, TValue> {
+	handler: PromptEventHandler<K, TValue>
+	once?: boolean
+}
+
 interface PromptKeypressEvent {
 	action: PromptAction | false
 	char?: string
@@ -60,90 +69,12 @@ interface PromptKeypressEvent {
 }
 
 /* ----------------------------------------
- *   Prompt Event Emitter
- * ------------------------------------- */
-
-interface PromptEventEmitter<TValue> {
-	/** Clear all listeners */
-	clear(): void
-	/** Emit an event with data */
-	emit<K extends PromptEventName>(eventName: K, context: PromptEventMap<TValue>[K]): void
-	/** Subscribe to an event */
-	on<K extends PromptEventName>(eventName: K, handler: PromptEventHandler<K, TValue>): void
-	/** Subscribe to an event once */
-	once<K extends PromptEventName>(eventName: K, handler: PromptEventHandler<K, TValue>): void
-}
-
-type PromptEventHandler<K extends PromptEventName, TValue> = (
-	event: PromptEventMap<TValue>[K],
-) => void
-
-interface PromptEventListenerItem<K extends PromptEventName, TValue> {
-	handler: PromptEventHandler<K, TValue>
-	once?: boolean
-}
-
-function createPromptEventEmitter<TValue>(): PromptEventEmitter<TValue> {
-	const listeners = new Map<PromptEventName, PromptEventListenerItem<PromptEventName, TValue>[]>()
-
-	const setSubscriber = <K extends PromptEventName>(
-		eventName: K,
-		item: PromptEventListenerItem<K, TValue>,
-	): void => {
-		const callbacks = listeners.get(eventName) ?? []
-		callbacks.push(item as PromptEventListenerItem<PromptEventName, TValue>)
-		listeners.set(eventName, callbacks)
-	}
-
-	return {
-		clear: () => listeners.clear(),
-		emit: (eventName, context) => {
-			const callbacks = listeners.get(eventName) ?? []
-			const cleanUpFns: number[] = []
-
-			callbacks.forEach((item, index) => {
-				item.handler(context)
-				if (item.once) {
-					cleanUpFns.push(index)
-				}
-			})
-
-			for (let i = cleanUpFns.length; i--; ) {
-				callbacks.splice(cleanUpFns[i], 1)
-			}
-		},
-		on: (eventName, handler) => setSubscriber(eventName, { handler }),
-		once: (eventName, handler) => setSubscriber(eventName, { handler, once: true }),
-	}
-}
-
-/* ----------------------------------------
  *   Prompt
  * ------------------------------------- */
 
-export interface Prompt<TValue, TOptions = any> {
-	shared: SharedPromptContext
-	options: TOptions
-
-	cursorPos: number
-	error: string
-	events: PromptEventEmitter<TValue>
-	rl?: ReadLine
-	state: PromptState
-	userInput: string
-	value: TValue
-
-	close(newState?: PromptState): void
-	prompt(): Promise<TValue | CancelSymbol>
-	setValue(value: TValue): void
-	shouldIgnoreKey: (char: string | undefined, key: Key) => boolean
-	render(prompt: this, opts: TOptions, shared: SharedPromptContext): string
-}
-
-export interface CommonPromptOptions<TValue, TSelf extends Prompt<TValue> = Prompt<TValue>>
-	extends BasePromptOptions {
+export interface CommonPromptOptions<TValue> extends BasePromptOptions {
 	initialValue?: TValue
-	render?(prompt: TSelf, opts: TSelf['options'], shared: SharedPromptContext): string
+	render?(this: unknown): string
 	signal?: AbortSignal
 	validate?(value: TValue): string | Error | undefined
 }
@@ -153,106 +84,196 @@ interface PromptInternalOptions {
 	trackValue: boolean
 }
 
-interface PromptOptions<TValue, TSelf extends Prompt<TValue> = Prompt<TValue>>
-	extends CommonPromptOptions<TValue, TSelf>,
-		PromptInternalOptions {}
+interface PromptOptions<TValue> extends CommonPromptOptions<TValue>, PromptInternalOptions {}
 
-export function createPrompt<TValue, TSelf extends Prompt<TValue> = Prompt<TValue>>(
-	options: PromptOptions<TValue, TSelf>,
-): TSelf {
-	const { initialUserInput, trackValue, ...opts } = options as PromptOptions<TValue>
+/* ----------------------------------------
+ *   Prompt (Abstract) Class
+ * ------------------------------------- */
+export abstract class Prompt<TValue> {
+	readonly opts: CommonPromptOptions<TValue>
 
-	const { input = shared.config.input, output = shared.config.output } = opts
-	if (!opts.render) throw new Error('Prompt render function is not implemented')
+	private _prevFrame = ''
+	private readonly _initialUserInput: string
+	private readonly _trackValue: boolean
 
-	const events = createPromptEventEmitter<TValue>()
-	let prevFrame = ''
+	protected readonly _s: SharedPromptContext
+	protected render: (this: this) => string
 
-	const p: Prompt<TValue> = {
-		shared,
-		options: opts,
-		events,
-		render: opts.render ?? (() => ''),
+	protected input: Readable
+	protected output: Writable
+	protected rl?: ReadLine
 
-		// initial states
-		cursorPos: 0,
-		error: '',
-		state: 'initial',
-		userInput: '',
-		value: opts.initialValue as TValue,
+	protected cursorPos = 0
+	protected error = ''
+	protected state: PromptState = 'initial'
+	protected userInput = ''
+	protected value: TValue
 
-		close(newState) {
-			if (newState) p.state = newState
+	constructor(options: PromptOptions<TValue>) {
+		const { initialUserInput, trackValue, ...opts } = options
 
-			input.unpipe()
-			input.off('keypress', onKeypress)
-			// write('\n')
-			setInputRawMode(false)
+		this._initialUserInput = initialUserInput ?? ''
+		this._trackValue = trackValue
 
-			if (p.rl) {
-				p.rl.close()
-				p.rl = undefined
-			}
+		if (!opts.render) throw new Error('Prompt render function is not implemented')
 
-			events.emit('close', { state: p.state, value: p.value })
-			events.clear()
-		},
+		this._s = shared
+		this.opts = options
 
-		prompt() {
-			return new Promise((resolve) => {
-				const { signal } = opts
+		this.input = opts.input ?? shared.config.input
+		this.output = opts.output ?? shared.config.output
 
-				if (signal) {
-					if (signal.aborted) {
-						p.close('canceled')
-						return resolve(cancelSymbol)
-					}
+		this.value = opts.initialValue as TValue
 
-					signal.addEventListener('abort', () => p.close('canceled'), { once: true })
-				}
-
-				p.rl = createInterface({
-					escapeCodeTimeout: 50,
-					input,
-					prompt: '',
-					tabSize: 2,
-					terminal: true,
-				})
-				p.rl.prompt()
-
-				if (initialUserInput !== undefined) {
-					setUserInput(initialUserInput, true)
-				}
-
-				input.on('keypress', onKeypress)
-				setInputRawMode(true)
-				output.on('resize', _render)
-
-				_render()
-
-				events.once('close', ({ state, value }) => {
-					output.write(ansi.cursor.show())
-					output.off('resize', _render)
-					setInputRawMode(false)
-
-					resolve(state === 'completed' ? value : cancelSymbol)
-				})
-			})
-		},
-
-		setValue(value) {
-			p.value = value
-			events.emit('value', { value })
-		},
-
-		shouldIgnoreKey: (char) => char === '\t',
+		this.close = this.close.bind(this)
+		this.onKeypress = this.onKeypress.bind(this)
+		this._render = this._render.bind(this)
+		this.render = opts.render.bind(this)
 	}
 
-	const onKeypress = (char: string | undefined, key: Key): void => {
-		const { rl } = p
+	// #region -- Event Emitter
+
+	private _listeners = new Map<
+		PromptEventName,
+		PromptEventListenerItem<PromptEventName, TValue>[]
+	>()
+
+	private _setSubscriber<K extends PromptEventName>(
+		eventName: K,
+		item: PromptEventListenerItem<K, TValue>,
+	): void {
+		const callbacks = this._listeners.get(eventName) ?? []
+		callbacks.push(item as PromptEventListenerItem<PromptEventName, TValue>)
+		this._listeners.set(eventName, callbacks)
+	}
+
+	/**
+	 * Clear all listeners
+	 */
+	protected clearListeners(): void {
+		this._listeners.clear()
+	}
+
+	/**
+	 * Emit an event with data
+	 */
+	protected emit<K extends PromptEventName>(
+		eventName: K,
+		context: PromptEventMap<TValue>[K],
+	): void {
+		const callbacks = this._listeners.get(eventName) ?? []
+		const cleanUpFns: number[] = []
+
+		callbacks.forEach((item, index) => {
+			item.handler.call(this, context)
+			if (item.once) {
+				cleanUpFns.push(index)
+			}
+		})
+
+		for (let i = cleanUpFns.length; i--; ) {
+			callbacks.splice(cleanUpFns[i], 1)
+		}
+	}
+
+	/**
+	 * Subscribe to an event
+	 */
+	protected on<K extends PromptEventName>(
+		eventName: K,
+		handler: PromptEventHandler<K, TValue>,
+	): void {
+		this._setSubscriber(eventName, { handler })
+	}
+
+	/**
+	 * Subscribe to an event once
+	 */
+	protected once<K extends PromptEventName>(
+		eventName: K,
+		handler: PromptEventHandler<K, TValue>,
+	): void {
+		this._setSubscriber(eventName, { handler, once: true })
+	}
+
+	// #endregion -- Event Emitter
+
+	close(newState?: PromptState): void {
+		if (newState) this.state = newState
+
+		this.input.unpipe()
+		this.input.off('keypress', this.onKeypress)
+		// write('\n')
+		this.setInputRawMode(false)
+
+		if (this.rl) {
+			this.rl.close()
+			this.rl = undefined
+		}
+
+		this.emit('close', { state: this.state, value: this.value })
+		this.clearListeners()
+	}
+
+	prompt(): Promise<TValue | CancelSymbol> {
+		return new Promise((resolve) => {
+			const { input, output } = this
+			const { signal } = this.opts
+
+			if (signal) {
+				if (signal.aborted) {
+					this.close('canceled')
+					return resolve(cancelSymbol)
+				}
+
+				signal.addEventListener('abort', () => this.close('canceled'), { once: true })
+			}
+
+			this.rl = createInterface({
+				escapeCodeTimeout: 50,
+				input,
+				prompt: '',
+				tabSize: 2,
+				terminal: true,
+			})
+			this.rl.prompt()
+
+			if (this._initialUserInput !== undefined) {
+				this.setUserInput(this._initialUserInput, true)
+			}
+
+			input.on('keypress', this.onKeypress)
+			this.setInputRawMode(true)
+			output.on('resize', this._render)
+
+			this._render()
+
+			this.once('close', ({ state, value }) => {
+				output.write(ansi.cursor.show())
+				output.off('resize', this._render)
+				this.setInputRawMode(false)
+
+				resolve(state === 'completed' ? value : cancelSymbol)
+			})
+		})
+	}
+
+	protected setValue(value: TValue): void {
+		this.value = value
+		this.emit('value', { value })
+	}
+
+	protected shouldIgnoreKey(char: string | undefined, _key: Key): boolean {
+		return char === '\t'
+	}
+
+	// #region -- Internal
+
+	private onKeypress(char: string | undefined, key: Key): void {
+		const { rl } = this
 		if (!rl) return
 
-		const action = shared.getMatchedAction([char, key.name, key.sequence])
+		const action = this._s.getMatchedAction([char, key.name, key.sequence])
 		const isEnterAction = action === 'enter'
 		const lowerCasedChar = char?.toLowerCase()
 
@@ -266,52 +287,54 @@ export function createPrompt<TValue, TSelf extends Prompt<TValue> = Prompt<TValu
 			keyName: key.name,
 		}
 
-		events.emit('keypress', keyInfo)
+		this.emit('keypress', keyInfo)
 
-		if (action === 'cancel') p.state = 'canceled'
+		if (action === 'cancel') this.state = 'canceled'
 
-		if (trackValue && !isEnterAction) {
-			if (p.shouldIgnoreKey(char, key)) {
+		if (this._trackValue && !isEnterAction) {
+			if (this.shouldIgnoreKey(char, key)) {
 				rl.write(null, { ctrl: true, name: 'h' })
 			}
 
-			setUserInput(rl.line)
-			p.cursorPos = rl.cursor
+			this.setUserInput(rl.line)
+			this.cursorPos = rl.cursor
 		}
 
-		if (p.state === 'error') p.state = 'active'
+		if (this.state === 'error') this.state = 'active'
 
 		if (isEnterAction) {
-			const problem = opts.validate?.(p.value)
+			const problem = this.opts.validate?.(this.value)
 			if (problem) {
-				p.error = problem instanceof Error ? problem.message : problem
-				p.state = 'error'
-				rl.write(p.userInput)
+				this.error = problem instanceof Error ? problem.message : problem
+				this.state = 'error'
+				rl.write(this.userInput)
 			}
 
-			if (p.state !== 'error') p.state = 'completed'
+			if (this.state !== 'error') this.state = 'completed'
 		}
 
-		if (p.state === 'completed' || p.state === 'canceled') {
-			events.emit('finish', { state: p.state, value: p.value })
+		if (this.state === 'completed' || this.state === 'canceled') {
+			this.emit('finish', { state: this.state, value: this.value })
 		}
-		_render()
-		if (p.state === 'completed' || p.state === 'canceled') {
-			p.close()
+		this._render()
+		if (this.state === 'completed' || this.state === 'canceled') {
+			this.close()
 		}
 	}
 
-	const _render = (): void => {
-		const frame = hardWrap(p.render(p, opts, shared) ?? '', output)
-		if (frame === prevFrame) return
+	private _render(): void {
+		const { output } = this
 
-		if (p.state === 'initial') {
+		const frame = hardWrap(this.render() ?? '', output)
+		if (frame === this._prevFrame) return
+
+		if (this.state === 'initial') {
 			output.write(ansi.cursor.hide())
-			p.state = 'active'
+			this.state = 'active'
 		} else {
-			const diff = getDiffLines(prevFrame, frame)
+			const diff = getDiffLines(this._prevFrame, frame)
 
-			const lines = hardWrap(prevFrame, output).split('\n').length - 1
+			const lines = hardWrap(this._prevFrame, output).split('\n').length - 1
 			output.write(ansi.cursor.prevLine(lines))
 
 			if (diff.length === 1) {
@@ -320,7 +343,7 @@ export function createPrompt<TValue, TSelf extends Prompt<TValue> = Prompt<TValu
 				output.write(ansi.erase.lines(1))
 				const lines = frame.split('\n')
 				output.write(lines[diffLineNum])
-				prevFrame = frame
+				this._prevFrame = frame
 				output.write(ansi.cursor.move(0, lines.length - diffLineNum - 1))
 				return
 			} else if (diff.length > 1) {
@@ -330,7 +353,7 @@ export function createPrompt<TValue, TSelf extends Prompt<TValue> = Prompt<TValu
 				const lines = frame.split('\n')
 				const newLines = lines.slice(diffLineNum)
 				output.write(newLines.join('\n'))
-				prevFrame = frame
+				this._prevFrame = frame
 				return
 			}
 
@@ -338,24 +361,24 @@ export function createPrompt<TValue, TSelf extends Prompt<TValue> = Prompt<TValu
 		}
 
 		output.write(frame)
-		prevFrame = frame
+		this._prevFrame = frame
 	}
 
-	const setInputRawMode = (mode: boolean): void => {
-		if (input instanceof ReadStream) input.setRawMode(mode)
+	private setInputRawMode(mode: boolean): void {
+		if (this.input instanceof ReadStream) this.input.setRawMode(mode)
 	}
 
-	const setUserInput = (value = '', write?: boolean): void => {
-		p.userInput = value
-		events.emit('userInput', { inputValue: value })
+	private setUserInput(value = '', write?: boolean): void {
+		this.userInput = value
+		this.emit('userInput', { inputValue: value })
 
-		if (write && trackValue) {
-			p.rl?.write(value)
-			p.cursorPos = p.rl?.cursor ?? 0
+		if (write && this._trackValue) {
+			this.rl?.write(value)
+			this.cursorPos = this.rl?.cursor ?? 0
 		}
 	}
 
-	return p as TSelf
+	// #endregion -- Internal
 }
 
 /* ----------------------------------------

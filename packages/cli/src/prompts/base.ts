@@ -12,19 +12,19 @@ import { cancelSymbol } from './internal/utils'
  *   Base prompt functions
  * ------------------------------------- */
 
-export function start(message: string, options: OutputOptions = {}) {
+export function start(message: string, options: OutputOptions = {}): void {
 	const { output = shared.config.output } = options
 	output.write(shared.line('base', 'start', message))
 	shared.isActive = true
 }
 
-export function end(message: string, options: OutputOptions = {}) {
+export function end(message: string, options: OutputOptions = {}): void {
 	const { output = shared.config.output } = options
 	output.write(shared.linePrefix() + shared.lineEnd('base', message))
 	shared.isActive = false
 }
 
-export function cancel(message: string, options: OutputOptions = {}) {
+export function cancel(message: string, options: OutputOptions = {}): void {
 	const { output = shared.config.output } = options
 	output.write(shared.linePrefix() + shared.lineEnd('base', message))
 	shared.isActive = false
@@ -40,6 +40,6 @@ export function isCanceled(result: unknown): result is CancelSymbol {
 /**
  * Updates the shared prompt config.
  */
-export function updateConfig(options: PartialDeep<SharedPromptConfig>) {
-	mergeConfigsInto(shared.config, options)
+export function updateConfig(options: PartialDeep<SharedPromptConfig>): SharedPromptConfig {
+	return mergeConfigsInto(shared.config, options) as SharedPromptConfig
 }

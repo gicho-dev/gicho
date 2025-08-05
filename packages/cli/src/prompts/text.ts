@@ -1,72 +1,74 @@
 import type { CancelSymbol } from './internal/utils'
-import type { CommonPromptOptions, Prompt } from './prompt'
+import type { CommonPromptOptions } from './prompt'
 
 import { ansi } from '../terminal/ansi'
-import { createPrompt } from './prompt'
+import { Prompt } from './prompt'
 
 /* ----------------------------------------
- *   Text Prompt Factory
+ *   TextPrompt Class
  * ------------------------------------- */
 
 type Value = string
 
-interface TextPrompt extends Prompt<Value, TextPromptOptions> {
-	getUserInputWithCursor(): string
-}
-
-interface TextPromptOptions extends CommonPromptOptions<Value, TextPrompt> {
+interface TextPromptOptions extends CommonPromptOptions<Value> {
 	defaultValue?: Value
-	message: string
-	placeholder?: string
 }
 
-export function createTextPrompt(opts: TextPromptOptions): TextPrompt {
-	const p = createPrompt<Value, TextPrompt>({
-		...opts,
-		initialUserInput: opts.initialValue,
-		trackValue: true,
-	})
-	const { options, events, setValue, shared: g } = p
+export class TextPrompt<
+	TOptions extends TextPromptOptions = TextPromptOptions,
+> extends Prompt<Value> {
+	declare opts: TOptions
 
-	Object.assign(p, {
-		getUserInputWithCursor(): string {
-			const { cursorPos, state, userInput } = p
+	constructor(options: TOptions) {
+		super({
+			...options,
+			initialUserInput: options.initialValue,
+			trackValue: true,
+		})
 
-			if (state === 'completed') {
-				return userInput
+		this.on('userInput', ({ inputValue }) => {
+			this.setValue(inputValue)
+		})
+
+		this.on('finish', () => {
+			if (!this.value) {
+				this.value = options.defaultValue ?? ''
 			}
-			if (cursorPos >= userInput.length) {
-				return `${userInput}${g.config.S.caret}`
-			}
+		})
+	}
 
-			const before = userInput.slice(0, cursorPos)
-			const cur = userInput.at(cursorPos)
-			const after = userInput.slice(cursorPos + 1)
+	protected getUserInputWithCursor(): string {
+		const { _s, cursorPos, state, userInput } = this
 
-			return `${before}${ansi.c.inverse(cur)}${after}`
-		},
-	})
-
-	events.on('userInput', ({ inputValue }) => {
-		setValue(inputValue)
-	})
-	events.on('finish', () => {
-		if (!p.value) {
-			p.value = options.defaultValue ?? ''
+		if (state === 'completed') {
+			return userInput
 		}
-	})
+		if (cursorPos >= userInput.length) {
+			return `${userInput}${_s.config.S.caret}`
+		}
 
-	return p
+		const before = userInput.slice(0, cursorPos)
+		const cur = userInput.at(cursorPos)
+		const after = userInput.slice(cursorPos + 1)
+
+		return `${before}${ansi.c.inverse(cur)}${after}`
+	}
 }
 
 /* ----------------------------------------
  *   Text (Prompt Element)
  * ------------------------------------- */
 
-const defaultOptions: Partial<TextPromptOptions> = {
-	render(p, opts, _s) {
-		const { error, state, userInput, value = '' } = p
-		const { message, placeholder } = opts
+interface TextOptions extends TextPromptOptions {
+	message: string
+	placeholder?: string
+	render?(this: TextPrompt<TextOptions>): string
+}
+
+const defaultOptions: Partial<TextOptions> = {
+	render() {
+		const { _s, error, state, value = '' } = this
+		const { message, placeholder } = this.opts
 
 		const { colors } = _s.config
 
@@ -75,7 +77,7 @@ const defaultOptions: Partial<TextPromptOptions> = {
 		const placeholderText = placeholder
 			? ansi.c.inverse(placeholder[0]) + ansi.c.dim(placeholder.slice(1))
 			: ansi.c.inverse(ansi.c.hidden('_'))
-		const input = userInput ? p.getUserInputWithCursor() : placeholderText
+		const input = this.userInput ? this.getUserInputWithCursor() : placeholderText
 
 		switch (state) {
 			case 'error':
@@ -90,6 +92,6 @@ const defaultOptions: Partial<TextPromptOptions> = {
 	},
 }
 
-export function text(options: TextPromptOptions): Promise<Value | CancelSymbol> {
-	return createTextPrompt({ ...defaultOptions, ...options }).prompt()
+export function text(options: TextOptions): Promise<Value | CancelSymbol> {
+	return new TextPrompt({ ...defaultOptions, ...options }).prompt()
 }

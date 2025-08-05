@@ -1,50 +1,55 @@
 import type { CancelSymbol } from './internal/utils'
-import type { CommonPromptOptions, Prompt } from './prompt'
+import type { CommonPromptOptions } from './prompt'
 
 import { ansi } from '../terminal'
-import { createPrompt } from './prompt'
+import { Prompt } from './prompt'
 
 /* ----------------------------------------
- *   Confirm Prompt Factory
+ *   ConfirmPrompt Class
  * ------------------------------------- */
 
 type Value = boolean
 
-interface ConfirmPrompt extends Prompt<Value, ConfirmPromptOptions> {}
+interface ConfirmPromptOptions extends CommonPromptOptions<Value> {}
 
-interface ConfirmPromptOptions extends CommonPromptOptions<Value, ConfirmPrompt> {
-	active?: string
-	inactive?: string
-	message: string
-}
+export class ConfirmPrompt<
+	TOptions extends ConfirmPromptOptions = ConfirmPromptOptions,
+> extends Prompt<Value> {
+	declare opts: TOptions
 
-export function createConfirmPrompt(opts: ConfirmPromptOptions): ConfirmPrompt {
-	const p = createPrompt<Value, ConfirmPrompt>({ ...opts, trackValue: false })
+	constructor(opts: ConfirmPromptOptions) {
+		super({ ...opts, trackValue: false })
 
-	p.events.on('keypress', ({ confirmed, isCursorAction }) => {
-		if (typeof confirmed === 'boolean') {
-			p.value = confirmed
-			p.close('completed')
-		}
+		this.on('keypress', ({ confirmed, isCursorAction }) => {
+			if (typeof confirmed === 'boolean') {
+				this.value = confirmed
+				this.close('completed')
+			}
 
-		if (isCursorAction) p.value = !p.value
-	})
-
-	return p
+			if (isCursorAction) this.value = !this.value
+		})
+	}
 }
 
 /* ----------------------------------------
  *   Confirm (Prompt Element)
  * ------------------------------------- */
 
-const defaultOptions: Partial<ConfirmPromptOptions> = {
+interface ConfirmOptions extends ConfirmPromptOptions {
+	active?: string
+	inactive?: string
+	message: string
+	render?(this: ConfirmPrompt<ConfirmOptions>): string
+}
+
+const defaultOptions: Partial<ConfirmOptions> = {
 	active: 'Yes',
 	inactive: 'No',
 	initialValue: true,
 
-	render(p, opts, _s) {
-		const { state, value } = p
-		const { active, inactive, message } = opts
+	render() {
+		const { _s, state, value } = this
+		const { active, inactive, message } = this.opts
 
 		const { colors, S } = _s.config
 
@@ -72,6 +77,6 @@ const defaultOptions: Partial<ConfirmPromptOptions> = {
 	},
 }
 
-export function confirm(options: ConfirmPromptOptions): Promise<Value | CancelSymbol> {
-	return createConfirmPrompt({ ...defaultOptions, ...options }).prompt()
+export function confirm(options: ConfirmOptions): Promise<Value | CancelSymbol> {
+	return new ConfirmPrompt({ ...defaultOptions, ...options }).prompt()
 }
