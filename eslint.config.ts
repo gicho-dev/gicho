@@ -13,6 +13,8 @@ export default defineConfig({
 	svelte: false,
 
 	ts: {
+		explicitFunctionReturnType: true,
+
 		rules: {
 			'@typescript-eslint/no-empty-object-type': 'off',
 		},
