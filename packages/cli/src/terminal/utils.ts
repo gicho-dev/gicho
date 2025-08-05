@@ -38,9 +38,18 @@ export const isUnicodeSupported: boolean = (() => {
  *   Functions
  * ------------------------------------- */
 
-/** Returns the number of columns of the given output. */
+/**
+ * Returns the number of columns of the given output.
+ */
 export function getColumns(output: Writable, defaultColumns: number = 80): number {
 	return output instanceof WriteStream ? (output.columns ?? defaultColumns) : defaultColumns
+}
+
+/**
+ * Returns the number of rows of the given output.
+ */
+export function getRows(output: Writable, defaultRows: number = 10): number {
+	return output instanceof WriteStream ? (output.rows ?? defaultRows) : defaultRows
 }
 
 /**
