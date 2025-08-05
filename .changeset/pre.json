@@ -1,0 +1,11 @@
+{
+  "mode": "pre",
+  "tag": "alpha",
+  "initialVersions": {
+    "@gicho/cli": "0.0.1-alpha.0",
+    "@gicho/core": "0.0.1-alpha.0"
+  },
+  "changesets": [
+    "mighty-pants-buy"
+  ]
+}
