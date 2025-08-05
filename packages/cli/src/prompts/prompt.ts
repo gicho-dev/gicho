@@ -8,9 +8,8 @@ import type { BasePromptOptions } from './prompts.types'
 
 import { createInterface } from 'node:readline'
 import { ReadStream, WriteStream } from 'node:tty'
-import wrapAnsi from 'wrap-ansi'
 
-import { ansi } from '../terminal'
+import { ansi, wrapAnsi } from '../terminal'
 import { shared } from './internal/shared'
 import { cancelSymbol } from './internal/utils'
 
@@ -326,6 +325,7 @@ export abstract class Prompt<TValue> {
 		const { output } = this
 
 		const frame = hardWrap(this.render() ?? '', output)
+
 		if (frame === this._prevFrame) return
 
 		if (this.state === 'initial') {
@@ -333,9 +333,8 @@ export abstract class Prompt<TValue> {
 			this.state = 'active'
 		} else {
 			const diff = getDiffLines(this._prevFrame, frame)
-
-			const lines = hardWrap(this._prevFrame, output).split('\n').length - 1
-			output.write(ansi.cursor.prevLine(lines))
+			const lineCount = hardWrap(this._prevFrame, output).split('\n').length - 1
+			output.write(ansi.cursor.prevLine(lineCount))
 
 			if (diff.length === 1) {
 				const diffLineNum = diff[0]
@@ -406,5 +405,5 @@ function getDiffLines(a: string, b: string): number[] {
 
 function hardWrap(str: string, output: Writable): string {
 	const cols = output instanceof WriteStream && output.columns ? output.columns : 80
-	return wrapAnsi(str, cols, { hard: true, trim: false })
+	return wrapAnsi(str, cols, { hard: true, trim: false, wordWrap: false })
 }
