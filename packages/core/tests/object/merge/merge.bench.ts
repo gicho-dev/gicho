@@ -1,3 +1,5 @@
+import type { AnyFunction } from '../../../src/types'
+
 import { bench, describe } from 'vitest'
 
 import { clone } from '../../../src/object/clone'
@@ -29,7 +31,7 @@ describe('benchmark testing 1', () => {
 	const fastifyDeepmergeMergeAll = fastifyDeepmerge({ all: true })
 	const fastifyDeepmergeMergeSymbols = fastifyDeepmerge({ all: true, symbols: true })
 
-	function runner(name: keyof typeof fixtures, contenders: Record<string, Function>) {
+	function runner(name: keyof typeof fixtures, contenders: Record<string, AnyFunction>) {
 		describe(name, () => {
 			const keys = Object.keys(contenders)
 

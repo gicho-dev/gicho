@@ -1,3 +1,5 @@
+import type { AnyFunction } from '../../../src/types'
+
 import { bench, describe } from 'vitest'
 
 import { createClone } from '../../../src/object/clone'
@@ -13,7 +15,7 @@ describe('clone', () => {
 	const { clone } = createClone()
 	const { clone: cloneCircles } = createClone({ circles: true })
 
-	function runner(name: keyof typeof fixtures, contentders: Record<string, Function>) {
+	function runner(name: keyof typeof fixtures, contentders: Record<string, AnyFunction>) {
 		describe(name, () => {
 			const keys = Object.keys(contentders)
 

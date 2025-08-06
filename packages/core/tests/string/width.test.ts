@@ -8,7 +8,7 @@ import { getEastAsianWidth, getEastAsianWidthType, getStringWidth } from '../../
 
 describe('string/width', () => {
 	describe('string/width/getEastAsianWidth', () => {
-		const cp = (str: string) => str.codePointAt(0)!
+		const cp = (str: string) => str.codePointAt(0) as number
 
 		const testBoth = (x: number, expectedWidth: number, expectedType: string) => {
 			expect(getEastAsianWidth(x)).toBe(expectedWidth)

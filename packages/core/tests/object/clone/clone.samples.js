@@ -1,3 +1,5 @@
+/* eslint-disable no-prototype-builtins */
+
 export const samples = {
 	klona,
 	rfdc: _rfdc(),

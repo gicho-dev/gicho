@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-extraneous-class */
+
 import { describe, expect, test } from 'vitest'
 
 import { createClone } from '../../../src/object/clone'
@@ -468,7 +470,7 @@ describe('clone', () => {
 	})
 
 	describe('circular', () => {
-		test('cloneCircles', () => {
+		test('cloneCircles case 1', () => {
 			const a = fixtures.objCircular1 as any
 			const a2 = cloneCircles(a)
 			expect(a2).toEqual(a)
@@ -479,7 +481,7 @@ describe('clone', () => {
 			expect(a2.b[3].a).toEqual(2)
 		})
 
-		test('cloneCircles', () => {
+		test('cloneCircles case 2', () => {
 			const a = fixtures.objCircular2 as any
 			const a2 = cloneCircles(a)
 			expect(a2).toEqual(a)

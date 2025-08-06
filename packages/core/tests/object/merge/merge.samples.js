@@ -1,4 +1,4 @@
-/* eslint-disable no-use-before-define, prefer-rest-params */
+/* eslint-disable prefer-rest-params, no-unused-expressions */
 
 export const samples = {
 	deepmerge: _deepmerge(),
@@ -79,7 +79,7 @@ function _deepmerge() {
 	function propertyIsOnObject(object, property) {
 		try {
 			return property in object
-		} catch (_) {
+		} catch {
 			return false
 		}
 	}
