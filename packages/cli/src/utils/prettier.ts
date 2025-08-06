@@ -1,4 +1,4 @@
-import { exec } from './exec'
+import { execSync } from './exec'
 
 /**
  * Format a file with Prettier.
@@ -8,5 +8,5 @@ import { exec } from './exec'
  * @internal
  */
 export function formatFileWithPrettier(path: string): string {
-	return exec(`prettier --write "${path}"`)
+	return execSync(`prettier --write "${path}"`)
 }

@@ -6,7 +6,7 @@ import { writeFileSync } from 'node:fs'
 
 import { findFile, readText } from './fs'
 import { basename } from './path'
-import { exec } from './utils/exec'
+import { execSync } from './utils/exec'
 import { parseJsonWithFormat, stringifyJsonWithFormat } from './utils/format'
 
 /* ----------------------------------------
@@ -209,7 +209,7 @@ export function publishPackage(
 	if (!cfg.private && !pkg.private) args.push('--access', 'public')
 	if (cfg.tag) args.push('--tag', `"${cfg.tag}"`)
 
-	return exec([pm, 'publish', ...args], path)
+	return execSync([pm, 'publish', ...args], path)
 }
 
 /**
