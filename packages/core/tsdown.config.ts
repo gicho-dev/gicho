@@ -4,8 +4,11 @@ const groups = ['fetch', 'is', 'object', 'string', 'types']
 
 export default defineConfig({
 	dts: true,
+	unbundle: true,
+
 	entry: {
 		index: 'src/index.ts',
+
 		...groups.reduce(
 			(obj, group) => {
 				obj[group] = `src/${group}/index.ts`
@@ -14,6 +17,7 @@ export default defineConfig({
 			{} as Record<string, string>,
 		),
 	},
+
 	exports: {
 		customExports(exports, ctx) {
 			if (ctx.isPublish) return exports
@@ -33,5 +37,4 @@ export default defineConfig({
 		},
 		devExports: 'source',
 	},
-	unbundle: true,
 })
