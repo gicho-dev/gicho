@@ -30,6 +30,7 @@ import type {
 	UnknownRecord,
 	UnknownSet,
 	ValuesToUnion,
+	Voidable,
 } from '../../src/types'
 
 import { assertType, describe, expectTypeOf, test } from 'vitest'
@@ -235,6 +236,15 @@ describe('base types', () => {
 			expectTypeOf(new BigInt64Array()).toExtend<TypedArray>()
 			expectTypeOf(new BigUint64Array()).toExtend<TypedArray>()
 			expectTypeOf(Buffer.from('test')).toExtend<TypedArray>() // UInt8Array
+		})
+
+		test('Voidable', () => {
+			expectTypeOf(undefined).toExtend<Voidable<any>>()
+			expectTypeOf(undefined).toExtend<Voidable<number>>()
+			expectTypeOf(undefined).toExtend<Voidable<string>>()
+			expectTypeOf(undefined).toExtend<Voidable<unknown>>()
+			expectTypeOf().toExtend<Voidable<any>>()
+			expectTypeOf().toExtend<Voidable<unknown>>()
 		})
 	})
 

@@ -74,6 +74,10 @@ export type TypedArray =
 	| BigInt64Array
 	| BigUint64Array
 
+/** A value that may be `void`. */
+/* eslint-disable-next-line @typescript-eslint/no-invalid-void-type */
+export type Voidable<T> = T | void
+
 /* ----------------------------------------
  *   Any- or Unknown- (readonly) types
  * ------------------------------------- */
