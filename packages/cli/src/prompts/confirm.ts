@@ -1,7 +1,7 @@
 import type { CancelSymbol } from './internal/utils'
 import type { CommonPromptOptions } from './prompt'
 
-import { ansi } from '../terminal'
+import { color } from '../terminal'
 import { Prompt } from './prompt'
 
 /* ----------------------------------------
@@ -58,18 +58,18 @@ const defaultOptions: Partial<ConfirmOptions> = {
 
 		switch (state) {
 			case 'completed':
-				return title + _s.lineBar('base', ansi.c.dim(valueText))
+				return title + _s.lineBar('base', color.dim(valueText))
 			case 'canceled':
-				return title + _s.lineBar('base', ansi.c.strikethrough.dim(valueText))
+				return title + _s.lineBar('base', color.strikethrough.dim(valueText))
 
 			default: {
 				const y = value
-					? `${ansi.c[colors.focused](S.radio1)} ${active}`
-					: `${ansi.c[colors.focused](S.radio0)} ${ansi.c.dim(active)}`
+					? `${color[colors.focused](S.radio1)} ${active}`
+					: `${color[colors.focused](S.radio0)} ${color.dim(active)}`
 				const n = !value
-					? `${ansi.c[colors.focused](S.radio1)} ${inactive}`
-					: `${ansi.c[colors.focused](S.radio0)} ${ansi.c.dim(inactive)}`
-				const sp = ansi.c.dim('/')
+					? `${color[colors.focused](S.radio1)} ${inactive}`
+					: `${color[colors.focused](S.radio0)} ${color.dim(inactive)}`
+				const sp = color.dim('/')
 
 				return title + _s.lineBar(state, `${y} ${sp} ${n}`) + _s.lineEnd(state, '', true)
 			}

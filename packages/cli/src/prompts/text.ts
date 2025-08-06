@@ -1,7 +1,7 @@
 import type { CancelSymbol } from './internal/utils'
 import type { CommonPromptOptions } from './prompt'
 
-import { ansi } from '../terminal/ansi'
+import { color } from '../terminal/ansi'
 import { Prompt } from './prompt'
 
 /* ----------------------------------------
@@ -37,6 +37,10 @@ export class TextPrompt<
 		})
 	}
 
+	get cursor(): number {
+		return this.cursorPos
+	}
+
 	protected getUserInputWithCursor(): string {
 		const { _s, cursorPos, state, userInput } = this
 
@@ -51,7 +55,7 @@ export class TextPrompt<
 		const cur = userInput.at(cursorPos)
 		const after = userInput.slice(cursorPos + 1)
 
-		return `${before}${ansi.c.inverse(cur)}${after}`
+		return `${before}${color.inverse(cur)}${after}`
 	}
 }
 
@@ -75,17 +79,17 @@ const defaultOptions: Partial<TextOptions> = {
 		const title = _s.linePrefix() + _s.line(state, state, message)
 
 		const placeholderText = placeholder
-			? ansi.c.inverse(placeholder[0]) + ansi.c.dim(placeholder.slice(1))
-			: ansi.c.inverse(ansi.c.hidden('_'))
+			? color.inverse(placeholder[0]) + color.dim(placeholder.slice(1))
+			: color.inverse(color.hidden('_'))
 		const input = this.userInput ? this.getUserInputWithCursor() : placeholderText
 
 		switch (state) {
 			case 'error':
-				return title + _s.lineBar(state, input) + _s.lineEnd(state, ansi.c[colors[state]](error))
+				return title + _s.lineBar(state, input) + _s.lineEnd(state, color[colors[state]](error))
 			case 'completed':
-				return title + _s.lineBar('base', ansi.c.dim(value))
+				return title + _s.lineBar('base', color.dim(value))
 			case 'canceled':
-				return title + _s.lineBar('base', ansi.c.strikethrough.dim(value))
+				return title + _s.lineBar('base', color.strikethrough.dim(value))
 			default:
 				return title + _s.lineBar(state, input) + _s.lineEnd(state, '', true)
 		}

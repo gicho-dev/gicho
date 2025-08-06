@@ -137,3 +137,5 @@ export const ansi = {
 	/** ANSI Sequences - scroll */
 	scroll,
 }
+
+export { color }

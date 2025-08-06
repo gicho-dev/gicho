@@ -1,6 +1,6 @@
 import type { OutputOptions } from '../prompts.types'
 
-import { ansi, getRows } from '../../terminal'
+import { color, getRows } from '../../terminal'
 
 export interface GetVisibleOptionsParams<TOption> extends OutputOptions {
 	cursorIndex: number
@@ -19,7 +19,7 @@ export const getVisibleOptions = <TOption>(opts: GetVisibleOptionsParams<TOption
 		limit = Infinity,
 		options,
 		output = process.stdout,
-		renderOverflow = () => ansi.c.dim('...'),
+		renderOverflow = () => color.dim('...'),
 		render,
 	} = opts
 

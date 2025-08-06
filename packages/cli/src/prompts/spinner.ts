@@ -4,7 +4,7 @@ import type { AnsiBaseTextColor } from '../terminal'
 import type { BasePromptOptions } from './prompts.types'
 
 import { isCI } from '../env'
-import { ansi, getColumns, getWrappedLineCount } from '../terminal'
+import { ansi, color, getColumns, getWrappedLineCount } from '../terminal'
 import { blockInput } from './internal/block-input'
 import { shared } from './internal/shared'
 import { unicodeOr } from './internal/utils'
@@ -149,7 +149,7 @@ export function spinner(options: SpinnerOptions = {}): SpinnerReturn {
 			clearPrevMessage()
 			prevMsg = msg
 
-			const frameChar = ansi.c[symbolColor](symbols[frameIndex])
+			const frameChar = color[symbolColor](symbols[frameIndex])
 
 			let str
 			if (CI) {
@@ -178,10 +178,10 @@ export function spinner(options: SpinnerOptions = {}): SpinnerReturn {
 
 		const symbol =
 			code === 0
-				? ansi.c[colors.completed](S.completed)
+				? color[colors.completed](S.completed)
 				: code === 1
-					? ansi.c[colors.canceled](S.canceled)
-					: ansi.c.red(S.error)
+					? color[colors.canceled](S.canceled)
+					: color.red(S.error)
 
 		msg = message ?? msg
 

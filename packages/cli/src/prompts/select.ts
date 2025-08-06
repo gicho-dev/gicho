@@ -1,7 +1,7 @@
 import type { CancelSymbol } from './internal/utils'
 import type { CommonPromptOptions } from './prompt'
 
-import { ansi } from '../terminal/ansi'
+import { color } from '../terminal/ansi'
 import { getVisibleOptions } from './internal/get-visible-options'
 import { Prompt } from './prompt'
 
@@ -100,13 +100,13 @@ const defaultOptions: Partial<SelectOptions<unknown>> = {
 
 			switch (state) {
 				case 'focused':
-					return `${ansi.c[colors.focused](S.radio1)} ${label}${option.hint ? ` ${ansi.c.dim(option.hint)}` : ''}`
+					return `${color[colors.focused](S.radio1)} ${label}${option.hint ? ` ${color.dim(option.hint)}` : ''}`
 				case 'selected':
-					return ansi.c.dim(label)
+					return color.dim(label)
 				case 'canceled':
-					return ansi.c.strikethrough.dim(label)
+					return color.strikethrough.dim(label)
 				default:
-					return `${ansi.c.dim(S.radio0)} ${ansi.c.dim(label)}`
+					return `${color.dim(S.radio0)} ${color.dim(label)}`
 			}
 		}
 
@@ -124,7 +124,7 @@ const defaultOptions: Partial<SelectOptions<unknown>> = {
 					options,
 					output,
 					render: (opt, focused) => _s.lineBar(state, _opt(opt, focused ? 'focused' : 'default')),
-					renderOverflow: () => _s.lineBar(state, ansi.c.dim('...')),
+					renderOverflow: () => _s.lineBar(state, color.dim('...')),
 				}).join('')
 				return title + items + _s.lineEnd(state, '', true)
 			}

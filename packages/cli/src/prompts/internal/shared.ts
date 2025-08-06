@@ -1,7 +1,7 @@
 import type { PromptAction, PromptColorKey, PromptSymbolKey } from '../prompt'
 import type { SharedPromptConfig } from '../prompts.types'
 
-import { ansi } from '../../terminal'
+import { color } from '../../terminal'
 import { getCurrentStackTrace, unicodeOr } from './utils'
 
 /** Shared config for prompt elements */
@@ -31,19 +31,19 @@ const config: SharedPromptConfig = {
 		// Level 0
 		fatal: {
 			level: 0,
-			prefix: `${ansi.c.bgRed(` FATAL `)} `,
-			symbol: unicodeOr(ansi.c.red('■'), 'x'),
+			prefix: `${color.bgRed(` FATAL `)} `,
+			symbol: unicodeOr(color.red('■'), 'x'),
 		},
 		error: {
 			level: 0,
-			prefix: `${ansi.c.bgRed(` ERROR `)} `,
-			symbol: unicodeOr(ansi.c.red('■'), 'x'),
+			prefix: `${color.bgRed(` ERROR `)} `,
+			symbol: unicodeOr(color.red('■'), 'x'),
 		},
 		// Level 1
 		warn: {
 			level: 1,
-			prefix: `${ansi.c.bgYellow(' WARN ')} `,
-			symbol: unicodeOr(ansi.c.yellow('▲'), '!'),
+			prefix: `${color.bgYellow(' WARN ')} `,
+			symbol: unicodeOr(color.yellow('▲'), '!'),
 		},
 
 		// Level 2
@@ -54,15 +54,15 @@ const config: SharedPromptConfig = {
 		// Level 3
 		failure: {
 			level: 3,
-			symbol: unicodeOr(ansi.c.red('✖'), 'x'),
+			symbol: unicodeOr(color.red('✖'), 'x'),
 		},
 		info: {
 			level: 3,
-			symbol: unicodeOr(ansi.c.blue('✱'), '!'),
+			symbol: unicodeOr(color.blue('✱'), '!'),
 		},
 		success: {
 			level: 3,
-			symbol: unicodeOr(ansi.c.green('✔'), 'v'),
+			symbol: unicodeOr(color.green('✔'), 'v'),
 		},
 
 		// Level 4
@@ -84,8 +84,8 @@ const config: SharedPromptConfig = {
 					getCurrentStackTrace()
 						.map((line) => {
 							line = line
-								.replace(/^at +/, (m) => ansi.c.gray(m))
-								.replace(/\((.+)\)/, (_, m) => `(${ansi.c.cyan(m)})`)
+								.replace(/^at +/, (m) => color.gray(m))
+								.replace(/\((.+)\)/, (_, m) => `(${color.cyan(m)})`)
 
 							return shared.lineBar('base', indent + line)
 						})
@@ -97,7 +97,7 @@ const config: SharedPromptConfig = {
 		// Level `Verbose` (Infinity)
 		verbose: {
 			level: Infinity,
-			prefix: `${ansi.c.bgGray(' VERBOSE ')} `,
+			prefix: `${color.bgGray(' VERBOSE ')} `,
 		},
 	},
 
@@ -171,7 +171,7 @@ export const shared = {
 		noNewLine?: boolean,
 	): string {
 		const { colors, S } = config
-		const symbolText = ansi.c[colors[colorKey]](S[symbolKey])
+		const symbolText = color[colors[colorKey]](S[symbolKey])
 		return `${symbolText}${str ? `${S.spacer}${str}` : ''}${noNewLine ? '' : '\n'}`
 	},
 
@@ -184,7 +184,7 @@ export const shared = {
 	/** Returns the prompt upside (prefix) line string */
 	linePrefix(): string {
 		const { colors, lineGap, S } = config
-		return `${ansi.c[colors.base](S.bar)}\n`.repeat(lineGap)
+		return `${color[colors.base](S.bar)}\n`.repeat(lineGap)
 	},
 
 	/** Returns the prompt current line string with given color and bar symbol */
