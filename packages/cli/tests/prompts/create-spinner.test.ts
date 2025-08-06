@@ -28,7 +28,7 @@ describe.each(['true', 'false'])('prompts/spinner (isCI = %s)', (isCI) => {
 
 	describe('basic', () => {
 		test('renders frames at interval', () => {
-			const result = p.spinner()
+			const result = p.createSpinner()
 			result.start()
 			for (let i = 0; i < 4; i++) vi.advanceTimersByTime(80) // 4 frames
 			result.stop()
@@ -37,7 +37,7 @@ describe.each(['true', 'false'])('prompts/spinner (isCI = %s)', (isCI) => {
 		})
 
 		test('renders timer when indicator is "timer"', () => {
-			const result = p.spinner({ indicator: 'timer' })
+			const result = p.createSpinner({ indicator: 'timer' })
 			result.start('START')
 			vi.advanceTimersByTime(80)
 			result.stop('STOP')
@@ -46,7 +46,7 @@ describe.each(['true', 'false'])('prompts/spinner (isCI = %s)', (isCI) => {
 		})
 
 		test('renders cancel symbol if code = 1', () => {
-			const result = p.spinner()
+			const result = p.createSpinner()
 			result.start()
 			vi.advanceTimersByTime(80)
 			result.stop('STOP', 1)
@@ -56,7 +56,7 @@ describe.each(['true', 'false'])('prompts/spinner (isCI = %s)', (isCI) => {
 		})
 
 		test('renders error message if code > 1', () => {
-			const result = p.spinner()
+			const result = p.createSpinner()
 			result.start()
 			vi.advanceTimersByTime(80)
 			result.stop('STOP', 2)
@@ -66,7 +66,7 @@ describe.each(['true', 'false'])('prompts/spinner (isCI = %s)', (isCI) => {
 		})
 
 		test('renders messages (with multiple lines)', () => {
-			const result = p.spinner()
+			const result = p.createSpinner()
 			result.start('START')
 			vi.advanceTimersByTime(80)
 			result.message('message 1')
@@ -86,7 +86,7 @@ describe.each(['true', 'false'])('prompts/spinner (isCI = %s)', (isCI) => {
 
 	describe('custom', () => {
 		test('custom symbols and symbolColor', () => {
-			const result = p.spinner({ symbolColor: 'red', symbols: ['🍎', '🍌', '🍇', '🍓'] })
+			const result = p.createSpinner({ symbolColor: 'red', symbols: ['🍎', '🍌', '🍇', '🍓'] })
 			result.start()
 			for (let i = 0; i < 4; i++) vi.advanceTimersByTime(80) // 4 frames
 			result.stop()
@@ -95,7 +95,7 @@ describe.each(['true', 'false'])('prompts/spinner (isCI = %s)', (isCI) => {
 		})
 
 		test('custom delay', () => {
-			const result = p.spinner({ delay: 200 })
+			const result = p.createSpinner({ delay: 200 })
 			result.start()
 			for (let i = 0; i < 4; i++) vi.advanceTimersByTime(200) // 4 frames
 			result.stop()
@@ -125,7 +125,7 @@ describe.each(['true', 'false'])('prompts/spinner (isCI = %s)', (isCI) => {
 		})
 
 		test('uses custom cancelMessage when SIGINT', () => {
-			const result = p.spinner({ cancelMessage: 'Wow! Canceled!' })
+			const result = p.createSpinner({ cancelMessage: 'Wow! Canceled!' })
 			result.start('Test')
 			emitter.emit('SIGINT')
 
@@ -133,7 +133,7 @@ describe.each(['true', 'false'])('prompts/spinner (isCI = %s)', (isCI) => {
 		})
 
 		test('uses custom errorMessage when exit code 2', () => {
-			const result = p.spinner({ errorMessage: 'Wow! Error!' })
+			const result = p.createSpinner({ errorMessage: 'Wow! Error!' })
 			result.start('Test')
 			emitter.emit('exit', 2)
 
@@ -143,7 +143,7 @@ describe.each(['true', 'false'])('prompts/spinner (isCI = %s)', (isCI) => {
 
 	test('can be aborted by signal', () => {
 		const controller = new AbortController()
-		const result = p.spinner({ signal: controller.signal })
+		const result = p.createSpinner({ signal: controller.signal })
 		result.start('Signal Test')
 		controller.abort()
 

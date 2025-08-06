@@ -13,7 +13,7 @@ import { unicodeOr } from './internal/utils'
  *   Spinner (Prompt Element)
  * ------------------------------------- */
 
-export interface SpinnerOptions extends BasePromptOptions {
+export interface CreateSpinnerOptions extends BasePromptOptions {
 	cancelMessage?: string
 	delay?: number
 	errorMessage?: string
@@ -24,14 +24,26 @@ export interface SpinnerOptions extends BasePromptOptions {
 	symbols?: string[]
 }
 
-export interface SpinnerReturn {
+export interface Spinner {
+	/**
+	 * Starts the spinner with an optional message.
+	 */
 	start(message?: string): void
+	/**
+	 * Stops the spinner with an optional message and reason code.
+	 */
 	stop(message?: string, code?: number): void
+	/**
+	 * Updates the current spinner message displayed.
+	 */
 	message(message?: string): void
+	/**
+	 * Returns whether the spinner has been canceled.
+	 */
 	get isCanceled(): boolean
 }
 
-const defaultOptions: SpinnerOptions = {
+const defaultOptions: CreateSpinnerOptions = {
 	cancelMessage: 'Canceled',
 	delay: unicodeOr(80, 120),
 	errorMessage: 'Something went wrong',
@@ -41,9 +53,9 @@ const defaultOptions: SpinnerOptions = {
 }
 
 /**
- * Prompt spinner
+ * Creates a CLI spinner (loading indicator) that displays animated feedback.
  */
-export function spinner(options: SpinnerOptions = {}): SpinnerReturn {
+export function createSpinner(options: CreateSpinnerOptions = {}): Spinner {
 	const opts = { ...defaultOptions, ...options }
 
 	const {
@@ -52,7 +64,7 @@ export function spinner(options: SpinnerOptions = {}): SpinnerReturn {
 		indicator,
 		symbolColor,
 		symbols,
-	} = opts as RequiredByKeys<SpinnerOptions, 'input' | 'output' | 'symbols' | 'symbolColor'>
+	} = opts as RequiredByKeys<CreateSpinnerOptions, 'input' | 'output' | 'symbols' | 'symbolColor'>
 
 	const _s = shared
 	const { colors, fallbackColumns, S } = _s.config
@@ -81,6 +93,8 @@ export function spinner(options: SpinnerOptions = {}): SpinnerReturn {
 		},
 	}
 
+	const write = (str: string): void => void output.write(str)
+
 	const registerHooks = (): void => {
 		// Reference: https://nodejs.org/api/process.html#event-uncaughtexception
 		process.on('uncaughtExceptionMonitor', handlers.error)
@@ -108,14 +122,14 @@ export function spinner(options: SpinnerOptions = {}): SpinnerReturn {
 
 	const clearPrevMessage = (): void => {
 		if (prevMsg === undefined) return
-		if (CI) return void output.write('\n')
+		if (CI) return void write('\n')
 
 		if (prevLineCount > 1) {
-			output.write(ansi.cursor.prevLine(prevLineCount - 1))
+			write(ansi.cursor.prevLine(prevLineCount - 1))
 		} else {
-			output.write(ansi.cursor.lineStart())
+			write(ansi.cursor.lineStart())
 		}
-		output.write(ansi.erase.down())
+		write(ansi.erase.down())
 
 		// Note:
 		// if _prevLineCount is greater than the number of visible output rows,
@@ -129,7 +143,7 @@ export function spinner(options: SpinnerOptions = {}): SpinnerReturn {
 		return mins > 0 ? `[${mins}m ${secs}s]` : `[${secs}s]`
 	}
 
-	const start: SpinnerReturn['start'] = (message = '') => {
+	const start: Spinner['start'] = (message = '') => {
 		isActive = true
 
 		unblock = blockInput({ input, output })
@@ -137,7 +151,7 @@ export function spinner(options: SpinnerOptions = {}): SpinnerReturn {
 		msg = removeTrailingDots(message)
 		startTime = performance.now()
 
-		output.write(_s.linePrefix())
+		write(_s.linePrefix())
 
 		let frameIndex = 0
 		let indicatorTimer = 0
@@ -162,7 +176,7 @@ export function spinner(options: SpinnerOptions = {}): SpinnerReturn {
 			}
 
 			prevLineCount = getWrappedLineCount(str, getColumns(output, fallbackColumns))
-			output.write(str)
+			write(str)
 
 			frameIndex += 1
 			if (frameIndex === symbols.length) frameIndex = 0
@@ -171,7 +185,7 @@ export function spinner(options: SpinnerOptions = {}): SpinnerReturn {
 		}, opts.delay)
 	}
 
-	const stop: SpinnerReturn['stop'] = (message = '', code = 0) => {
+	const stop: Spinner['stop'] = (message = '', code = 0) => {
 		isActive = false
 		clearInterval(frameId)
 		clearPrevMessage()
@@ -186,9 +200,9 @@ export function spinner(options: SpinnerOptions = {}): SpinnerReturn {
 		msg = message ?? msg
 
 		if (indicator === 'timer') {
-			output.write(_s.lineRaw(symbol, `${msg} ${formatTimer(startTime)}`))
+			write(_s.lineRaw(symbol, `${msg} ${formatTimer(startTime)}`))
 		} else {
-			output.write(_s.lineRaw(symbol, msg))
+			write(_s.lineRaw(symbol, msg))
 		}
 
 		clearHooks()
