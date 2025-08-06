@@ -1,6 +1,6 @@
 {
 	"name": "@gicho/core",
-	"version": "0.0.1-alpha.2",
+	"version": "0.0.1-alpha.3",
 	"description": "A collection of base utilities for happy coding with TypeScript.",
 	"keywords": [
 		"base",
@@ -83,16 +83,5 @@
 	},
 	"dependencies": {},
 	"devDependencies": {},
-	"peerDependencies": {},
-	"publishConfig": {
-		"exports": {
-			".": "./dist/index.js",
-			"./fetch": "./dist/fetch.js",
-			"./is": "./dist/is.js",
-			"./object": "./dist/object.js",
-			"./string": "./dist/string.js",
-			"./types": "./dist/types.js",
-			"./package.json": "./package.json"
-		}
-	}
+	"peerDependencies": {}
 }
