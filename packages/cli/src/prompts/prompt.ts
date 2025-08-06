@@ -126,7 +126,8 @@ export abstract class Prompt<TValue> {
 
 		this.close = this.close.bind(this)
 		this.onKeypress = this.onKeypress.bind(this)
-		this._render = this._render.bind(this)
+		this.renderFrame = this.renderFrame.bind(this)
+
 		this.render = opts.render.bind(this)
 	}
 
@@ -243,13 +244,13 @@ export abstract class Prompt<TValue> {
 
 			input.on('keypress', this.onKeypress)
 			this.setInputRawMode(true)
-			output.on('resize', this._render)
+			output.on('resize', this.renderFrame)
 
-			this._render()
+			this.renderFrame()
 
 			this.once('close', ({ state, value }) => {
 				output.write(ansi.cursor.show())
-				output.off('resize', this._render)
+				output.off('resize', this.renderFrame)
 				this.setInputRawMode(false)
 
 				resolve(state === 'completed' ? value : cancelSymbol)
@@ -295,8 +296,8 @@ export abstract class Prompt<TValue> {
 				rl.write(null, { ctrl: true, name: 'h' })
 			}
 
-			this.setUserInput(rl.line)
 			this.cursorPos = rl.cursor
+			this.setUserInput(rl.line)
 		}
 
 		if (this.state === 'error') this.state = 'active'
@@ -306,7 +307,9 @@ export abstract class Prompt<TValue> {
 			if (problem) {
 				this.error = problem instanceof Error ? problem.message : problem
 				this.state = 'error'
+
 				rl.write(this.userInput)
+				this.cursorPos = rl.cursor
 			}
 
 			if (this.state !== 'error') this.state = 'completed'
@@ -315,13 +318,13 @@ export abstract class Prompt<TValue> {
 		if (this.state === 'completed' || this.state === 'canceled') {
 			this.emit('finish', { state: this.state, value: this.value })
 		}
-		this._render()
+		this.renderFrame()
 		if (this.state === 'completed' || this.state === 'canceled') {
 			this.close()
 		}
 	}
 
-	private _render(): void {
+	private renderFrame(): void {
 		const { output } = this
 
 		const frame = hardWrap(this.render() ?? '', output)
@@ -371,9 +374,9 @@ export abstract class Prompt<TValue> {
 		this.userInput = value
 		this.emit('userInput', { inputValue: value })
 
-		if (write && this._trackValue) {
-			this.rl?.write(value)
-			this.cursorPos = this.rl?.cursor ?? 0
+		if (write && this._trackValue && this.rl) {
+			this.rl.write(this.userInput)
+			this.cursorPos = this.rl.cursor
 		}
 	}
 
