@@ -1,6 +1,7 @@
 export * from './base'
 export * from './confirm'
 export * from './log'
+export * from './password'
 export * from './select'
 export * from './spinner'
 export * from './text'
