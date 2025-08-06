@@ -1,19 +1,20 @@
 # @gicho/core
 
+All notable changes to this project will be documented in this file.
+This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+
 ## 0.0.1-alpha.2
 
-### Patch Changes
+### 🚀 Features
 
-- 6a4af58: release
-  - test1
-  - test2
+### 🐛 Bug Fixes
 
-  test
-  - test1
-  - haha hello
+- Build correctly
 
 ## 0.0.1-alpha.1
 
-### Patch Changes
+### 🚀 Features
 
-- 0087452: First core package release
+- Add object utils - clone/merge/omit/pick/split.
+- Add getStringWidth features.
+- Add some more useful tiny utils.
