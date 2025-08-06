@@ -48,9 +48,10 @@
 		"format:fix": "prettier --check --write .",
 		"lint": "eslint . --cache",
 		"lint:fix": "pnpm lint -- --fix",
-		"test:b": "vitest bench",
 		"test": "vitest",
-		"test:w": "vitest --watch",
+		"test:b": "vitest bench",
+		"test:r": "vitest run",
+		"test:w": "vitest watch",
 		"types": "tsc --noEmit"
 	},
 	"dependencies": {

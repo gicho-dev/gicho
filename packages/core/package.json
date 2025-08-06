@@ -73,7 +73,8 @@
 		"lint:fix": "pnpm lint -- --fix",
 		"test": "vitest",
 		"test:b": "vitest bench",
-		"test:w": "vitest --watch",
+		"test:r": "vitest run",
+		"test:w": "vitest watch",
 		"types": "tsc --noEmit"
 	},
 	"dependencies": {},

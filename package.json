@@ -24,6 +24,8 @@
 		"gen:eslint-types": "jiti scripts/gen-eslint-types.ts",
 		"t1": "jiti scripts/test1.ts",
 		"reset": "pnpm clean && pnpm install",
+		"test": "turbo run test",
+		"test:r": "turbo run test:r",
 		"types": "turbo run types",
 		"types:p": "turbo run types --filter=\"./packages/*\"",
 		"all": "pnpm -F \"./{packages}/**\"",

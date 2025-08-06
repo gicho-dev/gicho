@@ -2,14 +2,9 @@
 	"$schema": "https://turbo.build/schema.json",
 	"tasks": {
 		"build": {
-			"dependsOn": ["types"],
+			"dependsOn": ["types", "test:r"],
 			"inputs": ["$TURBO_DEFAULT", ".env*"],
 			"outputs": [".next/**", "!.next/cache/**", "dist/**"]
-		},
-		"build:dev": {
-			"dependsOn": ["types"],
-			"inputs": ["$TURBO_DEFAULT", ".env*"],
-			"outputs": ["dist/**"]
 		},
 		"types": {},
 		"dev": {
@@ -18,6 +13,10 @@
 		},
 		"lint": {},
 		"test": {
+			"inputs": ["src/**/*.ts", "src/**/*.tsx", "test/**/*.ts", "test/**/*.tsx"],
+			"outputs": []
+		},
+		"test:r": {
 			"inputs": ["src/**/*.ts", "src/**/*.tsx", "test/**/*.ts", "test/**/*.tsx"],
 			"outputs": []
 		}

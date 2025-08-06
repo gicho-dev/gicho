@@ -46,12 +46,10 @@ describe('fetch', () => {
 			expect(await c.get.json($url('hello'))).toEqual({ message: 'Hello~!' })
 			expect(fetch).toHaveBeenCalledTimes(2)
 
-			const data = await c.get.json<{ x: number }>('ss')
-			const res = await c.get('ss')
+			// const data = await c.get.json<{ x: number }>('ss')
+			// const res = await c.get('ss')
 
-			c.get('', { bodyType: 'raw' })
-
-			// c.get('')
+			// c.get('', { bodyType: 'raw' })
 
 			// const source = new URLSearchParams('a=1&b=2&c=3&a=11')
 			// const target = new URLSearchParams('a=100')

@@ -229,7 +229,7 @@ describe('base types', () => {
 			expectTypeOf(new Uint16Array()).toExtend<TypedArray>()
 			expectTypeOf(new Int32Array()).toExtend<TypedArray>()
 			expectTypeOf(new Uint32Array()).toExtend<TypedArray>()
-			expectTypeOf(new Float16Array()).toExtend<TypedArray>()
+			// expectTypeOf(new Float16Array()).toExtend<TypedArray>() // Too newer feature
 			expectTypeOf(new Float32Array()).toExtend<TypedArray>()
 			expectTypeOf(new Float64Array()).toExtend<TypedArray>()
 			expectTypeOf(new BigInt64Array()).toExtend<TypedArray>()
