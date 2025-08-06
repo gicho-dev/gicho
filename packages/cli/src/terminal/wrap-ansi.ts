@@ -69,12 +69,7 @@ const RE_ESCAPE_CODE = new RegExp(
  *   Internal functions
  * ------------------------------------- */
 
-function* withIndex<T>(x: Iterable<T>): Generator<[T, number]> {
-	let i = 0
-	for (const ch of x) yield [ch, i++]
-}
-
-const stringWidth = (str: string): number =>
+const stringWidth = (str?: string): number =>
 	str ? getStringWidth(stripVTControlCharacters(str)) : 0
 
 const wrapAnsiCode = (code: number): string =>
@@ -106,9 +101,10 @@ function wrapWord(rows: string[], word: string, columns: number): void {
 
 	let isInsideEscape = false
 	let isInsideLinkEscape = false
-	let visible = stringWidth(rows.at(-1) ?? '')
+	let visible = stringWidth(rows.at(-1))
 
-	for (const [char, index] of withIndex(chars)) {
+	for (let index = 0; index < charsLen; index++) {
+		const char = chars[index]
 		const charLen = stringWidth(char)
 
 		if (visible + charLen <= columns) {
@@ -169,14 +165,18 @@ function exec(str: string, columns: number, opts: WrapAnsiOptions = {}): string 
 
 	let rows = ['']
 
-	for (const [word, index] of withIndex(str.split(' '))) {
+	const words = str.split(' ')
+	const wordsLen = words.length
+
+	for (let index = 0; index < wordsLen; index++) {
+		const word = words[index]
 		const length = stringWidth(word)
 
 		if (opts.trim !== false) {
 			rows[rows.length - 1] = rows[rows.length - 1].trimStart()
 		}
 
-		let rowLength = stringWidth(rows.at(-1) ?? '')
+		let rowLength = stringWidth(rows.at(-1))
 
 		if (index !== 0) {
 			if (rowLength >= columns && (opts.wordWrap === false || opts.trim === false)) {
@@ -231,7 +231,10 @@ function exec(str: string, columns: number, opts: WrapAnsiOptions = {}): string 
 	// We need to keep a separate index as `String#slice()` works on Unicode code units, while `pre` is an array of codepoints.
 	let preStringIndex = 0
 
-	for (const [char, index] of withIndex(pre)) {
+	const preLen = pre.length
+	for (let index = 0; index < preLen; index++) {
+		const char = pre[index]
+
 		ret += char
 
 		if (char === '\x1B' || char === '\x9B') {

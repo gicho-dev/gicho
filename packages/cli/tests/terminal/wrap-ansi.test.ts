@@ -68,39 +68,37 @@ describe('terminal/wrapAnsi', () => {
 		expect(result.split('\n').length).toBe(1)
 	})
 
-	describe('hard', () => {
-		test('breaks strings longer than "cols" characters', () => {
-			const result = wrapAnsi(fixture, 5, { hard: true })
+	test('breaks strings longer than "cols" characters', () => {
+		const result = wrapAnsi(fixture, 5, { hard: true })
 
-			is(
-				result,
-				'The\nquick\nbrown\n\u001B[31mfox j\u001B[39m\n\u001B[31mumped\u001B[39m\n\u001B[31mover\u001B[39m\n\u001B[31m\u001B[39mthe\nlazy\n\u001B[32mdog\u001B[39m\n\u001B[32mand\u001B[39m\n\u001B[32mthen\u001B[39m\n\u001B[32mran\u001B[39m\n\u001B[32maway\u001B[39m\n\u001B[32mwith\u001B[39m\n\u001B[32mthe\u001B[39m\n\u001B[32munico\u001B[39m\n\u001B[32mrn.\u001B[39m',
-			)
-			is(
-				stripVTControlCharacters(result)
-					.split('\n')
-					.every((line) => line.length <= 5),
-				true,
-			)
-		})
+		is(
+			result,
+			'The\nquick\nbrown\n\u001B[31mfox j\u001B[39m\n\u001B[31mumped\u001B[39m\n\u001B[31mover\u001B[39m\n\u001B[31m\u001B[39mthe\nlazy\n\u001B[32mdog\u001B[39m\n\u001B[32mand\u001B[39m\n\u001B[32mthen\u001B[39m\n\u001B[32mran\u001B[39m\n\u001B[32maway\u001B[39m\n\u001B[32mwith\u001B[39m\n\u001B[32mthe\u001B[39m\n\u001B[32munico\u001B[39m\n\u001B[32mrn.\u001B[39m',
+		)
+		is(
+			stripVTControlCharacters(result)
+				.split('\n')
+				.every((line) => line.length <= 5),
+			true,
+		)
+	})
 
-		test('removes last row if it contained only ansi escape codes', () => {
-			const result = wrapAnsi(color.green('helloworld'), 2, { hard: true })
-			expect(
-				stripVTControlCharacters(result)
-					.split('\n')
-					.every((x) => x.length === 2),
-			).toBe(true)
-		})
+	test('removes last row if it contained only ansi escape codes', () => {
+		const result = wrapAnsi(color.green('helloworld'), 2, { hard: true })
+		expect(
+			stripVTControlCharacters(result)
+				.split('\n')
+				.every((x) => x.length === 2),
+		).toBe(true)
+	})
 
-		test('does not prepend newline if first word is split', () => {
-			const result = wrapAnsi(`${color.green('hello')}world`, 5, { hard: true })
-			expect(result.split('\n').length).toBe(2)
-		})
+	test('does not prepend newline if first word is split', () => {
+		const result = wrapAnsi(`${color.green('hello')}world`, 5, { hard: true })
+		expect(result.split('\n').length).toBe(2)
+	})
 
-		test('takes into account line returns inside input', () => {
-			expect(wrapAnsi(fixture2, 10, { hard: true })).toBe('12345678\n9012345678\n90')
-		})
+	test('takes into account line returns inside input', () => {
+		expect(wrapAnsi(fixture2, 10, { hard: true })).toBe('12345678\n9012345678\n90')
 	})
 
 	test('word wrapping', () => {
