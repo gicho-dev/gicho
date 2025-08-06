@@ -213,7 +213,7 @@ export function publishPackage(
 }
 
 /**
- * Asynchronously reads a `package.json` file.
+ * Synchronously reads a `package.json` file.
  */
 export function readPackageJson(
 	from: string,
@@ -232,7 +232,7 @@ export function resolveLockFile(from: string, options: FindFileOptions = {}): st
 }
 
 /**
- * Asynchronously writes a `package.json` file.
+ * Synchronously writes a `package.json` file.
  */
 export function writePackageJson(path: string, pkg: PackageJson): void {
 	writeFileSync(path, stringifyJsonWithFormat(pkg))
