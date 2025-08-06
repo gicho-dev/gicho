@@ -1,14 +1,19 @@
 {
 	"name": "@gicho/cli",
-	"version": "0.0.1-alpha.2",
+	"version": "0.0.1-alpha.3.pre.1",
 	"description": "Essential CLI tools for building apps or libraries.",
 	"keywords": [
+		"ansi",
 		"base",
 		"basis",
+		"color",
 		"core",
+		"command",
 		"changelog",
 		"cli",
 		"nodejs",
+		"prompts",
+		"terminal",
 		"utilities",
 		"utils",
 		"release"
@@ -29,6 +34,36 @@
 			"types": "./dist/index.d.ts",
 			"default": "./dist/index.js"
 		},
+		"./cli": {
+			"source": "./src/cli/index.ts",
+			"types": "./dist/cli.d.ts",
+			"default": "./dist/cli.js"
+		},
+		"./command": {
+			"source": "./src/command/index.ts",
+			"types": "./dist/command.d.ts",
+			"default": "./dist/command.js"
+		},
+		"./path": {
+			"source": "./src/path/index.ts",
+			"types": "./dist/path.d.ts",
+			"default": "./dist/path.js"
+		},
+		"./prompts": {
+			"source": "./src/prompts/index.ts",
+			"types": "./dist/prompts.d.ts",
+			"default": "./dist/prompts.js"
+		},
+		"./terminal": {
+			"source": "./src/terminal/index.ts",
+			"types": "./dist/terminal.d.ts",
+			"default": "./dist/terminal.js"
+		},
+		"./version": {
+			"source": "./src/version/index.ts",
+			"types": "./dist/version.d.ts",
+			"default": "./dist/version.js"
+		},
 		"./package.json": "./package.json"
 	},
 	"main": "./dist/index.js",
@@ -37,6 +72,10 @@
 	"bin": {
 		"gicho": "./dist/index.js"
 	},
+	"files": [
+		"dist",
+		"src"
+	],
 	"engines": {
 		"node": ">=22"
 	},
@@ -55,11 +94,22 @@
 		"types": "tsc --noEmit"
 	},
 	"dependencies": {
-		"@gicho/core": "workspace:^"
-	},
-	"devDependencies": {
+		"@gicho/core": "workspace:^",
 		"ansis": "catalog:dev",
 		"tinyglobby": "catalog:dev"
 	},
-	"peerDependencies": {}
+	"devDependencies": {},
+	"peerDependencies": {},
+	"publishConfig": {
+		"exports": {
+			".": "./dist/index.js",
+			"./cli": "./dist/cli.js",
+			"./command": "./dist/command.js",
+			"./path": "./dist/path.js",
+			"./prompts": "./dist/prompts.js",
+			"./terminal": "./dist/terminal.js",
+			"./version": "./dist/version.js",
+			"./package.json": "./package.json"
+		}
+	}
 }
