@@ -1,4 +1,4 @@
-import type { Awaitable } from '@gicho/core/types'
+import type { Awaitable, Voidable } from '@gicho/core/types'
 
 import type { CreateSpinnerOptions, Spinner } from './create-spinner'
 
@@ -13,7 +13,7 @@ export interface Task {
 	/** Task title. */
 	title: string
 	/** Task function. */
-	task(context: TaskFnContext): Awaitable<string | undefined>
+	task(context: TaskFnContext): Awaitable<Voidable<string>>
 }
 
 interface TaskFnContext {
