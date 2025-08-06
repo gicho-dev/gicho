@@ -79,7 +79,7 @@ const colorCodes = {
 /* eslint-disable no-control-regex */
 const pattern = /\x1B([78]|\[(?:\?25[lh]|\d+;\d+H|[\d;]*[a-zA-Z]))/g
 const colorPattern = /^(?<code>[0-9;]+)m/
-const repeatedPattern = /^(?<count>\d*)(?<code>[a-zA-Z])$/
+const repeatedPattern = /^(?<count>\d*)(?<code>[a-z])$/i
 const lineColumnPattern = /^(?<line>\d+);(?<column>\d+)H$/
 
 function replaceAnsiCodes(str: string): string {

@@ -37,7 +37,7 @@ export function findFile(file: Arrayable<string>, options: FindFileOptions = {})
 	const segments = basePath.split('/').filter(Boolean)
 	const isAbsolutePath = basePath[0] === '/'
 
-	if (files.includes(segments.at(-1)!) && test(basePath)) return basePath
+	if (files.includes(segments.at(-1) ?? '') && test(basePath)) return basePath
 
 	if (isAbsolutePath) segments[0] = `/${segments[0]}`
 

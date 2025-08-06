@@ -53,6 +53,7 @@ const RT_BUILD = `(?:\\+(${RT_BUILD_ID}(?:\\.${RT_BUILD_ID})*))`
 const RT_SEMVER_PLAIN = `v?${RT_MAIN}${RT_PRERELEASE}?${RT_BUILD}?`
 const RT_SEMVER = `^${RT_SEMVER_PLAIN}$`
 
+// eslint-disable-next-line
 const RE_PRERELEASE = new RegExp(RT_PRERELEASE)
 const RE_SEMVER = new RegExp(RT_SEMVER)
 
@@ -148,7 +149,11 @@ export function increaseSemverObject(
 	} else {
 		if (p.length) {
 			const lastIndex = p.length - 1
-			typeof p[lastIndex] === 'number' ? (p[lastIndex] += 1) : p.push(0)
+			if (typeof p[lastIndex] === 'number') {
+				p[lastIndex] += 1
+			} else {
+				p.push(0)
+			}
 		} else {
 			p[0] = 0
 		}

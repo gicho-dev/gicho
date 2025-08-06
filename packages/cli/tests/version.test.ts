@@ -1,12 +1,12 @@
 import type { SemverIncType } from '../src/version'
 
-import { describe, expect, it } from 'vitest'
+import { describe, expect, test } from 'vitest'
 
 import { increaseSemver } from '../src/version'
 import { semverIncreaseFixtures } from './fixtures/version.fixture'
 
 describe('semver', () => {
-	it('increaseSemver()', () => {
+	test('increaseSemver()', () => {
 		const keys: SemverIncType[] = [
 			'major',
 			'minor',

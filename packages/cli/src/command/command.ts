@@ -9,9 +9,9 @@ export const __DEF = '_'
 export const __ROOT = '*'
 
 const RE_SPACES = /\s+/g
-const RE_ARG_NAME = /^([<[])?(\.{3})?([a-zA-Z][a-zA-Z0-9-]*)[>\]]?$/
-const RE_OPT_NAME = /^-{0,2}([a-zA-Z][a-zA-Z0-9-]*),?$/
-const RE_OPT_ARG_NAME = /^([<[])([a-zA-Z][a-zA-Z0-9-]*)[>\]]$/
+const RE_ARG_NAME = /^([<[])?(\.{3})?([a-z][a-z0-9-]*)[>\]]?$/i
+const RE_OPT_NAME = /^-{0,2}([a-z][a-z0-9-]*),?$/i
+const RE_OPT_ARG_NAME = /^([<[])([a-z][a-z0-9-]*)[>\]]$/i
 
 export class Command {
 	$: CommandCenter

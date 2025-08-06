@@ -26,7 +26,7 @@ function simplifyRanges(ranges: number[][]) {
 
 	const result = [ranges[0]]
 	for (const [start, end] of ranges.slice(1)) {
-		const [lastStart, lastEnd] = result.at(-1)!
+		const [lastStart, lastEnd] = result.at(-1) as [number, number]
 
 		if (start - 1 <= lastEnd) result[result.length - 1] = [lastStart, Math.max(end, lastEnd)]
 		else result.push([start, end])
