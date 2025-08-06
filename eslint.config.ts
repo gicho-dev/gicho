@@ -2,7 +2,7 @@ import { defineConfig } from '@gicho/config/eslint'
 
 export default defineConfig({
 	ignores: {
-		customIgnores: ['**/.local'],
+		customIgnores: ['**/.local', '!**/scripts/build'],
 	},
 
 	json: {
