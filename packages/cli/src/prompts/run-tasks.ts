@@ -1,6 +1,6 @@
 import type { Awaitable } from '@gicho/core/types'
 
-import type { CreateSpinnerOptions } from './create-spinner'
+import type { CreateSpinnerOptions, Spinner } from './create-spinner'
 
 import { createSpinner } from './create-spinner'
 
@@ -13,10 +13,12 @@ export interface Task {
 	/** Task title. */
 	title: string
 	/** Task function. */
-	task(message: TaskMessageFn): Awaitable<string | undefined>
+	task(context: TaskFnContext): Awaitable<string | undefined>
 }
 
-type TaskMessageFn = (message: string) => void
+interface TaskFnContext {
+	setMessage: Spinner['setMessage']
+}
 
 /**
  * Executes a list of tasks sequentially with spinner feedback.
@@ -29,9 +31,9 @@ export async function runTasks(tasks: Task[], opts?: CreateSpinnerOptions): Prom
 	for (const task of tasks) {
 		if (task.enabled === false) continue
 
-		const s = createSpinner(opts)
-		s.start(task.title)
-		const result = await task.task(s.message)
-		s.stop(result || task.title)
+		const { setMessage, start, stop } = createSpinner(opts)
+		start(task.title)
+		const result = await task.task({ setMessage })
+		stop(result || task.title)
 	}
 }

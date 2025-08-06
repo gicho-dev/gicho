@@ -36,7 +36,7 @@ export interface Spinner {
 	/**
 	 * Updates the current spinner message displayed.
 	 */
-	message(message?: string): void
+	setMessage(message?: string): void
 	/**
 	 * Returns whether the spinner has been canceled.
 	 */
@@ -213,7 +213,7 @@ export function createSpinner(options: CreateSpinnerOptions = {}): Spinner {
 		start,
 		stop,
 
-		message: (message) => {
+		setMessage: (message) => {
 			msg = removeTrailingDots(message ?? msg)
 		},
 
