@@ -363,7 +363,7 @@ describe('object types', () => {
 					}
 					namespace2?: {
 						(a: number): string
-						(a: number, b: number): string
+						(a: string, b: string): string
 						key: string | undefined
 					}
 					object?: { key?: string }
@@ -405,7 +405,7 @@ describe('object types', () => {
 					}
 					namespace2: {
 						(a: number): string
-						(a: number, b: number): string
+						(a: string, b: string): string
 						key: string // currently typescript limitation
 					}
 					object: { key: string }

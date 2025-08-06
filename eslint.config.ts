@@ -10,6 +10,13 @@ export default defineConfig({
 		sortTsconfigJson: true,
 	},
 
+	regexp: {
+		onFinalize(items) {
+			items[0].ignores = ['packages/core/src/string/emoji.ts']
+			return items
+		},
+	},
+
 	svelte: false,
 
 	ts: {

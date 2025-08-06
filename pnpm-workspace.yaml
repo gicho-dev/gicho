@@ -7,9 +7,9 @@ onlyBuiltDependencies:
 
 catalogs:
   dev:
-    '@gicho/config': ^0.0.1-alpha.6
+    '@gicho/config': ^0.0.1-alpha.7
     '@hono/node-server': ^1.18.1
-    '@types/node': ^24.1.0
+    '@types/node': ^24.2.0
     '@vitest/coverage-v8': ^3.2.4
     ansis: ^4.1.0
     eslint: ^9.32.0
@@ -17,7 +17,7 @@ catalogs:
     jiti: ^2.5.1
     prettier: ^3.6.2
     tinyglobby: ^0.2.14
-    tsdown: ^0.13.2
+    tsdown: ^0.13.3
     tsx: ^4.20.3
     turbo: ^2.5.5
     typescript: ^5.8.3
