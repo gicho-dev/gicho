@@ -7,21 +7,21 @@ export const exists = existsSync
 export const mkdir = mkdirSync
 
 /**
- * Ensure that a directory exists; create if missing.
+ * Ensures that a directory exists; creates it if missing.
  */
 export function ensureDir(path: string): void {
 	if (!exists(path)) mkdir(path, { recursive: true })
 }
 
 /**
- * Read a file as a string.
+ * Reads a file as a string.
  */
 export function readText(path: string, encoding: BufferEncoding = 'utf8'): string {
 	return readFileSync(path, encoding)
 }
 
 /**
- * Remove given paths asynchronously.
+ * Removes given paths asynchronously.
  */
 export async function removePaths(paths: string[]): Promise<PromiseSettledResult<void>[]> {
 	return await Promise.allSettled(
@@ -30,7 +30,7 @@ export async function removePaths(paths: string[]): Promise<PromiseSettledResult
 }
 
 /**
- * Remove given paths synchronously.
+ * Removes given paths synchronously.
  */
 export function removePathsSync(paths: string[]): void {
 	paths.forEach((path) => rmSync(resolve(path), { force: true, recursive: true }))

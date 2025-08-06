@@ -14,7 +14,7 @@
 	"scripts": {
 		"build": "turbo build",
 		"ch": "changeset",
-		"clean": "rimraf lib/*",
+		"clean": "NODE_OPTIONS='--conditions=source' tsx scripts/clean.ts",
 		"format": "prettier --check .",
 		"format:fix": "prettier --check --write .",
 		"lint": "eslint . --cache",
