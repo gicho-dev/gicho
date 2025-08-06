@@ -1,7 +1,10 @@
 import type { UserConfig } from 'tsdown'
 
-import { readPackageJson, writePackageJson } from '../../packages/cli/src/package'
-import { color } from '../../packages/cli/src/terminal'
+import { readFileSync, writeFileSync } from 'node:fs'
+import { join } from 'node:path'
+
+import { color } from '../../packages/cli/src/terminal/ansi'
+import { formatFileWithPrettier } from '../../packages/cli/src/utils/prettier'
 
 export function baseConfig(groups: string[]): UserConfig {
 	return {
@@ -41,16 +44,23 @@ export function baseConfig(groups: string[]): UserConfig {
 		},
 
 		onSuccess() {
-			const [pkg, pkgFile] = readPackageJson(process.cwd())
-
-			if (!pkg.publishConfig || !pkg.publishConfig.exports) return
-
-			delete pkg.publishConfig.exports
-			if (!Object.keys(pkg.publishConfig)) delete pkg.publishConfig
-
-			writePackageJson(pkgFile, pkg)
-
+			removePublishConfigExports()
 			console.log(`${color.green('✔︎')} Deleted publishConfig.exports field in package.json`)
 		},
 	}
+}
+
+function removePublishConfigExports() {
+	const cwd = process.cwd()
+	const pkgFile = join(cwd, 'package.json')
+
+	const pkg = JSON.parse(readFileSync(pkgFile, 'utf8'))
+
+	if (!pkg.publishConfig || !pkg.publishConfig.exports) return
+
+	delete pkg.publishConfig.exports
+	if (!Object.keys(pkg.publishConfig).length) delete pkg.publishConfig
+
+	writeFileSync(pkgFile, JSON.stringify(pkg, undefined, 2))
+	formatFileWithPrettier(pkgFile)
 }
