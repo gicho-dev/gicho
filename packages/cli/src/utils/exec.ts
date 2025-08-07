@@ -15,3 +15,10 @@ export function execSync(
 
 	return _execSync(cmd, { encoding: 'utf8', ...opts }).toString()
 }
+
+export function execCommandSync(command: string | string[], options?: ExecSyncOptions): string {
+	const cmd = Array.isArray(command) ? command.join(' ') : command
+	return _execSync(cmd, { encoding: 'utf8', ...options })
+		.toString()
+		.trim()
+}
