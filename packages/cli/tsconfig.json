@@ -1,7 +1,6 @@
 {
-	"extends": "@gicho/config/tsconfig.base.json",
+	"extends": "../../tsconfig.base.json",
 	"compilerOptions": {
-		"baseUrl": ".",
-		"customConditions": ["source"]
+		"baseUrl": "."
 	}
 }
