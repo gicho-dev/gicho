@@ -1,10 +1,7 @@
 import type { UserConfig } from 'tsdown'
 
-import { readFileSync, writeFileSync } from 'node:fs'
-import { join } from 'node:path'
-
+import { readPackageJson, writePackageJson } from '../../packages/cli/src/project/package'
 import { color } from '../../packages/cli/src/terminal/ansi'
-import { formatFileWithPrettier } from '../../packages/cli/src/utils/prettier'
 
 export function baseConfig(groups: string[]): UserConfig {
 	return {
@@ -50,17 +47,13 @@ export function baseConfig(groups: string[]): UserConfig {
 	}
 }
 
-function removePublishConfigExports() {
-	const cwd = process.cwd()
-	const pkgFile = join(cwd, 'package.json')
-
-	const pkg = JSON.parse(readFileSync(pkgFile, 'utf8'))
+async function removePublishConfigExports() {
+	const [pkg, pkgPath] = readPackageJson(process.cwd())
 
 	if (!pkg.publishConfig || !pkg.publishConfig.exports) return
 
 	delete pkg.publishConfig.exports
 	if (!Object.keys(pkg.publishConfig).length) delete pkg.publishConfig
 
-	writeFileSync(pkgFile, JSON.stringify(pkg, undefined, 2))
-	formatFileWithPrettier(pkgFile)
+	writePackageJson(pkgPath, pkg)
 }
