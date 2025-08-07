@@ -1,4 +1,4 @@
-import { execSync } from './exec'
+import { exec } from './exec'
 
 /**
  * Format a file with Prettier.
@@ -7,6 +7,6 @@ import { execSync } from './exec'
  * - scripts to generate code.
  * @internal
  */
-export function formatFileWithPrettier(path: string): string {
-	return execSync(`prettier --write "${path}"`)
+export async function formatFileWithPrettier(path: string): Promise<string> {
+	return (await exec(`prettier --write "${path}"`)).stdout.toString()
 }

@@ -1,6 +1,6 @@
 import type { IncreaseSemverOptions, SemverIncType } from './semver'
 
-import { readPackageJson, writePackageJson } from '../package'
+import { readPackageJson, writePackageJson } from '../project/package'
 import { increaseSemver } from './semver'
 
 export function bumpVersion(
