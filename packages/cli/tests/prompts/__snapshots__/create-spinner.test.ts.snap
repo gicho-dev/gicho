@@ -1,9 +1,30 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
+exports[`prompts/spinner (isCI = false) > basic > renders after another prompt elements 1`] = `
+[
+  "{90brightBlack}╭{39x}  Test 1\\n",
+  "{CURSOR:hide}",
+  "{90brightBlack}┆{39x}\\n",
+  "{36cyan}◒{39x}",
+  "{CURSOR:x * 1}",
+  "{ERASE:down}",
+  "{36cyan}◐{39x}",
+  "{CURSOR:x * 1}",
+  "{ERASE:down}",
+  "{36cyan}◓{39x}",
+  "{CURSOR:x * 1}",
+  "{ERASE:down}",
+  "{36cyan}◑{39x}",
+  "{CURSOR:x * 1}",
+  "{ERASE:down}",
+  "{32green}✔{39x}\\n",
+  "{CURSOR:show}",
+]
+`;
+
 exports[`prompts/spinner (isCI = false) > basic > renders cancel symbol if code = 1 1`] = `
 [
   "{CURSOR:hide}",
-  "{90brightBlack}┆{39x}\\n",
   "{36cyan}◒{39x}",
   "{CURSOR:x * 1}",
   "{ERASE:down}",
@@ -15,7 +36,6 @@ exports[`prompts/spinner (isCI = false) > basic > renders cancel symbol if code 
 exports[`prompts/spinner (isCI = false) > basic > renders error message if code > 1 1`] = `
 [
   "{CURSOR:hide}",
-  "{90brightBlack}┆{39x}\\n",
   "{36cyan}◒{39x}",
   "{CURSOR:x * 1}",
   "{ERASE:down}",
@@ -27,7 +47,6 @@ exports[`prompts/spinner (isCI = false) > basic > renders error message if code 
 exports[`prompts/spinner (isCI = false) > basic > renders frames at interval 1`] = `
 [
   "{CURSOR:hide}",
-  "{90brightBlack}┆{39x}\\n",
   "{36cyan}◒{39x}",
   "{CURSOR:x * 1}",
   "{ERASE:down}",
@@ -48,7 +67,6 @@ exports[`prompts/spinner (isCI = false) > basic > renders frames at interval 1`]
 exports[`prompts/spinner (isCI = false) > basic > renders messages (with multiple lines) 1`] = `
 [
   "{CURSOR:hide}",
-  "{90brightBlack}┆{39x}\\n",
   "{36cyan}◒{39x}  START",
   "{CURSOR:x * 1}",
   "{ERASE:down}",
@@ -72,7 +90,6 @@ exports[`prompts/spinner (isCI = false) > basic > renders messages (with multipl
 exports[`prompts/spinner (isCI = false) > basic > renders timer when indicator is "timer" 1`] = `
 [
   "{CURSOR:hide}",
-  "{90brightBlack}┆{39x}\\n",
   "{36cyan}◒{39x}  START [0s]",
   "{CURSOR:x * 1}",
   "{ERASE:down}",
@@ -84,7 +101,6 @@ exports[`prompts/spinner (isCI = false) > basic > renders timer when indicator i
 exports[`prompts/spinner (isCI = false) > can be aborted by signal 1`] = `
 [
   "{CURSOR:hide}",
-  "{90brightBlack}┆{39x}\\n",
   "{31red}✕{39x}  Canceled\\n",
   "{CURSOR:show}",
 ]
@@ -93,7 +109,6 @@ exports[`prompts/spinner (isCI = false) > can be aborted by signal 1`] = `
 exports[`prompts/spinner (isCI = false) > custom > custom delay 1`] = `
 [
   "{CURSOR:hide}",
-  "{90brightBlack}┆{39x}\\n",
   "{36cyan}◒{39x}",
   "{CURSOR:x * 1}",
   "{ERASE:down}",
@@ -114,7 +129,6 @@ exports[`prompts/spinner (isCI = false) > custom > custom delay 1`] = `
 exports[`prompts/spinner (isCI = false) > custom > custom symbols and symbolColor 1`] = `
 [
   "{CURSOR:hide}",
-  "{90brightBlack}┆{39x}\\n",
   "{31red}🍎{39x}",
   "{CURSOR:x * 1}",
   "{ERASE:down}",
@@ -135,7 +149,6 @@ exports[`prompts/spinner (isCI = false) > custom > custom symbols and symbolColo
 exports[`prompts/spinner (isCI = false) > process exit handling > uses custom cancelMessage when SIGINT 1`] = `
 [
   "{CURSOR:hide}",
-  "{90brightBlack}┆{39x}\\n",
   "{31red}✕{39x}  Wow! Canceled!\\n",
   "{CURSOR:show}",
 ]
@@ -144,8 +157,19 @@ exports[`prompts/spinner (isCI = false) > process exit handling > uses custom ca
 exports[`prompts/spinner (isCI = false) > process exit handling > uses custom errorMessage when exit code 2 1`] = `
 [
   "{CURSOR:hide}",
-  "{90brightBlack}┆{39x}\\n",
   "{31red}▲{39x}  Wow! Error!\\n",
+  "{CURSOR:show}",
+]
+`;
+
+exports[`prompts/spinner (isCI = true) > basic > renders after another prompt elements 1`] = `
+[
+  "{90brightBlack}╭{39x}  Test 1\\n",
+  "{CURSOR:hide}",
+  "{90brightBlack}┆{39x}\\n",
+  "{36cyan}◒{39x}  ...",
+  "\\n",
+  "{32green}✔{39x}\\n",
   "{CURSOR:show}",
 ]
 `;
@@ -153,7 +177,6 @@ exports[`prompts/spinner (isCI = false) > process exit handling > uses custom er
 exports[`prompts/spinner (isCI = true) > basic > renders cancel symbol if code = 1 1`] = `
 [
   "{CURSOR:hide}",
-  "{90brightBlack}┆{39x}\\n",
   "{36cyan}◒{39x}  ...",
   "\\n",
   "{31red}✕{39x}  STOP\\n",
@@ -164,7 +187,6 @@ exports[`prompts/spinner (isCI = true) > basic > renders cancel symbol if code =
 exports[`prompts/spinner (isCI = true) > basic > renders error message if code > 1 1`] = `
 [
   "{CURSOR:hide}",
-  "{90brightBlack}┆{39x}\\n",
   "{36cyan}◒{39x}  ...",
   "\\n",
   "{31red}▲{39x}  STOP\\n",
@@ -175,7 +197,6 @@ exports[`prompts/spinner (isCI = true) > basic > renders error message if code >
 exports[`prompts/spinner (isCI = true) > basic > renders frames at interval 1`] = `
 [
   "{CURSOR:hide}",
-  "{90brightBlack}┆{39x}\\n",
   "{36cyan}◒{39x}  ...",
   "\\n",
   "{32green}✔{39x}\\n",
@@ -186,7 +207,6 @@ exports[`prompts/spinner (isCI = true) > basic > renders frames at interval 1`] 
 exports[`prompts/spinner (isCI = true) > basic > renders messages (with multiple lines) 1`] = `
 [
   "{CURSOR:hide}",
-  "{90brightBlack}┆{39x}\\n",
   "{36cyan}◒{39x}  START...",
   "\\n",
   "{36cyan}◐{39x}  message 1...",
@@ -205,7 +225,6 @@ exports[`prompts/spinner (isCI = true) > basic > renders messages (with multiple
 exports[`prompts/spinner (isCI = true) > basic > renders timer when indicator is "timer" 1`] = `
 [
   "{CURSOR:hide}",
-  "{90brightBlack}┆{39x}\\n",
   "{36cyan}◒{39x}  START...",
   "\\n",
   "{32green}✔{39x}  STOP [0s]\\n",
@@ -216,7 +235,6 @@ exports[`prompts/spinner (isCI = true) > basic > renders timer when indicator is
 exports[`prompts/spinner (isCI = true) > can be aborted by signal 1`] = `
 [
   "{CURSOR:hide}",
-  "{90brightBlack}┆{39x}\\n",
   "{31red}✕{39x}  Canceled\\n",
   "{CURSOR:show}",
 ]
@@ -225,7 +243,6 @@ exports[`prompts/spinner (isCI = true) > can be aborted by signal 1`] = `
 exports[`prompts/spinner (isCI = true) > custom > custom delay 1`] = `
 [
   "{CURSOR:hide}",
-  "{90brightBlack}┆{39x}\\n",
   "{36cyan}◒{39x}  ...",
   "\\n",
   "{32green}✔{39x}\\n",
@@ -236,7 +253,6 @@ exports[`prompts/spinner (isCI = true) > custom > custom delay 1`] = `
 exports[`prompts/spinner (isCI = true) > custom > custom symbols and symbolColor 1`] = `
 [
   "{CURSOR:hide}",
-  "{90brightBlack}┆{39x}\\n",
   "{31red}🍎{39x}  ...",
   "\\n",
   "{32green}✔{39x}\\n",
@@ -247,7 +263,6 @@ exports[`prompts/spinner (isCI = true) > custom > custom symbols and symbolColor
 exports[`prompts/spinner (isCI = true) > process exit handling > uses custom cancelMessage when SIGINT 1`] = `
 [
   "{CURSOR:hide}",
-  "{90brightBlack}┆{39x}\\n",
   "{31red}✕{39x}  Wow! Canceled!\\n",
   "{CURSOR:show}",
 ]
@@ -256,7 +271,6 @@ exports[`prompts/spinner (isCI = true) > process exit handling > uses custom can
 exports[`prompts/spinner (isCI = true) > process exit handling > uses custom errorMessage when exit code 2 1`] = `
 [
   "{CURSOR:hide}",
-  "{90brightBlack}┆{39x}\\n",
   "{31red}▲{39x}  Wow! Error!\\n",
   "{CURSOR:show}",
 ]

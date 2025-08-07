@@ -2,6 +2,7 @@ import EventEmitter from 'node:events'
 import { afterAll, afterEach, beforeAll, beforeEach, describe, expect, test, vi } from 'vitest'
 
 import * as p from '../../src/prompts'
+import { shared } from '../../src/prompts/internal/shared'
 import { MockWritable } from '../terminal/terminal.test-utils'
 
 describe.each(['true', 'false'])('prompts/spinner (isCI = %s)', (isCI) => {
@@ -13,6 +14,7 @@ describe.each(['true', 'false'])('prompts/spinner (isCI = %s)', (isCI) => {
 		process.env.CI = isCI
 	})
 	beforeEach(() => {
+		shared.isActive = false
 		output = new MockWritable()
 		p.updateConfig({ output })
 		vi.useFakeTimers()
@@ -28,6 +30,17 @@ describe.each(['true', 'false'])('prompts/spinner (isCI = %s)', (isCI) => {
 
 	describe('basic', () => {
 		test('renders frames at interval', () => {
+			const result = p.createSpinner()
+			result.start()
+			for (let i = 0; i < 4; i++) vi.advanceTimersByTime(80) // 4 frames
+			result.stop()
+
+			expect(output.buffer).toMatchSnapshot()
+		})
+
+		test('renders after another prompt elements', () => {
+			p.start('Test 1')
+
 			const result = p.createSpinner()
 			result.start()
 			for (let i = 0; i < 4; i++) vi.advanceTimersByTime(80) // 4 frames
