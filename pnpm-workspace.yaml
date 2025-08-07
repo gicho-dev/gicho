@@ -7,6 +7,7 @@ onlyBuiltDependencies:
 
 catalogs:
   dev:
+    '@changesets/cli': ^2.29.5
     '@gicho/config': ^0.0.1-alpha.10
     '@hono/node-server': ^1.18.1
     '@types/node': ^24.2.0

@@ -34,7 +34,7 @@
 		"cli": "pnpm -F ./packages/cli"
 	},
 	"devDependencies": {
-		"@changesets/cli": "^2.29.3",
+		"@changesets/cli": "catalog:dev",
 		"@clack/prompts": "^0.11.0",
 		"@gicho/cli": "workspace:^",
 		"@gicho/config": "catalog:dev",
