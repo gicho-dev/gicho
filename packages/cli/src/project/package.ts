@@ -1,13 +1,13 @@
 import type { Arrayable } from '@gicho/core/types'
 
-import type { FindFileOptions } from './fs'
+import type { FindFileOptions } from '../fs'
 
 import { writeFileSync } from 'node:fs'
 
-import { findFile, readText } from './fs'
-import { basename } from './path'
-import { execSync } from './utils/exec'
-import { parseJsonWithFormat, stringifyJsonWithFormat } from './utils/format'
+import { findFile, readText } from '../fs'
+import { basename } from '../path'
+import { execSync } from '../utils/exec'
+import { parseJsonWithFormat, stringifyJsonWithFormat } from '../utils/format'
 
 /* ----------------------------------------
  *   Types
