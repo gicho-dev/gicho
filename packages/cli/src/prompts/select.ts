@@ -132,10 +132,8 @@ const defaultOptions: Partial<SelectOptions<unknown>> = {
 	},
 }
 
-export function select<TValue>(
-	options: SelectOptions<TValue>,
-): Promise<Option<TValue> | CancelSymbol> {
+export function select<TValue>(options: SelectOptions<TValue>): Promise<TValue | CancelSymbol> {
 	return new SelectPrompt({ ...defaultOptions, ...options }).prompt() as Promise<
-		Option<TValue> | CancelSymbol
+		TValue | CancelSymbol
 	>
 }
