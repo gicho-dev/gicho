@@ -12,7 +12,7 @@ export function bumpVersion(
 
 	const origVersion = pkg.version || '0.0.0'
 	const version = increaseSemver(origVersion, type, preIdOrOptions)
-	changeVersion(path, version)
+	writePackageJson(path, { ...pkg, version })
 
 	return version
 }
