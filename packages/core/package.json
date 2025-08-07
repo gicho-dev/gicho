@@ -88,5 +88,8 @@
 	},
 	"dependencies": {},
 	"devDependencies": {},
-	"peerDependencies": {}
+	"peerDependencies": {},
+	"publishConfig": {
+		"access": "public"
+	}
 }

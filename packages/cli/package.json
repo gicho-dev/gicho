@@ -105,5 +105,8 @@
 		"tinyglobby": "catalog:dev"
 	},
 	"devDependencies": {},
-	"peerDependencies": {}
+	"peerDependencies": {},
+	"publishConfig": {
+		"access": "public"
+	}
 }
