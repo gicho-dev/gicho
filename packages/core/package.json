@@ -50,6 +50,11 @@
 			"types": "./dist/string.d.ts",
 			"default": "./dist/string.js"
 		},
+		"./time": {
+			"source": "./src/time/index.ts",
+			"types": "./dist/time.d.ts",
+			"default": "./dist/time.js"
+		},
 		"./types": {
 			"source": "./src/types/index.ts",
 			"types": "./dist/types.d.ts",
