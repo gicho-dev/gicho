@@ -2,10 +2,9 @@
  * Root path of the repository (general/monorepo)
  */
 
-import { dirname, resolve } from 'node:path/posix'
-import { fileURLToPath } from 'node:url'
+import { resolve } from 'node:path/posix'
 
-const _dirname = import.meta.url ? dirname(fileURLToPath(import.meta.url)) : __dirname
+const _dirname = import.meta ? import.meta.dirname : __dirname
 
 export const ROOT_PATH = resolve(_dirname, '../')
 
