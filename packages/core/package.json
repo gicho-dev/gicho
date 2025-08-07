@@ -1,6 +1,6 @@
 {
 	"name": "@gicho/core",
-	"version": "0.0.1-alpha.3",
+	"version": "0.0.1-alpha.4",
 	"description": "A collection of base utilities for happy coding with TypeScript.",
 	"keywords": [
 		"base",
