@@ -9,8 +9,17 @@ const execFromWorkspaceRoot = (cmd: string, completedMessage: string) => {
 
 const log = (message: string = '') => console.log(`\n${message}`)
 
+/* ---------- Run ---------- */
+
 execFromWorkspaceRoot('pnpm types', 'Type check passed.')
 execFromWorkspaceRoot('pnpm build', 'Build passed.')
 execFromWorkspaceRoot('pnpm test', 'Test passed.\n')
 
-execSync('pnpm -r publish', { cwd: ROOT_PATH, stdio: 'inherit' })
+const cmd = process.argv[2]
+switch (cmd) {
+	case 'next':
+		execFromWorkspaceRoot('pnpm -r publish --tag next', 'Published next tagged version.')
+		break
+	default:
+		execFromWorkspaceRoot('pnpm -r publish', 'Published latest tagged version.')
+}

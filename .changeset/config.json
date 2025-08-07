@@ -8,7 +8,7 @@
 	"baseBranch": "main",
 	"ignore": [],
 	"snapshot": {
-		"prereleaseTemplate": "alpha.{datetime}",
+		"prereleaseTemplate": "next.{datetime}",
 		"useCalculatedVersion": true
 	},
 	"updateInternalDependencies": "patch"
