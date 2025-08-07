@@ -151,7 +151,8 @@ export function createSpinner(options: CreateSpinnerOptions = {}): Spinner {
 		msg = removeTrailingDots(message)
 		startTime = performance.now()
 
-		write(_s.linePrefix())
+		if (_s.isActive) write(_s.linePrefix())
+		_s.isActive = true
 
 		let frameIndex = 0
 		let indicatorTimer = 0
