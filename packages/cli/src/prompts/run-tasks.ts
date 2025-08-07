@@ -17,7 +17,9 @@ export interface Task {
 }
 
 interface TaskFnContext {
+	exit: Spinner['stop']
 	setMessage: Spinner['setMessage']
+	stop: Spinner['stop']
 }
 
 /**
@@ -32,8 +34,18 @@ export async function runTasks(tasks: Task[], opts?: CreateSpinnerOptions): Prom
 		if (task.enabled === false) continue
 
 		const { setMessage, start, stop } = createSpinner(opts)
+
+		let exitSignal = false
+		const exit: TaskFnContext['exit'] = (message, code): void => {
+			stop(message, code)
+			exitSignal = true
+		}
+
 		start(task.title)
-		const result = await task.task({ setMessage })
+
+		const result = await task.task({ exit, setMessage, stop })
+		if (exitSignal) return
+
 		stop(result || task.title)
 	}
 }
